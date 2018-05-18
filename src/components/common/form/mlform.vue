@@ -5,7 +5,6 @@
 </style>
 <template>
   <el-form :model="val">
-   <!-- class="dynamic-form" :inline="formConfig.inline" :model="value" :label-position="formConfig.labelPosition" :label-width="formConfig.labelWidth" :size='formConfig.size' :status-icon="formConfig.statusIcon" -->
 
     <formItem
       v-for="item in config.dataList"
@@ -14,9 +13,6 @@
       :value="val[item.key]"
       @input="change"
       >
-      
-      <!-- v-if="value[item.key]!==undefined"
-      :value="value[item.key]" -->
     </formItem>
 
   </el-form>
