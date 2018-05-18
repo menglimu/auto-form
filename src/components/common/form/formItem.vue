@@ -40,6 +40,10 @@ export default {
     if (!this.config.error&&this.config.label) {
       this.config.error = `请输入合法的${this.config.label}`
     }
+    if (!this.config.show) {
+      this.config.show = true
+    }
+    //TODO  show条件判断 默认当前层级 $parent至上一层 
     return {
       inputData:[
         {
