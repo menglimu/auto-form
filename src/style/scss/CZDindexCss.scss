@@ -1,0 +1,105 @@
+.CZDindex{
+	.tab{
+		background: #fff;
+		height: 0.7rem;
+		padding-top:0.24rem;
+		padding-left:0.3rem;
+		li{
+			float: left;
+			color:#999;
+			margin-right: 0.7rem;
+		}
+		li.select{
+			color:#2390fb;
+			border-bottom: 2px solid #2390fb;
+		}
+	}
+	.indexPage{
+		.topTips{
+			height: 0.6rem;
+			background: url(../../image/icon/help.png) no-repeat 0.13rem 0.17rem;
+			background-size: 0.26rem 0.26rem;
+			background-color: #4ea6fe;
+			color: #fff;
+			line-height: 0.6rem;
+			text-indent: 0.5rem;
+			font-size: 0.24rem;
+		}
+		.banner{
+			img{
+				width: 100%;
+			    float: left;
+			}
+		}
+		.content{
+			background: #fff;
+			padding:0 0.3rem 1.5rem;
+
+			h1{
+				font-size: 0.32rem;
+				color: #333;
+				padding-top: 0.4rem;
+			}
+			.section{
+				padding-top: 0.2rem;
+				li{
+					padding: 0.25rem 0;
+					img{
+						float: left;
+						width: 0.4rem;
+						height: 0.4rem;
+						padding-right: 0.1rem;
+					}
+					span{
+						width: 6rem;
+						float: left;
+						font-size: 0.26rem;
+						padding-left: 0.1rem;
+						line-height: 0.4rem;
+					}
+				}
+			}
+			.condition{
+				span{
+					border-left: 1px solid #e7e7e7;
+				}
+			}
+			.flow{
+					display: block;
+					width: 6.53rem;
+				    margin: 0.5rem auto;
+			}
+			.tips{
+				text-align: center;
+				font-size:0.26rem;
+				margin: 0.2rem 0 0.4rem;
+			}
+			.link{
+				text-align: center;
+				span{
+					display: inline-block;
+					color: #2291ff;
+					font-size: 0.26rem;
+					text-align: center;
+				}
+			}
+		}
+		.btn{
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 1.15rem;
+			text-align: center;
+			color: #fff;
+			background: #2291ff;
+			line-height: 1.15rem;
+			img{
+				width: 0.36rem;
+				vertical-align: middle;
+				margin: 0 0.1rem;
+			}
+		}
+	}
+	
+}

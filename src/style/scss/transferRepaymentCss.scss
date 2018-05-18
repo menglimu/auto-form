@@ -1,0 +1,100 @@
+.transferRepaymentCss{
+  .part4{
+    padding: 0 0.4rem;
+    p{
+      font-size: 0.26rem;
+      color: #333333;
+      line-height: 0.5rem;
+    }
+  }
+  .tips2{
+    display: inline-block;
+    width: 0.06rem;
+    height: 0.24rem;
+    background: #2390fb;
+    margin-right: 0.2rem;
+  }
+  .part3{
+    text-align: center;
+    img{
+      width: 6.09rem;
+      margin-top: 0.3rem;
+    }
+    width: 100%;
+    height: 1.6rem;
+    background: #fff;
+    border-top: 1px solid #d7d7d7;
+    border-bottom: 1px solid #d7d7d7;
+  }
+  .part2{
+    background: #fff;
+    .list{
+      width: 6.6rem;
+      border-bottom: 1px dashed #f1f1f1;
+      margin: 0 auto;
+      clear: both;
+      .copy{
+        float: right;
+        width: 0.9rem;
+        height: 0.4rem;
+        border:1px solid #2390fb;
+        line-height: 0.4rem;
+        font-size: 0.26rem;
+        color: #2390fb;
+        text-align: center;
+        border-radius: 0.2rem;
+        margin-top: 0.18rem;
+      }
+      .F4{
+        width: 1.4rem;
+        float: left;
+      }
+      .F3{
+        width: 4rem;
+        float: left;
+      }
+      span{
+        font-size: 0.28rem;
+        color: #333333;
+        display: block;
+        padding:0.2rem 0;
+      }
+    }
+    .top{
+      width: 100%;
+      height: 0.05rem;
+      background: url("../../image/transferRepayment/bottom.png");
+      background-size: 7.5rem 0.05rem;
+    }
+    .bottom{
+      width: 100%;
+      height: 0.05rem;
+      background: url("../../image/transferRepayment/top.png");
+      background-size: 7.5rem 0.05rem;
+    }
+  }
+  .tips{
+    line-height: 0.7rem;
+    color: #2390fb;
+    font-size: 0.26rem;
+    padding-left: 0.45rem;
+    font-weight: bold;
+  }
+  .part1{
+    background: #fffbed;
+    border-bottom: 1px solid #d7d7d7;
+    padding:0.38rem 0;
+    p{
+      text-align: center;
+    }
+    .p1{
+      font-size: 0.3rem;
+      color: #333333;
+    }
+    .p2{
+      padding-top: 0.2rem;
+      font-size: 0.28rem;
+      color: #fc770c;
+    }
+  }
+}

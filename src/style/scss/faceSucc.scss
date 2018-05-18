@@ -1,0 +1,54 @@
+.faceSuccPage{
+	position: absolute;
+	background: #fff;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	.top{
+		position: relative;
+		img{
+			width: 100%;
+		}
+		p{
+			display: inline-block;
+			width: 3rem;
+			text-align: center;
+			left:50%;
+			position: absolute;
+			top: 2rem;
+			margin-left: -1.5rem;
+			font-size: 0.26rem;
+			color: #ffffff;
+			font-family: "微软雅黑"
+		}
+	}
+	.detail{
+		padding: 1rem 0 ;
+		text-align: center;
+		color: #333;
+		font-size:0.28rem;
+		h1{
+			font-size:0.32rem;
+			color:#333;
+			margin-bottom: 0.5rem;
+		}
+		ul{
+			font-size:0.2rem;
+			width:5.5rem;
+			margin:0 auto;
+			color:#666;
+			text-align:left;
+			line-height:0.5rem;
+		}
+		.content{
+			font-size:0.2rem;
+			width:5.5rem;
+			margin:0 auto;
+			color:#666;
+			text-align:center;
+			line-height:0.5rem;
+		}
+	}
+	
+}

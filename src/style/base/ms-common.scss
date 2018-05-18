@@ -1,0 +1,152 @@
+.cell-box {
+  @include inline(1);
+  line-height: 0.4rem;
+  color: #fff;
+  font-size: 0.24rem;
+  padding: 0.2rem 0.35rem;
+  .r-arrow {
+    width: 0.17rem;
+  }
+}
+
+/*颜色*/
+.msui-color-red{
+  color: #f54735;
+}
+.msui-color-green{
+  color: rgb(32, 198, 213);
+}
+.msui-color-blue{
+  color: rgb(50, 152, 254);
+}
+.msui-color-black{
+  color: #333;
+}
+.msui-color-gray{
+  color: #8f8f94;
+}
+
+
+.msui-text-center {
+  text-align: center;
+}
+.msui-text-right{
+  text-align: right;
+}
+.msui-text-left{
+  text-align: left;
+}
+
+.flex-box {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  .box {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+  }
+  .align-center {
+    -webkit-align-self: center;
+    align-self: center;
+  }
+}
+
+.msui-fsize-min {
+  font-size: 0.24rem;
+}
+
+.msui-fsize-mid {
+  font-size: 0.28rem;
+}
+
+.msui-fsize-max {
+  font-size: 0.32rem;
+}
+
+.msui-mtb-5{
+  margin-top:5px;
+  margin-bottom:5px;
+}
+
+
+button {
+  border: 1px solid #ccc;
+  background: #fff;
+  color: #555;
+  padding: 0.2rem 0.3rem;
+}
+
+.msui-btn-block {
+  width: 100%;
+  display: block;
+}
+
+.msui-btn-red {
+  background: #f54735;
+  border: 1px solid #f54735;
+  color: #fff;
+}
+
+.msui-btn-blue {
+  color: #fff;
+  background: rgb(50, 152, 254);
+  border: 1px solid rgb(50, 152, 254);
+}
+
+.msui-boder-radius{
+  border-radius:0.1rem; 
+}
+
+.msui-row {
+  line-height: 0.8rem;
+  position: relative;
+}
+.msui-row.borderB{
+  border-bottom: 1px #f5f5f5 solid;
+}
+.fixed-bottom-box {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.msui-mask{
+  position: fixed;
+  top: 0px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  white-space: nowrap;
+  z-index: 900;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.msui-dialog{
+  width: 5rem; 
+  position: fixed;
+  z-index: 1001;
+  left: 50%;
+  top: 45%;
+  margin-left: -2.8rem;
+  margin-top: 0; 
+  border-radius: 0.2rem;
+  opacity: 1;
+  background-color: #ffffff;
+  padding: 0 0.3rem;
+  .dialog-title{
+      font-size: 0.34rem;
+      color: rgb(50, 152, 254);
+  }
+  .dialog-close{
+    font-size: 0.38rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: #e7e7e7;
+  }
+}

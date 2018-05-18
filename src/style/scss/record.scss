@@ -1,0 +1,62 @@
+.recordPage{
+	ul li{
+		width: 100%;
+		padding: 0 0.2rem;
+		background: #fff;
+		margin-bottom: 0.2rem;
+		.top{
+			height: 0.8rem;
+			line-height: 0.8rem;
+			border-bottom: 1px solid $border-color;
+			span{
+				font-size: 0.3rem;
+			}
+			.bton{
+				float: right;
+				width: 1.35rem;
+				height:0.4rem;
+				line-height: 0.4rem;
+				text-align: center;
+				font-size:0.24rem;
+				border-radius: 0.2rem;
+                margin-top:0.2rem;
+			}
+			.bton.continue{
+				color: #158dff;
+				background: rgba(21,141,255,.2);   
+			 }
+			 .bton.cancel{
+                color: #fe3732;
+				background: rgba(254,30,17,.2);
+			 }
+		}
+		.content{
+			height: 1.6rem;
+			.amount,.term{
+				height: 1rem;
+				line-height: 1rem;
+				font-size:0.3rem;
+			}
+			.term{
+				text-align: right;
+			}
+			.date{
+				font-size:0.24rem;
+				color: #999;
+				height: 0.4rem;
+				line-height: 0.4rem;
+			}
+			.status{
+				text-align: right;
+				font-size:0.3rem;
+				height: 0.4rem;
+				line-height: 0.4rem;
+			}
+		}
+
+	}
+	.viewMore{
+		text-align: center;
+		line-height: 0.7rem;
+	}
+}

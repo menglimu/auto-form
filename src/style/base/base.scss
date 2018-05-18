@@ -1,0 +1,248 @@
+@media screen and (min-width: 320px) {
+  html {
+    font-size: 42.6667px
+ }
+}
+
+@media screen and (min-width: 360px) {
+  html {
+    font-size: 48px
+ }
+}
+
+@media screen and (min-width: 375px) {
+  html {
+    font-size: 50px
+ }
+}
+
+@media screen and (min-width: 400px) {
+  html {
+    font-size: 53.3334px
+ }
+}
+
+@media screen and (min-width: 414px) {
+  html {
+    font-size: 55.2px
+ }
+}
+
+@media screen and (min-width: 440px) {
+  html {
+    font-size: 58.6667px
+ }
+}
+
+@media screen and (min-width: 480px) {
+  html {
+    font-size: 64px
+ }
+}
+
+@media screen and (min-width: 520px) {
+  html {
+    font-size: 69.3334px
+ }
+}
+
+@media screen and (min-width: 560px) {
+  html {
+    font-size: 74.6667px
+ }
+}
+
+@media screen and (min-width: 600px) {
+  html {
+    font-size: 80px
+ }
+}
+
+@media screen and (min-width: 640px) {
+  html {
+    font-size: 85.3334px
+ }
+}
+
+@media screen and (min-width: 680px) {
+  html {
+    font-size: 90.6667px
+ }
+}
+
+@media screen and (min-width: 720px) {
+  html {
+    font-size: 96px
+ }
+}
+
+@media screen and (min-width: 760px) {
+  html {
+    font-size: 101.3334px
+ }
+}
+
+@media screen and (min-width: 800px) {
+  html {
+    font-size: 106.6667px
+ }
+}
+
+@media screen and (min-width: 960px) {
+  html {
+    font-size: 128px
+ }
+}
+
+//默认样式
+*{
+  font-family: "Microsoft Yahei" , "Arial Narrow" ,Verdana, Geneva, sans-serif;
+}
+blockquote,
+body,
+dd,
+div,
+dl,
+dt,
+fieldset,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+ol,
+p,
+pre,
+svg,
+td,
+textarea,
+th,
+ul {
+  margin: 0;
+  padding: 0;
+  font-family: "Microsoft Yahei" , "Arial Narrow" ,Verdana, Geneva, sans-serif;
+  font-size: 0.28rem;
+}
+input {
+  margin: 0;
+  padding: 1px 0;
+  font-size: 0.28rem;
+}
+svg {
+  width: 0;
+  height: 0;
+}
+li {
+  list-style: none;
+}
+a:link,
+a:visited {
+  text-decoration: none;
+}
+a img {
+  border: 0;
+}
+i {
+  font-style: normal;
+}
+body {
+  color: #333;
+  background: #F2F2F2;
+}
+iframe {
+  border: none;
+}
+
+
+//盒子，不计算padding、margin、border
+.boxSize {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box; /* Firefox */
+  -webkit-box-sizing: border-box;
+  /* Safari */
+}
+//一行文字溢出
+.nowrap {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+//两行文字溢出
+.nowrap2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+//左浮动
+.F1 {
+  float: left;
+}
+//右浮动
+.F2 {
+  float: right;
+}
+//清除浮动
+.CL1{clear: both;}
+.mint-button--large{
+  width: 6.8rem;
+  margin: 0 auto;
+  background: #2390fb;
+}
+
+.mint-msgbox-message{
+	line-height: 24px;
+	text-align: left;
+	color: #333;
+}
+.mint-msgbox{
+	border-radius: 10px;
+}
+
+.mint-indicator-mask{
+    z-index: 99;
+}
+.mint-indicator-wrapper{
+  z-index: 100;
+}
+.mint-button--default{
+  color: #656b79;
+  background-color: #f6f8fa;
+  box-shadow: 0 0 1px #b8bbbf;
+}
+.mint-msgbox-btn{
+  font-size:0.28rem;
+  line-height: normal;
+}
+
+.scroll{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.boxSize {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box; /* Firefox */
+  -webkit-box-sizing: border-box;
+  /* Safari */
+}
+//一行文字溢出
+.nowrap {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+//两行文字溢出
+.nowrap2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.mint-button--primary{padding: 0;}

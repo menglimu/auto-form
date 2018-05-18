@@ -1,0 +1,215 @@
+//头部背景色
+$head-background:#577cf7;
+//border颜色
+$border-color:#e6e6e6;
+
+
+
+
+$gray : #999;
+
+$main-color: #4985f4;
+
+$border-gray : $gray;
+%clear-bg-border{
+	background: none;
+	border: none;
+	border-radius: 0;
+	box-shadow:none;
+}
+%left{
+	float: left;
+}
+%right{
+	float: right;
+}
+%margin-center{
+	margin-left: auto;
+	margin-right: auto;
+}
+%trans-center-Y{
+	top: 50%;
+	transform: translateY(-50%);
+}
+%trans-center-X{
+	left: 50%;
+	transform: translateX(-50%);
+}
+%trans-center{
+	top: 50%;
+	left: 50%;
+	position: relative;
+	transform: translate3d(-50%,-50%,0);
+}
+%line-text-line{
+	display: flex;
+	align-items:center;
+	margin: 0 auto;
+	&:before,&:after{
+		display: block;
+		flex: 1;
+		content: "";
+		height: 1px;
+		border-top: 1px solid $border-gray; 
+	}
+	&:before{
+		margin-right: 10px;
+	}
+	&:after{
+		margin-left: 10px;
+	}
+}
+@mixin pos($top:0,$right: $top,$bottom: $top,$left: $right){
+	top: $top;
+	right: $right;
+	bottom: $bottom;
+	left: $left;
+}
+@mixin inline($child:null,$class:null){
+	display:flex;
+	align-items:center;
+	// 文字组默认上对齐
+	&>.text-group{
+		align-self:flex-start;
+	}
+	@each $childOne in $child {
+		@if $childOne != null{
+		  &>*:nth-child(#{$childOne}){
+		  	//display: block;//兼容部分浏览器由于影响子元素布局，现去掉
+				
+				width: 0;
+				flex: 1;
+			}
+	  }
+	}
+	@each $classOne in $class {
+		@if $classOne != null {
+		  &>#{$classOne}{ 
+		  	// display: block;
+				width: 0;
+				flex: 1;
+			}
+	  }
+	}
+}
+
+%table-cell-middle{
+    display: table-cell;
+    line-height:0;
+    vertical-align: middle;
+}
+%flex-middle{
+	display: flex;
+	align-items:center;
+	justify-content:center;
+}
+%cell-right{
+	&>*:last-child{
+		@extend %right;
+	}
+}
+%cell-left{
+	text-align: right;
+	&>*:first-child{
+		@extend %left;
+	}
+}
+%cell-center{
+	text-align: center;
+	&>*:last-child{
+		@extend %right;
+	}
+	&>*:first-child{
+		@extend %left;
+	}
+}
+// 圆角
+@mixin badge($width: 100%) {
+    min-width: $width;
+    min-height: $width;
+    border-radius: $width;
+    line-height: $width;
+    text-align: center;
+    box-sizing: initial;
+}
+// 多行文本溢出显示省略号
+// -----------------------------------------------------------------------------
+@mixin text-area-overflow($line: 2, $line-height: .38rem) {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  line-height: $line-height;
+  max-height: $line-height * $line + .2rem;
+}
+
+// 单行文本溢出显示省略号
+// -----------------------------------------------------------------------------
+@mixin text-overflow($align: justify) {
+  word-wrap: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: $align;
+}
+// 一像素边框
+// -----------------------------------------------------------------------------
+@mixin top-line($color, $zindex: 0) {
+  content: '';
+  position: absolute;
+  z-index: $zindex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  border-top: 1px solid $color;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+
+@mixin bottom-line($color, $zindex: 0) {
+  content: '';
+  position: absolute;
+  z-index: $zindex;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  border-bottom: 1px solid $color;
+  -webkit-transform: scaleY(.5);
+  transform: scaleY(.5);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+
+@mixin left-line($color, $zindex: 0) {
+  content: '';
+  position: absolute;
+  z-index: $zindex;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-left: 1px solid $color;
+  -webkit-transform: scaleX(.5);
+  transform: scaleX(.5);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+
+@mixin right-line($color, $zindex: 0) {
+  content: '';
+  position: absolute;
+  z-index: $zindex;
+  top: 0;
+  right: 0;
+  height: 100%;
+  border-right: 1px solid $color;
+  -webkit-transform: scaleX(.5);
+  transform: scaleX(.5);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+}

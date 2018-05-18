@@ -1,0 +1,100 @@
+.drawingCss{
+  .mint-button--large{
+    margin-bottom: 0.4rem;
+  }
+  .orderTips{
+    background: #4EA6FE;
+    color: #fff;
+    padding: 0 0.2rem;
+    line-height: 20px
+  }
+  .lineThrough{
+    text-decoration:line-through
+  }
+  .grayColor{
+    color: #A9A9A9
+  }
+  .redColor{
+    color: #CC4B5F;
+  }
+  .mint-cell{
+    //border-bottom: 1px solid #e6e6e6;
+  }
+  .part3{
+    width: 100%;
+    background: #fff;
+    .center{
+      display: inline-block;
+      width: 120px;
+      color: #2D85DC;
+      position: absolute;
+      left: 50%;
+      margin-left: -60px;
+    }
+    .hasArrow{
+      padding-right: 18px;
+      background: url(../../image/icon/arrow-right.png) no-repeat center right;
+      background-size: 15px 15px;
+    }
+    .list{
+      position: relative;
+      padding: 0 0.2rem;
+      height: 48px;
+      line-height: 48px;
+      border-bottom:1px solid $border-color;
+      overflow: hidden;
+    }
+  }
+  .drawCash{
+    .mint-cell{
+      //border-bottom: 1px solid #e6e6e6;
+    }
+  }
+  .part2{
+    width: 100%;
+    background: #fff;
+    margin-bottom: 0.2rem;
+
+    .mint-field-core{
+      text-align: right;
+    }
+    .edit{
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+    }
+    .ques{
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      margin-top: 14px;
+      margin-left: 3px;
+    }
+    .firstList{
+      border-top:1px solid $border-color;
+    }
+    .list{
+      padding: 0 0.2rem;
+      min-height: 48px;
+      line-height: 48px;
+      border-bottom:1px solid $border-color;
+      overflow: hidden;
+    }
+  }
+  .part1{
+    width: 100%;
+    background: #fff;
+    margin-bottom: 0.2rem;
+    .list{
+      padding: 0 0.2rem;
+      height: 48px;
+      line-height: 48px;
+      overflow: hidden;
+      border-bottom:1px solid $border-color;
+      text-align: right;
+      .F2{
+        width: 5rem;
+      }
+    }
+  }
+}
