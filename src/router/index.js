@@ -14,8 +14,6 @@ const form = () => import('@/page/main/form') // 404页面
 
 Vue.use(Router)
 
-console.log(process)
-console.log(process.env.URL_BASE)
 // console.log(process.env)
 
 export default new Router({

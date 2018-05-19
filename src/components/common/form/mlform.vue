@@ -4,14 +4,14 @@
   }
 </style>
 <template>
-  <el-form :model="val">
+  <el-form :model="model">
 
     <formItem
       v-for="item in config.dataList"
       :key="item.key"
       :config="item"
       :value="val[item.key]"
-      @input="change"
+      @input="change(item.key,$event)"
       >
     </formItem>
 
@@ -34,7 +34,7 @@ export default {
   },
   data() {
     return {
-
+      model: {}
     }
   },
 
@@ -51,8 +51,9 @@ export default {
       let obj = {}
       if (!this.value || Object.is(this.value, {})) {
         this.initVal(this.config.dataList,obj)
-        this.change()
+        this.$emit('input', obj)
       }else{
+        this.model = this.value
         return this.value
       }
     }
@@ -97,8 +98,9 @@ export default {
     change(key,val) {
       let obj = Object.assign({},this.val)
       obj[key] = val
+      this.model = obj
       this.$emit('input', obj)
-      console.log(key,val,obj);
+      console.log(key,val,obj,this.model);
     }
   },
 }

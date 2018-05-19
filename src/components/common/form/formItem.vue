@@ -1,14 +1,18 @@
 <style lang="scss" scoped>
-  .lm-form-inline .el-input{
-    width: 150px;
+  .ml-form-string,
+  .ml-form-phone,
+  .ml-form-mail,
+  .ml-form-bankCode,
+  .ml-form-idCard{
+    width: 300px;
   }
 </style>
 <template>
-  <el-form-item :rules="rules" :label="config.label" :prop="config.key">
-    <el-input v-if="config.type==='string'" type="text" :placeholder="config.placeholder" :disabled="config.disable" :readonly="config.readonly" :value="value" @input="change" 
-    clearable></el-input>
-    <el-input v-if="config.type==='phone'" type="text" :placeholder="config.placeholder" :disabled="config.disable" :readonly="config.readonly" :value="value" @input="change" 
-    clearable></el-input>
+  <el-form-item :class="['ml-form-'+config.type]" :rules="rules" :label="config.label" :prop="config.key">
+    <el-input v-if="config.type==='string' || config.type==='phone' || config.type==='mail' || config.type==='bankCode' || config.type==='idCard'" 
+    type="text" :placeholder="config.placeholder" :disabled="config.disable" 
+    :readonly="config.readonly" v-bind="$attrs" v-on="$listeners" clearable></el-input>
+    <!-- :value="value" @input="change"  -->
   </el-form-item>
 </template>
 <script>
@@ -167,16 +171,28 @@ export default {
   computed: {
     rules() {
       let rules = []
-      if (this.config.must) {
-        rules.push({ required: true, message: this.config.error, trigger: 'blur' })
+      if (this.config.show) {
+        if (this.config.must) {
+          rules.push({ required: true, message: this.config.error, trigger: 'blur' })
+        }
+        if (this.config.min != undefined && this.config.max != undefined) {
+          rules.push({ min: this.config.min, max: this.config.max, message: `输入字符长度应在 ${this.config.min} 到 ${this.config.max} 个字符`, trigger: 'blur' })
+        }
+        if (this.config.reg) {
+          rules.push({ pattern: reg,//  /^[\u4E00-\u9FA5]+$/
+          message: this.config.error })
+        }
+        if (this.config.type == 'phone') {
+          rules.push({ pattern: /^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(17[0,1,3,5,6,7,8]))\d{8}$/,message: this.config.error})
+        }else if (this.config.type == 'mail') {
+          rules.push({ pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,message: this.config.error })
+        }else if (this.config.type == 'bankCode') {
+          rules.push({ pattern: /^([1-9]{1})(\d{15}|\d{18})$/,message: this.config.error })
+        }else if (this.config.type == 'idCard') {
+          rules.push({ pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/,message: this.config.error })
+        }
       }
-      if (this.config.min != undefined && this.config.max != undefined) {
-        rules.push({ min: this.config.min, max: this.config.max, message: `输入字符长度应在 ${this.config.min} 到 ${this.config.max} 个字符`, trigger: 'blur' })
-      }
-      if (this.config.reg) {
-        rules.push({ pattern: reg,//  /^[\u4E00-\u9FA5]+$/
-        message: this.config.error })
-      }
+      
       console.log(rules);
       return rules;
     }
