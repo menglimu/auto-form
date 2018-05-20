@@ -13,7 +13,7 @@ import App from './App'
 import router from './router'
 
 // import https from './api/https.js' //所有的请求地址管理
-import rem from './utils/rem.js' //rem移动端适配
+// import rem from './utils/rem.js' //rem移动端适配
 import baidu from './utils/baidu.js' //百度统计
 // import filter from './utils/filter.js' //公共的过滤器
 // import validate from './utils/validate.js' //公共的过滤器

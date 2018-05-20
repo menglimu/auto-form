@@ -36,6 +36,9 @@
 
        <el-checkbox v-if="item.type==='checkbox'" v-for="option in item.options" :disabled="option.disabled" v-model="val[item.key]" :label="option.value">{{option.label}}</el-checkbox>
 
+      <el-date-picker  v-if="item.type==='date'" v-model="val[item.key]" :placeholder="item.placeholder" type="date">
+      </el-date-picker>
+
       <!-- <el-input-number  v-if="item.type==='boolean'" v-model="val[item.key]" :disabled="item.readonly||item.disable" :min="item.min" :max="item.max" :label="item.placeholder"></el-input-number> -->
 
     </el-form-item>

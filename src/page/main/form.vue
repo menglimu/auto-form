@@ -196,7 +196,16 @@ export default {
               label: '北京烤鸭'
             }],
           },
-          
+          {
+            type: 'date',//
+            key: 'date',    //输出的key
+            readonly: false,//只读 
+            disabled: false,//不可操作
+            must: true, //必填
+            value: '', //默认值
+            show: '',//什么情况下显示
+            label: '密码', //输入框前显示
+          },
           // {
           //   type: 'array',//
           //   key: 'name',    //输出的key
