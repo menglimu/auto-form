@@ -89,6 +89,11 @@ export const rem2px = function(rem){
         return rem;
     }
 }
+// 生成随机id
+export const createRandomId = function () {
+    return (Math.random()*10000000).toString(16).substr(0,4)+'-'+(new Date()).getTime()+'-'+Math.random().toString().substr(2,5);
+}
+
 /**
  * 获取style样式
  */

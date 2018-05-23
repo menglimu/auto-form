@@ -14,30 +14,57 @@
   <el-form :model="val">
     
     <el-form-item v-for="item in config.dataList" :class="['ml-form-'+item.type]" :rules="rules[item.key]" :label="item.label" :prop="item.key" :key="item.key">
+
       <!-- 基本输入框 -->
       <el-input v-if="item.type==='string' || item.type==='phone' || item.type==='mail' || item.type==='bankCode' || item.type==='idCard' || item.type==='number'" 
       type="text" :placeholder="item.placeholder" :disabled="item.disable" 
       :readonly="item.readonly" v-model="val[item.key]" clearable></el-input>
+
       <!-- 文本域 -->
       <el-input v-if="item.type==='text'" :rows="5" max="item.max" type="textarea" :placeholder="item.placeholder" :disabled="item.disable"  :readonly="item.readonly" v-model="val[item.key]" clearable></el-input>
+
       <!-- 开关 -->
       <el-switch v-if="item.type==='boolean'" v-model="val[item.key]"></el-switch>
+
       <!-- 密码 TODO 可点击查看文本 -->
       <el-input v-if="item.type==='password'" 
       type="password" :placeholder="item.placeholder" :disabled="item.disable" 
       :readonly="item.readonly" v-model="val[item.key]" clearable></el-input>
+
       
       <el-select v-if="item.type==='select'" v-model="val[item.key]" :placeholder="item.placeholder">
         <el-option v-for="option in item.options" :key="option.value"  :label="option.label" :value="option.value" :disabled="option.disabled">
         </el-option>
       </el-select>
 
-      <el-radio v-if="item.type==='radio'" v-for="option in item.options" :disabled="option.disabled" v-model="val[item.key]" :label="option.value">{{option.label}}</el-radio>
+      <el-radio v-if="item.type==='radio'" v-for="option in item.options" :disabled="option.disabled" v-model="val[item.key]" :key="option.value" :label="option.value">{{option.label}}</el-radio>
 
-       <el-checkbox v-if="item.type==='checkbox'" v-for="option in item.options" :disabled="option.disabled" v-model="val[item.key]" :label="option.value">{{option.label}}</el-checkbox>
+       <el-checkbox v-if="item.type==='checkbox'" v-for="option in item.options" :disabled="option.disabled" v-model="val[item.key]" :key="option.value" :label="option.value">{{option.label}}</el-checkbox>
 
-      <el-date-picker  v-if="item.type==='date'" v-model="val[item.key]" :placeholder="item.placeholder" type="date">
+      <el-date-picker v-if="item.type==='date'" v-model="val[item.key]" :placeholder="item.placeholder" type="date">
       </el-date-picker>
+
+      <el-time-picker v-if="item.type==='time'" v-model="val[item.key]" :placeholder="item.placeholder">
+      </el-time-picker>
+
+      <el-date-picker v-if="item.type==='dateTime'" v-model="val[item.key]" :placeholder="item.placeholder" type="datetime">
+      </el-date-picker>
+
+      <el-date-picker v-if="item.type==='datetimerange'" v-model="val[item.key]" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right">
+      </el-date-picker>
+
+      <el-time-picker is-range v-if="item.type==='timerange'" v-model="val[item.key]"
+        range-separator="至"
+        start-placeholder="开始时间"
+        end-placeholder="结束时间"
+        :placeholder="item.placeholder">
+      </el-time-picker>
+      
+      <el-color-picker v-if="item.type==='color'" v-model="val[item.key]"></el-color-picker>
+
+      <mlupload v-if="item.type==='upload'" :limit="item.limit" v-model="val[item.key]"></mlupload>
+      
+      <mleditor v-if="item.type==='editor'" v-model="val[item.key]" ></mleditor>
 
       <!-- <el-input-number  v-if="item.type==='boolean'" v-model="val[item.key]" :disabled="item.readonly||item.disable" :min="item.min" :max="item.max" :label="item.placeholder"></el-input-number> -->
 
@@ -47,9 +74,11 @@
 </template>
 <script>
 import formItem from './formItem.vue'
+import mlupload from './mlupload.vue'
+import mleditor from '@/components/common/editor'
 export default {
   components: {
-    formItem
+    formItem,mlupload,mleditor
   },
   props: {
     value:{
@@ -61,6 +90,7 @@ export default {
     }
   },
   data() {
+    //设置初始值
     this.config.dataList.forEach(data => {
       if (!data.placeholder&&data.label) {
         data.placeholder = `请输入${data.label}`
@@ -71,47 +101,22 @@ export default {
       if (!data.show) {
         data.show = true
       }
+      if (data.type == 'upload') {
+        data.limit = data.limit || 999
+      }
     })
     let obj = {}
     if (typeof(this.value) == 'object') {
       obj = this.value
     }
     obj = Object.assign(this.initVal(this.config.dataList),obj)
-    
+    this.$emit('input',obj)
     return {
       model: {},
-      val: obj,
-        // {  
-        //   "value": "date",
-        //   "lable": "日期",
-        // },
-        // {  
-        //   "value": "time",
-        //   "lable": "时分秒时间点",
-        // },
-        // {  
-        //   "value": "dateTime",
-        //   "lable": "具体时间点",
-        // },
-        // {  
-        //   "value": "datetimerange",
-        //   "lable": "时间范围",
-        // },
-        // {  
-        //   "value": "upload",
-        //   "lable": "图片上传"
-        // },
-        // {  
-        //   "value": "color",
-        //   "lable": "颜色选择"
-        // },
+      val: obj, 
         // {  
         //   "value": "address",
         //   "lable": "地址选择"
-        // },
-        // {  
-        //   "value": "editor",
-        //   "lable": "富文本编辑"
         // },
         // {  
         //   "value": "array",
@@ -217,6 +222,15 @@ export default {
       console.log(key,val,obj,this.model);
     }
   },
+
+  watch: {
+    val: {
+      handler (cval, oval) {
+        this.$emit('input',this.val)
+      },
+      deep: true
+    }
+  }
 }
 
 </script>

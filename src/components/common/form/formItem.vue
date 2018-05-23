@@ -129,6 +129,10 @@ export default {
         },
         {  
           "value": "datetimerange",
+          "lable": "日期范围",
+        },
+        {  
+          "value": "timerange",
           "lable": "时间范围",
         },
         {  

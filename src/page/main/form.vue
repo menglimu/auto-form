@@ -6,6 +6,7 @@
 <template>
   <div class="form">
       <mlform :config="config" v-model="userInput"></mlform>
+      {{userInput}}
   </div>
 </template>
 <script>
@@ -123,7 +124,7 @@ export default {
             must: true, //必填
             value: '', //默认值
             show: '',//什么情况下显示
-            label: '密码', //输入框前显示
+            label: '下拉', //输入框前显示
             options: [{
               value: '选项1',
               label: '黄金糕',
@@ -150,7 +151,7 @@ export default {
             must: true, //必填
             value: '', //默认值
             show: '',//什么情况下显示
-            label: '密码', //输入框前显示
+            label: '单选', //输入框前显示
             options: [{
               value: '选项1',
               label: '黄金糕',
@@ -177,7 +178,7 @@ export default {
             must: true, //必填
             value: '', //默认值
             show: '',//什么情况下显示
-            label: '密码', //输入框前显示
+            label: '多选', //输入框前显示
             options: [{
               value: '选项1',
               label: '黄金糕',
@@ -204,7 +205,75 @@ export default {
             must: true, //必填
             value: '', //默认值
             show: '',//什么情况下显示
-            label: '密码', //输入框前显示
+            label: '日期', //输入框前显示
+          },
+          {
+            type: 'time',//
+            key: 'time',    //输出的key
+            readonly: false,//只读 
+            disabled: false,//不可操作
+            must: true, //必填
+            value: '', //默认值
+            show: '',//什么情况下显示
+            label: '时间', //输入框前显示
+          },
+          {
+            type: 'dateTime',//
+            key: 'dataTime',    //输出的key
+            readonly: false,//只读 
+            disabled: false,//不可操作
+            must: true, //必填
+            value: '', //默认值
+            show: '',//什么情况下显示
+            label: '日期时间', //输入框前显示
+          },
+          {
+            type: 'datetimerange',//
+            key: 'datetimerange',    //输出的key
+            readonly: false,//只读 
+            disabled: false,//不可操作
+            must: true, //必填
+            value: '', //默认值
+            show: '',//什么情况下显示
+            label: '日期范围', //输入框前显示
+          },
+          {
+            type: 'timerange',//
+            key: 'timerange',    //输出的key
+            readonly: false,//只读 
+            disabled: false,//不可操作
+            must: true, //必填
+            value: '', //默认值
+            show: '',//什么情况下显示
+            label: '时间范围', //输入框前显示
+          },
+          {
+            type: 'color',//
+            key: 'color',    //输出的key
+            readonly: false,//只读 
+            disabled: false,//不可操作
+            must: true, //必填
+            value: '', //默认值
+            show: '',//什么情况下显示
+            label: '颜色', //输入框前显示
+          },
+          {
+            type: 'upload',//
+            key: 'upload',    //输出的key
+            must: true, //必填
+            value: '', //默认值
+            show: '',//什么情况下显示
+            label: '图片上传', //输入框前显示
+            limit: 1,
+          },
+          {
+            type: 'editor',//
+            key: 'editor',    //输出的key
+            must: true, //必填
+            value: '', //默认值
+            show: '',//什么情况下显示
+            label: '富文本', //输入框前显示
+            config: {},
           },
           // {
           //   type: 'array',//
