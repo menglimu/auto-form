@@ -119,7 +119,7 @@ export default {
           "lable": "可增加单个输入类型",
         },
         {  
-          "value": "arrayObj",
+          "value": "object",
           "lable": "可增加对象输入",
         },
       ]

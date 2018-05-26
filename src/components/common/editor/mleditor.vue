@@ -1,7 +1,11 @@
 <style lang="scss" scoped>
+  .editor-box{
+    // display: inline-block;
+    width: 100%;
+  }
 </style>
 <template>
-  <div :id="id" type="text/plain"></div>
+  <div :id="id" class="editor-box" type="text/plain"></div>
 </template>
 <script>
 // 会报错，ueditor 通过标签去引入zh-cn.js和ueditor.css。不用管

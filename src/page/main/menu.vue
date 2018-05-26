@@ -61,7 +61,7 @@ export default {
   .menu-box {
     min-height: 100%;
     background-color: #324057;
-    min-width: 200px;
+    // min-width: 200px;
     .menu{
     	border-right: 0;
     }

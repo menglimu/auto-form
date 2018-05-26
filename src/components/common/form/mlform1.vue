@@ -1,27 +1,71 @@
+<!-- 
+放弃使用item独立组件方式，因为model验证在出现了延迟，
+rootVal 用来处理show的根数据
+ -->
+
 <style lang="scss" scoped>
   .ml-form-string,
   .ml-form-phone,
   .ml-form-mail,
   .ml-form-bankCode,
   .ml-form-idCard,
-  .ml-form-text,
+  // .ml-form-text,
   .ml-form-number,
+  .ml-form-password,
   {
-    width: 350px;
+  .el-input,.el-input__inner{
+      width: 220px;
+    }
+  }
+  .ml-form-text,
+  .ml-form-editor,
+  .ml-form-radio,
+  .ml-form-checkbox,
+  {
+    display: block;
+  }
+</style>
+<style lang="scss">
+  .ml-form-object{
+    @include inline(2);
+    align-items: flex-start;
+    margin-top: 20px;
+  }
+  .ml-form-text{
+    .el-form-item__content{
+      width: 600px;
+    }
+  }
+  .ml-form-checkbox,
+  .ml-form-radio,
+  .ml-form-editor,
+  {
+    .el-form-item__content{
+      width: 90%;
+    }
+  }
+  // .ml-form-checkbox,
+  // .ml-form-radio,{
+  //   .el-form-item__content{
+  //     width: 100%;
+  //   }
+  // }
+  .el-color-picker__trigger{
+    width: 80px;
   }
 </style>
 <template>
-  <el-form :model="val">
+  <el-form :model="val" :label-width="config.labelWidth" :inline="config.inline">
     
-    <el-form-item v-for="item in config.dataList" :class="['ml-form-'+item.type]" :rules="rules[item.key]" :label="item.label" :prop="item.key" :key="item.key">
-
+    <el-form-item :inline="true" v-show="getShow(item.show)" v-for="item in config.dataList" :class="['ml-form-'+item.type]" :rules="rules[item.key]" :label="item.label" :prop="item.key" :key="item.key">
+      <!-- {{getShow(item.show,_rootVal)}} -->
       <!-- 基本输入框 -->
       <el-input v-if="item.type==='string' || item.type==='phone' || item.type==='mail' || item.type==='bankCode' || item.type==='idCard' || item.type==='number'" 
       type="text" :placeholder="item.placeholder" :disabled="item.disable" 
       :readonly="item.readonly" v-model="val[item.key]" clearable></el-input>
 
       <!-- 文本域 -->
-      <el-input v-if="item.type==='text'" :rows="5" max="item.max" type="textarea" :placeholder="item.placeholder" :disabled="item.disable"  :readonly="item.readonly" v-model="val[item.key]" clearable></el-input>
+      <el-input v-if="item.type==='text'" :rows="8" max="item.max" type="textarea" :placeholder="item.placeholder" :disabled="item.disable"  :readonly="item.readonly" v-model="val[item.key]" clearable></el-input>
 
       <!-- 开关 -->
       <el-switch v-if="item.type==='boolean'" v-model="val[item.key]"></el-switch>
@@ -30,7 +74,6 @@
       <el-input v-if="item.type==='password'" 
       type="password" :placeholder="item.placeholder" :disabled="item.disable" 
       :readonly="item.readonly" v-model="val[item.key]" clearable></el-input>
-
       
       <el-select v-if="item.type==='select'" v-model="val[item.key]" :placeholder="item.placeholder">
         <el-option v-for="option in item.options" :key="option.value"  :label="option.label" :value="option.value" :disabled="option.disabled">
@@ -66,6 +109,8 @@
       
       <mleditor v-if="item.type==='editor'" v-model="val[item.key]" ></mleditor>
 
+      <ojbForm v-if="item.type==='object'" :configAll="config" :child='item.child' v-model="val[item.key]" :rootVal="_rootVal" :parentVal="val"></ojbForm>
+
       <!-- <el-input-number  v-if="item.type==='boolean'" v-model="val[item.key]" :disabled="item.readonly||item.disable" :min="item.min" :max="item.max" :label="item.placeholder"></el-input-number> -->
 
     </el-form-item>
@@ -75,10 +120,11 @@
 <script>
 import formItem from './formItem.vue'
 import mlupload from './mlupload.vue'
+import ojbForm from './ojbForm.vue'
 import mleditor from '@/components/common/editor'
 export default {
   components: {
-    formItem,mlupload,mleditor
+    formItem,mlupload,mleditor,ojbForm
   },
   props: {
     value:{
@@ -87,6 +133,12 @@ export default {
     config:{
       type: Object,
       required: true
+    },
+    rootVal:{
+      type: null
+    },
+    parentVal:{
+      type: null
     }
   },
   data() {
@@ -97,9 +149,6 @@ export default {
       }
       if (!data.error&&data.label) {
         data.error = `请输入合法的${data.label}`
-      }
-      if (!data.show) {
-        data.show = true
       }
       if (data.type == 'upload') {
         data.limit = data.limit || 999
@@ -117,14 +166,6 @@ export default {
         // {  
         //   "value": "address",
         //   "lable": "地址选择"
-        // },
-        // {  
-        //   "value": "array",
-        //   "lable": "可增加单个输入类型",
-        // },
-        // {  
-        //   "value": "arrayObj",
-        //   "lable": "可增加对象输入",
         // },
     }
   },
@@ -144,7 +185,7 @@ export default {
       let obj = {}
       this.config.dataList.forEach(data => {
         let rules = []
-        if (data.show) {
+        if (this.getShow(data.show)) {
           if (data.must) {
             rules.push({ required: true, message: data.error, trigger: 'blur' })
           }
@@ -171,20 +212,28 @@ export default {
       })
       return obj
     },
+    // 获得form 的值的对象 根和父，objform 父必传 
+    _rootVal() {
+      if (this.rootVal) {
+        return this.rootVal
+      }else{
+        return this.val
+      }
+    },
+    _parentVal() {
+      if (this.parentVal) {
+        return this.parentVal
+      }else{
+        return this.val
+      }
+    }
   },
 
   methods: {
     initVal(list) {
       let obj = {}
       list.forEach(data => {
-        if(data.type=='array'){
-          obj[data.key] = []
-          // data.child.forEach(array => {
-          //   obj[data.key].push(this.getValByType(array))
-          // })
-        }else{
-          obj[data.key] = this.getValByType(data)
-        } 
+        obj[data.key] = this.getValByType(data)
       })
       return obj
     },
@@ -204,11 +253,9 @@ export default {
            return obj.options[i].value
           }
         }
-         return null
-      }else if(obj.type=='arrayObj'){
-        return {}
-          // obj[data.key] = {}
-          // this.initVal(data.child,obj[data.key])
+        return null
+      }else if(obj.type=='object'){
+        return []
       }else{
         return null
       }
@@ -220,7 +267,44 @@ export default {
       this.model = obj
       this.$emit('input', obj)
       console.log(key,val,obj,this.model);
-    }
+    },
+    // 根据条件来显示隐藏
+    // _rootVal 通过根数据来控制
+    getShow(show) {
+      if (show === false || show === 'false') {
+        return false
+      }else if (!show || show === true || show === 'true') {
+        return true
+      }else{
+        let option = show.split(/[\=\.\:]/)
+        let val = null
+        let start = 0
+        if (option[0]=='$_root') {
+          val = this._rootVal
+          start = 1
+        }else if(option[0]=='$_parent') {
+          val = this._parentVal
+          start = 1
+        }else{
+          val = this.val
+        }
+        
+        for (var i = start; i < option.length - 1; i++) {
+          if (option[i]=='$_parent') {
+            val = val._parentVal
+          }else if(option[i]){
+            val = val[option[i]]
+          }
+        }
+        let term = option[option.length - 1]
+        if (term === 'true') {
+          term = true
+        }else if(term === 'false'){
+          term = false
+        }
+        return val == term
+      }
+    },
   },
 
   watch: {
