@@ -1,67 +1,86 @@
 <!-- 
 放弃使用item独立组件方式，因为model验证在出现了延迟，
 rootVal 用来处理show的根数据
+TODO: 使用
  -->
 
-<style lang="scss" scoped>
-  .ml-form-string,
-  .ml-form-phone,
-  .ml-form-mail,
-  .ml-form-bankCode,
-  .ml-form-idCard,
-  // .ml-form-text,
-  .ml-form-number,
-  .ml-form-password,
-  {
-  .el-input,.el-input__inner{
-      width: 220px;
-    }
-  }
-  .ml-form-text,
-  .ml-form-editor,
-  .ml-form-radio,
-  .ml-form-checkbox,
-  {
-    display: block;
-  }
-</style>
 <style lang="scss">
-  .ml-form-object{
-    @include inline(2);
-    align-items: flex-start;
-    margin-top: 20px;
-  }
-  .ml-form-text{
-    .el-form-item__content{
-      width: 600px;
+.ml-form{
+  &.el-form--inline{
+    .ml-form-string,
+    .ml-form-phone,
+    .ml-form-mail,
+    .ml-form-bankCode,
+    .ml-form-idCard,
+    // .ml-form-text,
+    .ml-form-number,
+    .ml-form-password,
+    {
+    .el-input,{
+        width: 220px;
+      }
+    }
+    .ml-form-text,
+    .ml-form-editor,
+    .ml-form-radio,
+    .ml-form-checkbox,
+    .ml-form-upload,
+
+    {
+      display: block;
+    }
+    .ml-form-checkbox,
+    .ml-form-radio,
+    {
+      @include inline(2);
+    }
+    .ml-form-editor{
+      .el-form-item__content{
+        width: 80%;
+      }
     }
   }
-  .ml-form-checkbox,
-  .ml-form-radio,
-  .ml-form-editor,
-  {
-    .el-form-item__content{
-      width: 90%;
+  .remark{
+    color: #999;
+    padding-left: 20px;
+  }
+    .ml-form-object{
+      @include inline(2);
+      align-items: flex-start;
+      margin-top: 20px;
     }
-  }
-  // .ml-form-checkbox,
-  // .ml-form-radio,{
-  //   .el-form-item__content{
-  //     width: 100%;
-  //   }
-  // }
-  .el-color-picker__trigger{
-    width: 80px;
-  }
+    .ml-form-text{
+      .el-form-item__content{
+        width: 600px;
+      }
+    }
+    .ml-form-color .el-color-picker{
+      float: left;
+    }
+    .el-color-picker__trigger{
+      width: 80px;
+    }
+    
+}
+
 </style>
+
 <template>
-  <el-form :model="val" :label-width="config.labelWidth" :inline="config.inline">
+  <el-form :model="val" class="ml-form" :label-width="config.labelWidth" :inline="config.inline">
     
     <el-form-item :inline="true" v-show="getShow(item.show)" v-for="item in config.dataList" :class="['ml-form-'+item.type]" :rules="rules[item.key]" :label="item.label" :prop="item.key" :key="item.key">
       <!-- {{getShow(item.show,_rootVal)}} -->
       <!-- 基本输入框 -->
       <el-input v-if="item.type==='string' || item.type==='phone' || item.type==='mail' || item.type==='bankCode' || item.type==='idCard' || item.type==='number'" 
-      type="text" :placeholder="item.placeholder" :disabled="item.disable" 
+      type="text" :placeholder="item.placeholder" :disabled="item.disable" :style="{width: item.width + 'px' }" 
+      :readonly="item.readonly" v-model="val[item.key]" clearable>
+        <template slot="prepend" v-if='item.prepend'>{{item.prepend}}</template>
+        <template slot="append" v-if='item.append'>{{item.append}}</template>
+      </el-input>
+       
+      <!-- 密码 TODO 可点击查看文本 -->
+      <el-input v-if="item.type==='password'" :style="{width: item.width + 'px' }" 
+      type="password" :placeholder="item.placeholder" :disabled="item.disable" 
       :readonly="item.readonly" v-model="val[item.key]" clearable></el-input>
 
       <!-- 文本域 -->
@@ -69,13 +88,8 @@ rootVal 用来处理show的根数据
 
       <!-- 开关 -->
       <el-switch v-if="item.type==='boolean'" v-model="val[item.key]"></el-switch>
-
-      <!-- 密码 TODO 可点击查看文本 -->
-      <el-input v-if="item.type==='password'" 
-      type="password" :placeholder="item.placeholder" :disabled="item.disable" 
-      :readonly="item.readonly" v-model="val[item.key]" clearable></el-input>
       
-      <el-select v-if="item.type==='select'" v-model="val[item.key]" :placeholder="item.placeholder">
+      <el-select v-if="item.type==='select'" :multiple="item.multiple" v-model="val[item.key]" :placeholder="item.placeholder">
         <el-option v-for="option in item.options" :key="option.value"  :label="option.label" :value="option.value" :disabled="option.disabled">
         </el-option>
       </el-select>
@@ -112,7 +126,7 @@ rootVal 用来处理show的根数据
       <ojbForm v-if="item.type==='object'" :configAll="config" :child='item.child' v-model="val[item.key]" :rootVal="_rootVal" :parentVal="val"></ojbForm>
 
       <!-- <el-input-number  v-if="item.type==='boolean'" v-model="val[item.key]" :disabled="item.readonly||item.disable" :min="item.min" :max="item.max" :label="item.placeholder"></el-input-number> -->
-
+      <span class="remark" v-if="item.remark">{{item.remark}}</span>
     </el-form-item>
 
   </el-form>
@@ -154,15 +168,11 @@ export default {
         data.limit = data.limit || 999
       }
     })
-    let obj = {}
-    if (typeof(this.value) == 'object') {
-      obj = this.value
-    }
-    obj = Object.assign(this.initVal(this.config.dataList),obj)
-    this.$emit('input',obj)
+    let initVal = this.initVal()
+    this.$emit('input',initVal)
     return {
       model: {},
-      val: obj, 
+      // val: initVal, 
         // {  
         //   "value": "address",
         //   "lable": "地址选择"
@@ -180,7 +190,9 @@ export default {
   },
 
   computed: {
-    
+    val() {
+      return this.value
+    },
     rules() {
       let obj = {}
       this.config.dataList.forEach(data => {
@@ -230,11 +242,20 @@ export default {
   },
 
   methods: {
-    initVal(list) {
-      let obj = {}
+    initVal() {
+      let list = this.config.dataList
+      let objInit = {}
       list.forEach(data => {
-        obj[data.key] = this.getValByType(data)
+        objInit[data.key] = this.getValByType(data)
       })
+
+
+      let obj = {}
+      if (typeof(this.value) == 'object') {
+        obj = this.value
+      }
+      obj = Object.assign(objInit,obj)
+
       return obj
     },
     //为各种类型的设置初始值  arrayObj类型时候，直接调用form组件

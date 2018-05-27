@@ -35,6 +35,11 @@ export default {
             error: '请输入活动名称', //输入不符合时的提示
             reg: '',//正则
 
+            prepend: '前头',
+            append: '后头',
+            remark: '密码为你的用户名',
+            width: 60,
+
             min: 1, //最小字符数 
             max: 10, //最大字符数
           },
@@ -127,6 +132,7 @@ export default {
             value: '', //默认值
             show: '',//什么情况下显示
             label: '下拉', //输入框前显示
+            multiple: true,//是否多选
             options: [{
               value: '选项1',
               label: '黄金糕',

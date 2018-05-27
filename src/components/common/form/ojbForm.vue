@@ -42,19 +42,38 @@
     margin-bottom: 22px;
     padding-left: 20px;
   }
+  .up{
+    padding: 5px;
+    margin-left: 20px;
+  }
 }
 </style>
 <template>
   <div class="ojb-form">
-    <el-tag class="el-tag" :key="index" :class="[{'active':index == btnActive}]" closable v-for="(item, index) in value" :disable-transitions="false" @click.native="changeTab(index)" @close="tagClose(index)"> 
+    <el-button class="button-new-tag" size="small" @click="add">新建{{name}}</el-button>
+    <el-collapse accordion>
+      <el-collapse-item v-for="(item, index) in value">
+        <template slot="title">
+          {{name}}{{index+1}} 
+          <el-button :disabled="index==0" @click.stop="up(index)" class="up" type="primary" size="mini" icon="el-icon-search" circle></el-button>
+          <el-button :disabled="index==value.length-1" @click.stop="down(index)" class="up" type="primary" size="mini" icon="el-icon-search" circle></el-button>
+        </template>
+        {{item}}
+        <mlform :config="config" :rootVal="rootVal" :parentVal="parentVal" :value="item" @input="change(index,$event)"></mlform>
+      </el-collapse-item>
+    </el-collapse>
+
+
+  
+    <!-- <el-tag class="el-tag" :key="index" :class="[{'active':index == btnActive}]" closable v-for="(item, index) in value" :disable-transitions="false" @click.native="changeTab(index)" @close="tagClose(index)"> 
       {{name}}{{index+1}}
     </el-tag>
     <el-button class="button-new-tag" size="small" @click="add">新建{{name}}</el-button>
     
     <!-- <div class="btn-box"></div> -->
-    <div class="form-box" v-for="(item, index) in value" v-show="index == btnActive">
+    <!-- <div class="form-box" v-for="(item, index) in value" v-show="index == btnActive">
       <mlform :config="config" :rootVal="rootVal" :parentVal="parentVal" :value="item" @input="change(index,$event)"></mlform>
-    </div>
+    </div> -->
     
   </div>
 </template>
@@ -114,6 +133,23 @@ export default {
       let obj = [...this.value]
       obj[index] = val
       this.$emit('input',obj)
+    },
+    up(index) {
+      let obj = [...this.value]
+      let val = obj[index]
+      obj.splice(index,1);
+      obj.splice(index-2,0,val);
+      // obj[index] = obj[index-1]
+      // obj[index-1] = val
+      this.$emit('input',obj)
+    },
+    down(index) {
+      let obj = [...this.value]
+      let val = obj[index]
+      obj[index] = obj[index+1]
+      obj[index+1] = val
+      this.$emit('input',obj)
+      // [obj[index],obj[index+1]] = [obj[index+1],obj[index]]
     },
     add() {
       let obj = [...this.value]
