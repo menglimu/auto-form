@@ -4,7 +4,7 @@
   }
 </style>
 <template>
-  <el-form :model="model">
+  <el-form>
 
     <formItem
       v-for="item in config.dataList"
@@ -30,11 +30,38 @@ export default {
     config:{
       type: Object,
       required: true
+    },
+    rootVal:{
+      type: null
+    },
+    parentVal:{
+      type: null
     }
   },
   data() {
+    //设置初始值
+    this.config.dataList.forEach(data => {
+      if (!data.placeholder&&data.label) {
+        data.placeholder = `请输入${data.label}`
+      }
+      if (!data.error&&data.label) {
+        data.error = `请输入合法的${data.label}`
+      }
+      if (data.type == 'upload') {
+        data.limit = data.limit || 999
+      }
+    })
+    // let initVal = this.initVal()
+    // // this.val = initVal
+    // this.$emit('input',initVal)
     return {
-      model: {}
+      model: {},
+      init: true,
+      // val: initVal, 
+        // {  
+        //   "value": "address",
+        //   "lable": "地址选择"
+        // },
     }
   },
 
@@ -48,29 +75,48 @@ export default {
 
   computed: {
     val() {
-      let obj = {}
-      if (!this.value || Object.is(this.value, {})) {
-        this.initVal(this.config.dataList,obj)
-        this.$emit('input', obj)
+      if (this.init) {
+        this.init = false
+        let obj = this.initVal()
+        this.$emit('input',obj)
+        return obj
       }else{
-        this.model = this.value
         return this.value
+      }
+    },
+    // 获得form 的值的对象 根和父，objform 父必传 
+    _rootVal() {
+      if (this.rootVal) {
+        return this.rootVal
+      }else{
+        return this.val
+      }
+    },
+    _parentVal() {
+      if (this.parentVal) {
+        return this.parentVal
+      }else{
+        return this.val
       }
     }
   },
 
   methods: {
-    initVal(list, obj) {
+    initVal() {
+      let list = this.config.dataList
+      let objInit = {}
       list.forEach(data => {
-        if(data.type=='array'){
-          obj[data.key] = []
-          data.child.forEach(array => {
-            obj[data.key].push(this.getValByType(array))
-          })
-        }else{
-          obj[data.key] = this.getValByType(array)
-        } 
+        objInit[data.key] = this.getValByType(data)
       })
+
+
+      let obj = {}
+      if (typeof(this.value) == 'object') {
+        obj = this.value
+      }
+      obj = Object.assign(objInit,obj)
+
+      return obj
     },
     //为各种类型的设置初始值  arrayObj类型时候，直接调用form组件
     // TODO: 下拉是否多选
@@ -80,16 +126,17 @@ export default {
         return obj.value
       }else if (obj.type == 'boolean') {
         return false
-      }else if (obj.type == 'radio'&&obj.must) {
-        return obj.options[0] || null
-      }else if (obj.type == 'checkbox') {
+      }else if (obj.type == 'checkbox' || (obj.type == 'select'&&obj.multiple)) {
         return []
-      }else if (obj.type == 'select'&&obj.must) {
-        return obj.options[0] || null
-      }else if(obj.type=='arrayObj'){
-        return {}
-          // obj[data.key] = {}
-          // this.initVal(data.child,obj[data.key])
+      }else if ((obj.type == 'select'&&obj.must&&!obj.multiple) || (obj.type == 'radio'&&obj.must)) {
+        for (var i = 0; i < obj.options.length; i++) {
+          if (!obj.options[i].disabled) {
+           return obj.options[i].value
+          }
+        }
+        return null
+      }else if(obj.type=='object'){
+        return []
       }else{
         return null
       }
@@ -98,7 +145,6 @@ export default {
     change(key,val) {
       let obj = Object.assign({},this.val)
       obj[key] = val
-      this.model = obj
       this.$emit('input', obj)
       console.log(key,val,obj,this.model);
     }

@@ -195,7 +195,7 @@ export default {
   },
 
   mounted() {
-    this.$on('el.form.blur', this.blure);
+    
   },
 
   computed: {

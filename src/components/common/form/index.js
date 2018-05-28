@@ -1,4 +1,4 @@
-const mlform = () => import('./mlform1.vue')
+const mlform = () => import('./mlform.vue')
 
 // import mleditor from './mleditor.vue';
 
