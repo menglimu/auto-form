@@ -46,18 +46,26 @@
     padding: 5px;
     margin-left: 20px;
   }
+  .btn-box{
+    margin-left: 30px;
+  }
 }
 </style>
 <template>
   <div class="ojb-form">
     <el-button class="button-new-tag" size="small" @click="add">新建{{name}}</el-button>
-
+    <!--  :value="btnActive" -->
     <el-collapse :accordion='accordion' v-show="value&&value.length>0">
-      <el-collapse-item v-for="(item, index) in value">
+      <el-collapse-item v-for="(item, index) in value" :name="index">
         <template slot="title">
           {{name}}{{index+1}} 
-          <el-button :disabled="index==0" @click.stop="up(index)" class="up" type="primary" size="mini" icon="el-icon-caret-top" circle></el-button>
-          <el-button :disabled="index==value.length-1" @click.stop="down(index)" class="up" type="primary" size="mini" icon="el-icon-caret-bottom" circle></el-button>
+          <el-button-group class="btn-box">
+            <el-button type="primary" size="mini" :disabled='index==0' @click.stop="up(index)" icon="el-icon-caret-top">上移</el-button>
+            <el-button type="primary" size="mini" @click.stop="tagClose(index)" icon="el-icon-delete">删除</el-button>
+            <el-button type="primary" size="mini" :disabled="index==value.length-1" @click.stop="down(index)" icon="el-icon-caret-bottom">下移</el-button>
+          </el-button-group>
+          <!-- <el-button :disabled="index==0" @click.stop="up(index)" class="up" type="primary" size="mini" icon="el-icon-caret-top" circle></el-button>
+          <el-button :disabled="index==value.length-1" @click.stop="down(index)" class="up" type="primary" size="mini" icon="el-icon-caret-bottom" circle></el-button> -->
         </template>
         {{item}}
         <mlform :config="config" :rootVal="rootVal" :parentVal="parentVal" :value="item" @input="change(index,$event)"></mlform>
@@ -141,10 +149,10 @@ export default {
     up(index) {
       let obj = [...this.value]
       let val = obj[index]
-      obj.splice(index,1);
-      obj.splice(index-2,0,val);
-      // obj[index] = obj[index-1]
-      // obj[index-1] = val
+      // obj.splice(index,1);
+      // obj.splice(index-2,0,val);
+      obj[index] = obj[index-1]
+      obj[index-1] = val
       this.$emit('input',obj)
     },
     down(index) {
@@ -164,9 +172,12 @@ export default {
     tagClose: function (index){
       let obj = [...this.value]
       obj.splice(index, 1);
-      if (index <= this.btnActive) {
-        this.btnActive = obj.length - 1
-      }
+      //   console.log(index,this.btnActive);
+      // if (index < this.btnActive) {
+      //   this.btnActive = obj.length - 1
+      // }else if (index == this.btnActive) {
+      //   this.btnActive = ''
+      // }
       this.$emit('input',obj)
       
     },

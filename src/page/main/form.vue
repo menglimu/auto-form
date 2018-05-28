@@ -124,6 +124,16 @@ export default {
             label: '密码', //输入框前显示
           },
           {
+            type: 'password',//
+            key: 'password1',    //输出的key
+            readonly: false,//只读 
+            disabled: false,//不可操作
+            must: true, //必填
+            value: '', //默认值
+            show: "",//什么情况下显示
+            label: '密码', //输入框前显示
+          },
+          {
             type: 'select',//
             key: 'select',    //输出的key
             readonly: false,//只读 

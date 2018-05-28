@@ -1,7 +1,9 @@
 <!-- 
 放弃使用item独立组件方式，因为model验证在出现了延迟，
+因为显示隐藏的动态验证方式 继续使用item重新实现验证
 rootVal 用来处理show的根数据
 TODO: 点击按钮验证、可增加简单类型输入
+
  -->
 
 <style lang="scss">
@@ -66,9 +68,12 @@ TODO: 点击按钮验证、可增加简单类型输入
 </style>
 
 <template>
-  <el-form :model="val" class="ml-form" :label-width="config.labelWidth" :inline="config.inline">
-    
-    <el-form-item :inline="true" v-show="getShow(item.show)" v-for="item in config.dataList" :class="['ml-form-'+item.type]" :rules="rules[item.key]" :label="item.label" :prop="item.key" :key="item.key">
+  <el-form :model="val" class="ml-form"  :label-width="config.labelWidth" :inline="config.inline">
+  <!-- {{rules()}} -->
+    <!-- :rules="rules()" form使用 -->
+    <!-- :rules="rules[item.key]"  之前form-item使用 :rules="rules(item)"-->
+    <el-form-item :inline="true" v-show="getShow(item.show)" v-for="item in config.dataList" :class="['ml-form-'+item.type]" :rules="rules(item)" :label="item.label" :prop="item.key" :key="item.key">
+      <!-- {{rules(item)}} -->
       <!-- {{getShow(item.show,_rootVal)}} -->
       <!-- 基本输入框 -->
       <el-input v-if="item.type==='string' || item.type==='phone' || item.type==='mail' || item.type==='bankCode' || item.type==='idCard' || item.type==='number'" 
@@ -136,6 +141,8 @@ import formItem from './formItem.vue'
 import mlupload from './mlupload.vue'
 import ojbForm from './ojbForm.vue'
 import mleditor from '@/components/common/editor'
+import {isEqual} from '@/global/msUtils.js'
+isEqual({},{})
 export default {
   components: {
     formItem,mlupload,mleditor,ojbForm
@@ -168,10 +175,12 @@ export default {
         data.limit = data.limit || 999
       }
     })
-    let initVal = this.initVal()
-    this.$emit('input',initVal)
+    // let initVal = this.initVal()
+    // // this.val = initVal
+    // this.$emit('input',initVal)
     return {
       model: {},
+      init: true,
       // val: initVal, 
         // {  
         //   "value": "address",
@@ -186,44 +195,28 @@ export default {
   },
 
   mounted() {
-
+    this.$on('el.form.blur', this.blure);
   },
 
   computed: {
-    val() {
-      return this.value
-    },
-    rules() {
-      let obj = {}
-      this.config.dataList.forEach(data => {
-        let rules = []
-        if (this.getShow(data.show)) {
-          if (data.must) {
-            rules.push({ required: true, message: data.error, trigger: 'blur' })
-          }
-          if (data.min != undefined && data.max != undefined) {
-            rules.push({ min: data.min, max: data.max, message: `输入字符长度应在 ${data.min} 到 ${data.max} 个字符`})
-          }
-          if (data.reg) {
-            rules.push({ pattern: reg,//  /^[\u4E00-\u9FA5]+$/
-            message: data.error })
-          }
-          if (data.type == 'phone') {
-            rules.push({ pattern: /^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(17[0,1,3,5,6,7,8]))\d{8}$/,message: data.error})
-          }else if (data.type == 'mail') {
-            rules.push({ pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,message: data.error })
-          }else if (data.type == 'bankCode') {
-            rules.push({ pattern: /^([1-9]{1})(\d{15}|\d{18})$/,message: data.error })
-          }else if (data.type == 'idCard') {
-            rules.push({ pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/,message: data.error })
-          }else if (data.type == 'number') {
-            rules.push({ pattern: /^[-]?\d+(\.\d+)?$/,message: data.error })
-          }
+    val: {
+      get() {
+        if (this.init) {
+          this.init = false
+          let obj = this.initVal()
+          this.$emit('input',obj)
+          return obj
+        }else{
+          return this.value
         }
-        obj[data.key] = rules
-      })
-      return obj
+        
+      },
+      set(val) {
+        this.val = val
+      }
     },
+    
+    
     // 获得form 的值的对象 根和父，objform 父必传 
     _rootVal() {
       if (this.rootVal) {
@@ -266,9 +259,9 @@ export default {
         return obj.value
       }else if (obj.type == 'boolean') {
         return false
-      }else if (obj.type == 'checkbox') {
+      }else if (obj.type == 'checkbox' || (obj.type == 'select'&&obj.multiple)) {
         return []
-      }else if ((obj.type == 'select'&&obj.must) || (obj.type == 'radio'&&obj.must)) {
+      }else if ((obj.type == 'select'&&obj.must&&!obj.multiple) || (obj.type == 'radio'&&obj.must)) {
         for (var i = 0; i < obj.options.length; i++) {
           if (!obj.options[i].disabled) {
            return obj.options[i].value
@@ -326,12 +319,51 @@ export default {
         return val == term
       }
     },
+    //规则
+    rules(data) {
+      let obj = {}
+      // this.config.dataList.forEach(data => {
+        let rules = []
+        if (this.getShow(data.show)) {
+          if (data.must) {
+            rules.push({ required: true, message: data.error, trigger: 'blur' })
+          }
+          if (data.min != undefined && data.max != undefined) {
+            rules.push({ min: data.min, max: data.max, message: `输入字符长度应在 ${data.min} 到 ${data.max} 个字符`})
+          }
+          if (data.reg) {
+            rules.push({ pattern: reg,//  /^[\u4E00-\u9FA5]+$/
+            message: data.error })
+          }
+          if (data.type == 'phone') {
+            rules.push({ pattern: /^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(17[0,1,3,5,6,7,8]))\d{8}$/,message: data.error, trigger: 'change'})
+          }else if (data.type == 'mail') {
+            rules.push({ pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,message: data.error, trigger: 'change'})
+          }else if (data.type == 'bankCode') {
+            rules.push({ pattern: /^([1-9]{1})(\d{15}|\d{18})$/,message: data.error, trigger: 'change' })
+          }else if (data.type == 'idCard') {
+            rules.push({ pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/,message: data.error, trigger: 'change' })
+          }else if (data.type == 'number') {
+            rules.push({ pattern: /^[-]?\d+(\.\d+)?$/,message: data.error, trigger: 'change' })
+          }
+        }
+        obj[data.key] = rules
+      // })
+      console.log(obj);
+      return rules
+    },
+    bulre() {
+      console.log(123);
+    }
   },
 
   watch: {
     val: {
       handler (cval, oval) {
-        this.$emit('input',this.val)
+        // this.$emit('input',this.val)
+        if (!isEqual(cval,oval)) {
+          this.$emit('input',this.val)
+        }
       },
       deep: true
     }
