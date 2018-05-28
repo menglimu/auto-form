@@ -169,40 +169,50 @@ export default {
   },
 
   computed: {
-    rules() {
-      let rules = []
-      if (this.config.show) {
-        if (this.config.must) {
-          rules.push({ required: true, message: this.config.error, trigger: 'blur' })
-        }
-        if (this.config.min != undefined && this.config.max != undefined) {
-          rules.push({ min: this.config.min, max: this.config.max, message: `输入字符长度应在 ${this.config.min} 到 ${this.config.max} 个字符`, trigger: 'blur' })
-        }
-        if (this.config.reg) {
-          rules.push({ pattern: reg,//  /^[\u4E00-\u9FA5]+$/
-          message: this.config.error })
-        }
-        if (this.config.type == 'phone') {
-          rules.push({ pattern: /^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(17[0,1,3,5,6,7,8]))\d{8}$/,message: this.config.error})
-        }else if (this.config.type == 'mail') {
-          rules.push({ pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,message: this.config.error })
-        }else if (this.config.type == 'bankCode') {
-          rules.push({ pattern: /^([1-9]{1})(\d{15}|\d{18})$/,message: this.config.error })
-        }else if (this.config.type == 'idCard') {
-          rules.push({ pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/,message: this.config.error })
-        }
-      }
-      
-      console.log(rules);
-      return rules;
-    }
+    
   },
 
   methods: {
+    //规则
+    rules() {
+      let obj = {
+        'blur': [],
+        'input': [],
+      }
+      let data = this.config
+      // this.config.dataList.forEach(data => {
+        if (this.getShow(data.show)) {
+          if (data.must) {
+            obj.blur.push({ required: true, message: data.error, trigger: 'blur' })
+          }
+          if (data.min != undefined && data.max != undefined) {
+            obj.input.push({ pattern: new RegExp(`^{${data.min},${data.max}}$`), message: `输入字符长度应在 ${data.min} 到 ${data.max} 个字符`})
+          }
+          if (data.reg) {
+            obj.input.push({ pattern: reg,//  /^[\u4E00-\u9FA5]+$/
+            message: data.error })
+          }
+          if (data.type == 'phone') {
+            obj.input.push({ pattern: /^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(17[0,1,3,5,6,7,8]))\d{8}$/,message: data.error, trigger: 'change'})
+          }else if (data.type == 'mail') {
+            obj.input.push({ pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,message: data.error, trigger: 'change'})
+          }else if (data.type == 'bankCode') {
+            obj.input.push({ pattern: /^([1-9]{1})(\d{15}|\d{18})$/,message: data.error, trigger: 'change' })
+          }else if (data.type == 'idCard') {
+            obj.input.push({ pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/,message: data.error, trigger: 'change' })
+          }else if (data.type == 'number') {
+            obj.input.push({ pattern: /^[-]?\d+(\.\d+)?$/,message: data.error, trigger: 'change' })
+          }
+        }
+      // })
+      console.log(obj);
+      return obj
+    },
     input(val) {
       this.$emit('input', val)
       this.validateStatus = 'error'
-      this.rules().input.forEach(rule => {
+      let rules = this.rules()
+      rules.input.forEach(rule => {
         // .test
       })
     },
@@ -242,41 +252,6 @@ export default {
         }
         return val == term
       }
-    },
-    //规则
-    rules() {
-      let obj = {
-        'blur': [],
-        'input': [],
-      }
-      let data = this.config
-      // this.config.dataList.forEach(data => {
-        if (this.getShow(data.show)) {
-          if (data.must) {
-            obj.blur.push({ required: true, message: data.error, trigger: 'blur' })
-          }
-          if (data.min != undefined && data.max != undefined) {
-            obj.input.push({ pattern: new RegExp(`^{${data.min},${data.max}}$`), message: `输入字符长度应在 ${data.min} 到 ${data.max} 个字符`})
-          }
-          if (data.reg) {
-            obj.input.push({ pattern: reg,//  /^[\u4E00-\u9FA5]+$/
-            message: data.error })
-          }
-          if (data.type == 'phone') {
-            obj.input.push({ pattern: /^((13[0-9])|(14[5,7,9])|(15[^4])|(18[0-9])|(17[0,1,3,5,6,7,8]))\d{8}$/,message: data.error, trigger: 'change'})
-          }else if (data.type == 'mail') {
-            obj.input.push({ pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,message: data.error, trigger: 'change'})
-          }else if (data.type == 'bankCode') {
-            obj.input.push({ pattern: /^([1-9]{1})(\d{15}|\d{18})$/,message: data.error, trigger: 'change' })
-          }else if (data.type == 'idCard') {
-            obj.input.push({ pattern: /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/,message: data.error, trigger: 'change' })
-          }else if (data.type == 'number') {
-            obj.input.push({ pattern: /^[-]?\d+(\.\d+)?$/,message: data.error, trigger: 'change' })
-          }
-        }
-      // })
-      console.log(obj);
-      return obj
     },
   },
 }
