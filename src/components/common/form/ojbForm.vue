@@ -51,12 +51,13 @@
 <template>
   <div class="ojb-form">
     <el-button class="button-new-tag" size="small" @click="add">新建{{name}}</el-button>
-    <el-collapse accordion>
+
+    <el-collapse :accordion='accordion' v-show="value&&value.length>0">
       <el-collapse-item v-for="(item, index) in value">
         <template slot="title">
           {{name}}{{index+1}} 
-          <el-button :disabled="index==0" @click.stop="up(index)" class="up" type="primary" size="mini" icon="el-icon-search" circle></el-button>
-          <el-button :disabled="index==value.length-1" @click.stop="down(index)" class="up" type="primary" size="mini" icon="el-icon-search" circle></el-button>
+          <el-button :disabled="index==0" @click.stop="up(index)" class="up" type="primary" size="mini" icon="el-icon-caret-top" circle></el-button>
+          <el-button :disabled="index==value.length-1" @click.stop="down(index)" class="up" type="primary" size="mini" icon="el-icon-caret-bottom" circle></el-button>
         </template>
         {{item}}
         <mlform :config="config" :rootVal="rootVal" :parentVal="parentVal" :value="item" @input="change(index,$event)"></mlform>
@@ -106,7 +107,10 @@ export default {
     parentVal:{
       type: null
     },
-
+    accordion:{
+      type: Boolean,
+      default: true,
+    }
   },
   name: 'formObject',
   data() {

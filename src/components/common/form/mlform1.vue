@@ -1,7 +1,7 @@
 <!-- 
 放弃使用item独立组件方式，因为model验证在出现了延迟，
 rootVal 用来处理show的根数据
-TODO: 使用
+TODO: 点击按钮验证、可增加简单类型输入
  -->
 
 <style lang="scss">
@@ -121,9 +121,9 @@ TODO: 使用
 
       <mlupload v-if="item.type==='upload'" :limit="item.limit" v-model="val[item.key]"></mlupload>
       
-      <mleditor v-if="item.type==='editor'" v-model="val[item.key]" ></mleditor>
+      <mleditor v-if="item.type==='editor'" v-model="val[item.key]" :defaultMsg="item.defaultMsg"></mleditor>
 
-      <ojbForm v-if="item.type==='object'" :configAll="config" :child='item.child' v-model="val[item.key]" :rootVal="_rootVal" :parentVal="val"></ojbForm>
+      <ojbForm v-if="item.type==='object'" :accordion="item.accordion" :name="item.label" :configAll="config" :child='item.child' v-model="val[item.key]" :rootVal="_rootVal" :parentVal="val"></ojbForm>
 
       <!-- <el-input-number  v-if="item.type==='boolean'" v-model="val[item.key]" :disabled="item.readonly||item.disable" :min="item.min" :max="item.max" :label="item.placeholder"></el-input-number> -->
       <span class="remark" v-if="item.remark">{{item.remark}}</span>

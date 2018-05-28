@@ -281,6 +281,8 @@ export default {
             value: '', //默认值
             show: '',//什么情况下显示
             label: '富文本', //输入框前显示
+
+            defaultMsg: '1231阿萨德312', //默认值
             config: {},
           },
           {
@@ -295,6 +297,8 @@ export default {
             placeholder: '请输入用户名', //
             error: '请输入活动名称', //输入不符合时的提示
             reg: '',//正则
+
+            accordion: true, //手风琴模式(只激活显示一个)
 
             child:[
               {
