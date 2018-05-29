@@ -5,7 +5,7 @@
 </style>
 <template>
   <div class="form">
-      <mlform ref='form' :config="config" v-model="userInput"></mlform>
+      <mlform ref='form' :config="config1" v-model="userInput"></mlform>
       <el-button @click='submitBtnClick'>提交</el-button>
       {{userInput}}
   </div>
@@ -463,6 +463,132 @@ export default {
           //   ]
           // },
         ],
+      },
+      config1: {
+        dataList: [
+          {
+            type: 'password',//
+            key: 'password1',    //输出的key
+            readonly: false,//只读 
+            disabled: false,//不可操作
+            must: true, //必填
+            value: '', //默认值
+            show: "select==2",//什么情况下显示
+            label: '密码', //输入框前显示
+          },
+          {
+            type: 'select',//
+            key: 'select',    //输出的key
+            readonly: false,//只读 
+            disabled: false,//不可操作
+            must: true, //必填
+            value: '', //默认值
+            show: '',//什么情况下显示
+            label: '下拉', //输入框前显示
+            multiple: true,//是否多选
+            options: [{
+              value: '选项1',
+              label: '黄金糕',
+              disabled: true
+            }, {
+              value: '2',
+              label: '双皮奶'
+            }, {
+              value: '选项3',
+              label: '蚵仔煎'
+            }, {
+              value: '选项4',
+              label: '龙须面'
+            }, {
+              value: '选项5',
+              label: '北京烤鸭'
+            }],
+          },
+          {
+            type: 'object',//
+            key: 'object',    //输出的key
+            readonly: false,//只读 
+            disabled: false,//不可操作
+            must: true, //必填
+            value: '', //默认值
+            show: '',//什么情况下显示
+            label: '用户名', //输入框前显示
+            placeholder: '请输入用户名', //
+            error: '请输入活动名称', //输入不符合时的提示
+            reg: '',//正则
+
+            accordion: true, //手风琴模式(只激活显示一个)
+
+            child:[
+              {
+                type: 'time',//
+                key: 'time',    //输出的key
+                readonly: false,//只读 
+                disabled: false,//不可操作
+                must: true, //必填
+                value: '', //默认值
+                show: '$_root.select==选项2',//什么情况下显示
+                label: '时间', //输入框前显示
+              },
+              {
+                type: 'phone',//
+                key: 'phone',    //输出的key
+                readonly: false,//只读 
+                disabled: false,//不可操作
+                must: true, //必填
+                value: '13712349654', //默认值
+                show: '$_parent.select=选项3',//什么情况下显示
+                label: '手机号', //输入框前显示
+              },
+              {
+                type: 'mail',//
+                key: 'mail',    //输出的key
+                readonly: false,//只读 
+                disabled: false,//不可操作
+                must: true, //必填
+                value: '', //默认值
+                show: '',//什么情况下显示
+                label: '邮箱', //输入框前显示
+              },
+              // {
+              //   type: 'object',//
+              //   key: 'object',    //输出的key
+              //   readonly: false,//只读 
+              //   disabled: false,//不可操作
+              //   must: true, //必填
+              //   value: '', //默认值
+              //   show: '',//什么情况下显示
+              //   label: '用户名', //输入框前显示
+              //   placeholder: '请输入用户名', //
+              //   error: '请输入活动名称', //输入不符合时的提示
+              //   reg: '',//正则
+
+              //   child:[
+              //     {
+              //       type: 'time',//
+              //       key: 'time',    //输出的key
+              //       readonly: false,//只读 
+              //       disabled: false,//不可操作
+              //       must: true, //必填
+              //       value: '', //默认值
+              //       show: '$_root.select==选项2',//什么情况下显示
+              //       label: '时间', //输入框前显示
+              //     },
+              //     {
+              //       type: 'phone',//
+              //       key: 'phone',    //输出的key
+              //       readonly: false,//只读 
+              //       disabled: false,//不可操作
+              //       must: true, //必填
+              //       value: '13712349654', //默认值
+              //       show: '$_parent.radio=选项3',//什么情况下显示
+              //       label: '手机号', //输入框前显示
+              //     },
+              //   ]
+              // },
+            ]
+          },
+        ]
       },
       userInput: {},
     }

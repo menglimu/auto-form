@@ -59,15 +59,18 @@
       <el-collapse-item v-for="(item, index) in value" :name="index">
         <template slot="title">
           {{name}}{{index+1}} 
+
           <el-button-group class="btn-box">
             <el-button type="primary" size="mini" :disabled='index==0' @click.stop="up(index)" icon="el-icon-caret-top">上移</el-button>
             <el-button type="primary" size="mini" @click.stop="tagClose(index)" icon="el-icon-delete">删除</el-button>
             <el-button type="primary" size="mini" :disabled="index==value.length-1" @click.stop="down(index)" icon="el-icon-caret-bottom">下移</el-button>
           </el-button-group>
+
+          {{validateResultArray[index]}}
           <!-- <el-button :disabled="index==0" @click.stop="up(index)" class="up" type="primary" size="mini" icon="el-icon-caret-top" circle></el-button>
           <el-button :disabled="index==value.length-1" @click.stop="down(index)" class="up" type="primary" size="mini" icon="el-icon-caret-bottom" circle></el-button> -->
         </template>
-        
+
         <mlform :config="config" :rootVal="rootVal" :parentVal="parentVal" :value="item" @input="change(index,$event)" ref="form"></mlform>
       </el-collapse-item>
     </el-collapse>
@@ -125,6 +128,7 @@ export default {
     return {
       config: Object.assign({},this.configAll,{dataList: this.child}),
       btnActive: 0,
+      validateResultArray: [],
     }
   },
 
@@ -137,20 +141,55 @@ export default {
   },
 
   computed: {
-
+    
   },
-
+  watch: {
+    value() {
+      let res = []
+      for (var i = 0; i < this.value.length; i++) {
+        res.push('')
+      }
+      this.validateResultArray = res
+      for (var i = 0; i < this.value.length; i++) {
+        let index = i
+        this.$nextTick(function () {
+          if (!this.$refs['form'][index].validateNoMsg()) {
+            this.validateResultArray.splice(index,1,'error')
+          }else{
+            this.validateResultArray.splice(index,1,'success')
+          }
+          console.log(this.validateResultArray);
+        })
+      }
+    }
+  },
   methods: {
     //验证数据
     validate() {
       let validateResult = true
-      for (var i = 0; i < this.$refs['form'].length; i++) {
+      for (var i = 0; i < this.value.length; i++) {
         if (!this.$refs['form'][i].validate()) {
           validateResult = false
         }
       }
       return validateResult;
     },
+    validateNoMsg() {
+      let validateResult = true
+      for (var i = 0; i < this.value.length; i++) {
+        if (!this.$refs['form'][i].validateNoMsg()) {
+          validateResult = false
+        }
+      }
+      return validateResult;
+    },
+    getOneNoMsg(i) {
+
+      
+      
+    },
+
+
     change(index,val) {
       let obj = [...this.value]
       obj[index] = val

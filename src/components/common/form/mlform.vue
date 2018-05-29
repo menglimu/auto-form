@@ -1,3 +1,6 @@
+<!-- TODO objform显示标题可配，错误信息优化
+隐藏的组件的值的问题
+ -->
 <style lang="scss" scoped>
   
 </style>
@@ -110,6 +113,15 @@ export default {
       let validateResult = true
       for (var i = 0; i < this.$refs['formItem'].length; i++) {
         if (!this.$refs['formItem'][i].validate()) {
+          validateResult = false
+        }
+      }
+      return validateResult;
+    },
+    validateNoMsg() {
+      let validateResult = true
+      for (var i = 0; i < this.$refs['formItem'].length; i++) {
+        if (!this.$refs['formItem'][i].validateNoMsg()) {
           validateResult = false
         }
       }

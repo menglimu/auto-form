@@ -244,6 +244,9 @@ export default {
     validate() {
       this.validateInput(this.value,'blur',true)&&this.validateInput(this.value,'input',true)
     },
+    validateNoMsg() {
+      this.validateInputNoMsg(this.value,'blur',true)&&this.validateInputNoMsg(this.value,'input',true)
+    },
     blur() {
       this.validateInput(this.value,'blur')&&this.validateInput(this.value)
     },
@@ -272,15 +275,26 @@ export default {
       }
       this.validateStatus = 'success'
       return true
-      // this.rules[type].every(rule => {
-      //   if (!rule.pattern.test(this.value)) {
-      //     this.validateStatus = 'error'
-      //     this.error = rule.message
-      //     return false
-      //   } 
-      // })
-      // this.validateStatus = 'success'
-      // return true
+    },
+    //只有全局调用表单验证的时候，校验object子元素
+    validateInputNoMsg(val,type='input',validate=false) {
+      if (!this.getShow()){
+        return true
+      }
+      if (this.required&&(!val||val.length==0)) {
+        return false
+      }
+      if (this.config.type == 'object'&&validate) {
+        return this.$refs['ojbFormItem'].validateNoMsg()
+      }else if (this.config.type == 'object'&&!validate) {
+        return true
+      }
+      for (var i = 0; i < this.rules[type].length; i++) {
+        if (this.rules[type][i].pattern&&!this.rules[type][i].pattern.test(val)) {
+          return false
+        } 
+      }
+      return true
     },
     // 根据条件来显示隐藏
     // _rootVal 通过根数据来控制
