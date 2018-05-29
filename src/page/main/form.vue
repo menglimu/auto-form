@@ -5,7 +5,8 @@
 </style>
 <template>
   <div class="form">
-      <mlform :config="config" v-model="userInput"></mlform>
+      <mlform ref='form' :config="config" v-model="userInput"></mlform>
+      <el-button @click='submitBtnClick'>提交</el-button>
       {{userInput}}
   </div>
 </template>
@@ -482,6 +483,8 @@ export default {
   methods: {
     submitBtnClick: function () {
       // body...
+      console.log(this.$refs['form'].validate());
+      
     }
   },
 }

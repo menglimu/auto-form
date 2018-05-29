@@ -67,8 +67,8 @@
           <!-- <el-button :disabled="index==0" @click.stop="up(index)" class="up" type="primary" size="mini" icon="el-icon-caret-top" circle></el-button>
           <el-button :disabled="index==value.length-1" @click.stop="down(index)" class="up" type="primary" size="mini" icon="el-icon-caret-bottom" circle></el-button> -->
         </template>
-        {{item}}
-        <mlform :config="config" :rootVal="rootVal" :parentVal="parentVal" :value="item" @input="change(index,$event)"></mlform>
+        
+        <mlform :config="config" :rootVal="rootVal" :parentVal="parentVal" :value="item" @input="change(index,$event)" ref="form"></mlform>
       </el-collapse-item>
     </el-collapse>
 
@@ -141,6 +141,16 @@ export default {
   },
 
   methods: {
+    //验证数据
+    validate() {
+      let validateResult = true
+      for (var i = 0; i < this.$refs['form'].length; i++) {
+        if (!this.$refs['form'][i].validate()) {
+          validateResult = false
+        }
+      }
+      return validateResult;
+    },
     change(index,val) {
       let obj = [...this.value]
       obj[index] = val

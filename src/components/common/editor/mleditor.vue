@@ -5,7 +5,7 @@
   }
 </style>
 <template>
-  <div :id="id" class="editor-box" type="text/plain"></div>
+  <div :id="id"  @blur="handleBlur" class="editor-box" type="text/plain"></div>
 </template>
 <script>
 // 会报错，ueditor 通过标签去引入zh-cn.js和ueditor.css。不用管
@@ -52,7 +52,10 @@ export default {
   methods: {
     getUEContent() { // 获取内容方法
       return this.editor.getContent()
-    }
+    },
+    handleBlur(event) {
+      this.$emit('blur', event);
+    },
   },
   destroyed() {
     this.editor.destroy();

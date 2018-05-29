@@ -1,10 +1,8 @@
 <style lang="scss" scoped>
-  .lm-form-inline .el-input{
-    width: 150px;
-  }
+  
 </style>
 <template>
-  <el-form>
+  <el-form class="mlform" :label-width="config.labelWidth" :inline="config.inline">
 
     <formItem
       v-for="item in config.dataList"
@@ -12,6 +10,11 @@
       :config="item"
       :value="val[item.key]"
       @input="change(item.key,$event)"
+      ref="formItem"
+      :_rootVal='_rootVal'
+      :_parentVal='_parentVal'
+      :_thisVal = 'val'
+      :configAll='config' 
       >
     </formItem>
 
@@ -102,6 +105,17 @@ export default {
   },
 
   methods: {
+    //验证数据
+    validate() {
+      let validateResult = true
+      for (var i = 0; i < this.$refs['formItem'].length; i++) {
+        if (!this.$refs['formItem'][i].validate()) {
+          validateResult = false
+        }
+      }
+      return validateResult;
+    },
+    //初始化数据
     initVal() {
       let list = this.config.dataList
       let objInit = {}
@@ -146,7 +160,7 @@ export default {
       let obj = Object.assign({},this.val)
       obj[key] = val
       this.$emit('input', obj)
-      console.log(key,val,obj,this.model);
+      // console.log(key,val,obj,this.model);
     }
   },
 }
