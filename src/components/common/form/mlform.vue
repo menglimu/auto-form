@@ -125,6 +125,7 @@ export default {
           validateResult = false
         }
       }
+      console.log(validateResult)
       return validateResult;
     },
     //初始化数据

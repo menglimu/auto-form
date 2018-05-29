@@ -527,65 +527,9 @@ export default {
                 disabled: false,//不可操作
                 must: true, //必填
                 value: '', //默认值
-                show: '$_root.select==选项2',//什么情况下显示
+                show: '',//什么情况下显示
                 label: '时间', //输入框前显示
               },
-              {
-                type: 'phone',//
-                key: 'phone',    //输出的key
-                readonly: false,//只读 
-                disabled: false,//不可操作
-                must: true, //必填
-                value: '13712349654', //默认值
-                show: '$_parent.select=选项3',//什么情况下显示
-                label: '手机号', //输入框前显示
-              },
-              {
-                type: 'mail',//
-                key: 'mail',    //输出的key
-                readonly: false,//只读 
-                disabled: false,//不可操作
-                must: true, //必填
-                value: '', //默认值
-                show: '',//什么情况下显示
-                label: '邮箱', //输入框前显示
-              },
-              // {
-              //   type: 'object',//
-              //   key: 'object',    //输出的key
-              //   readonly: false,//只读 
-              //   disabled: false,//不可操作
-              //   must: true, //必填
-              //   value: '', //默认值
-              //   show: '',//什么情况下显示
-              //   label: '用户名', //输入框前显示
-              //   placeholder: '请输入用户名', //
-              //   error: '请输入活动名称', //输入不符合时的提示
-              //   reg: '',//正则
-
-              //   child:[
-              //     {
-              //       type: 'time',//
-              //       key: 'time',    //输出的key
-              //       readonly: false,//只读 
-              //       disabled: false,//不可操作
-              //       must: true, //必填
-              //       value: '', //默认值
-              //       show: '$_root.select==选项2',//什么情况下显示
-              //       label: '时间', //输入框前显示
-              //     },
-              //     {
-              //       type: 'phone',//
-              //       key: 'phone',    //输出的key
-              //       readonly: false,//只读 
-              //       disabled: false,//不可操作
-              //       must: true, //必填
-              //       value: '13712349654', //默认值
-              //       show: '$_parent.radio=选项3',//什么情况下显示
-              //       label: '手机号', //输入框前显示
-              //     },
-              //   ]
-              // },
             ]
           },
         ]

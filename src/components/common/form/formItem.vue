@@ -242,10 +242,10 @@ export default {
       // })
     },
     validate() {
-      this.validateInput(this.value,'blur',true)&&this.validateInput(this.value,'input',true)
+      return this.validateInput(this.value,'blur',true)&&this.validateInput(this.value,'input',true)
     },
     validateNoMsg() {
-      this.validateInputNoMsg(this.value,'blur',true)&&this.validateInputNoMsg(this.value,'input',true)
+      return this.validateInputNoMsg(this.value,'blur',true)&&this.validateInputNoMsg(this.value,'input',true)
     },
     blur() {
       this.validateInput(this.value,'blur')&&this.validateInput(this.value)
