@@ -21,7 +21,7 @@ export default {
     return {
       config: {
         labelWidth: '100px',
-        inline: true,
+        // inline: true,
         dataList:[
           {
             type: 'string',//
@@ -465,6 +465,8 @@ export default {
         ],
       },
       config1: {
+        // inline: false,
+        labelWidth: '100px',
         dataList: [
           {
             type: 'password',//
@@ -473,7 +475,7 @@ export default {
             disabled: false,//不可操作
             must: true, //必填
             value: '', //默认值
-            show: "select==2",//什么情况下显示
+            show: "",//什么情况下显示
             label: '密码', //输入框前显示
           },
           {

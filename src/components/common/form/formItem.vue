@@ -33,6 +33,11 @@
         width: 80%;
       }
     }
+    .ml-form-object{
+      .el-form-item__content{
+        margin-left: 0!important;
+      }
+    }
   
   .remark{
     color: #999;
@@ -60,7 +65,7 @@
 
 </style>
 <template>
-  <el-form-item class='mlform-item' :class="['ml-form-'+config.type]" :label="config.label" v-show="getShow(config.show)" :required="required" :error="error" :validateStatus='validateStatus'>
+  <el-form-item class='mlform-item' :class="['ml-form-'+config.type]" :label="config.label" v-show="getShow(config.show)" :required="required" :error="error" :validateStatus='validateStatus' v-if="config.type!=='object'">
 
     <el-input v-if="config.type==='string' || config.type==='phone' || config.type==='mail' || config.type==='bankCode' || config.type==='idCard' || config.type==='number'" 
       type="text" :placeholder="config.placeholder" 
@@ -115,10 +120,9 @@
       
       <mleditor v-if="config.type==='editor'" :value="value" @input="input" @blur="blur" :defaultMsg="config.defaultMsg"></mleditor>
 
-      <ojbForm v-if="config.type==='object'" :accordion="config.accordion" :name="config.label" :configAll="configAll" :child='config.child' :value="value" @input="input" :rootVal="_rootVal" :parentVal="_thisVal" ref="ojbFormItem"></ojbForm>
-
       <span class="remark" v-if="config.remark">{{config.remark}}</span>
   </el-form-item>
+  <ojbForm v-else :label="config.label" v-show="getShow(config.show)" :required="required" :error="error" :validateStatus='validateStatus' :accordion="config.accordion" :name="config.label" :configAll="configAll" :child='config.child' :value="value" @input="input" :rootVal="_rootVal" :parentVal="_thisVal" ref="ojbFormItem"></ojbForm>
 </template>
 <script>
 // import msvideo from '@/components/video/video'
@@ -250,7 +254,7 @@ export default {
     blur() {
       this.validateInput(this.value,'blur')&&this.validateInput(this.value)
     },
-    //只有全局调用表单验证的时候，校验object子元素
+    //只有全局调用表单验证的时候，校验object子元素否则延迟，不能返回nextTick不能返回状态，得使用回调的方式
     validateInput(val,type='input',validate=false) {
       if (!this.getShow()){
         return true

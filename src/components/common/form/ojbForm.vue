@@ -3,7 +3,7 @@
   // display: inline-block;
   // margin-top: 20px;
   .button-new-tag{
-    margin-left: 20px;
+    margin-left: 10px;
     height: 32px;
   }
   .el-tag{
@@ -40,7 +40,6 @@
   
   .form-box{
     margin-bottom: 22px;
-    padding-left: 20px;
   }
   .up{
     padding: 5px;
@@ -49,14 +48,67 @@
   .btn-box{
     margin-left: 30px;
   }
+  .el-icon-success,.el-icon-error{
+    margin-left: 30px;
+    font-size: 20px;
+    display: none;
+    vertical-align: middle;
+  }
+  .el-icon-success{
+    color: #67c23a;
+  }
+  .el-icon-error{
+    color: #f56c6c;
+  }
+  .object-title-success{
+    .el-icon-success{
+      display: inline-block;
+    }
+  }
+  .object-title-error{
+    .el-icon-error{
+      display: inline-block;
+    }
+  }
+  .ojb-form-error{
+    display: inline-block;
+    color: #f56c6c;
+    font-size: 12px;
+    line-height: 1;
+    padding-left: 10px;
+  }
+  .ojb-form-label{
+    display: inline-block;
+    text-align: right;
+    vertical-align: middle;
+    float: left;
+    font-size: 14px;
+    color: #606266;
+    line-height: 32px;
+    padding: 0 12px 0 0;
+    box-sizing: border-box;
+  }
+  .list-box{
+    margin-top: 10px;
+    border-left: 1px solid #ebeef5;
+  }
+  &.required .ojb-form-label:before{
+    content: '*';
+    color: #f56c6c;
+    margin-right: 4px;
+}
 }
 </style>
 <template>
-  <div class="ojb-form">
-    <el-button class="button-new-tag" size="small" @click="add">新建{{name}}</el-button>
+<div class="ojb-form-box">
+  <div class="ojb-form" :class="{required: required}">
+    <span class="ojb-form-label" :style="{width: configAll.labelWidth}">{{label}}</span> <el-button class="button-new-tag" size="small" @click="add">新建{{name}}</el-button>
+    <div v-if="validateState === 'error' && validateMessage" class="ojb-form-error">
+      {{validateMessage}}
+    </div>
     <!--  :value="btnActive" -->
-    <el-collapse :accordion='accordion' v-show="value&&value.length>0">
-      <el-collapse-item v-for="(item, index) in value" :name="index">
+    <el-collapse class="list-box" :style="{marginLeft: configAll.labelWidth}" :accordion='accordion' v-show="value&&value.length>0">
+      <el-collapse-item :class="['object-title-'+validateResultArray[index]]" v-for="(item, index) in value" :key="index" :name="index">
         <template slot="title">
           {{name}}{{index+1}} 
 
@@ -66,7 +118,10 @@
             <el-button type="primary" size="mini" :disabled="index==value.length-1" @click.stop="down(index)" icon="el-icon-caret-bottom">下移</el-button>
           </el-button-group>
 
-          {{validateResultArray[index]}}
+          <i class="el-icon-success"></i>
+          <i class="el-icon-error"></i>
+
+          <!-- {{validateResultArray[index]}} -->
           <!-- <el-button :disabled="index==0" @click.stop="up(index)" class="up" type="primary" size="mini" icon="el-icon-caret-top" circle></el-button>
           <el-button :disabled="index==value.length-1" @click.stop="down(index)" class="up" type="primary" size="mini" icon="el-icon-caret-bottom" circle></el-button> -->
         </template>
@@ -88,6 +143,8 @@
     </div> -->
     
   </div>
+</div>
+  
 </template>
 <script>
 import mlform from './index.js'
@@ -118,10 +175,19 @@ export default {
     parentVal:{
       type: null
     },
-    accordion:{
+    accordion:{ //手风琴模式
       type: Boolean,
       default: true,
-    }
+    },
+    // 不能使用饿了么的item，会有样式问题
+    label: String,
+    required: {
+      type: Boolean,
+      default: false,
+    },
+    error: String,
+    validateStatus: String,
+
   },
   name: 'formObject',
   data() {
@@ -129,6 +195,8 @@ export default {
       config: Object.assign({},this.configAll,{dataList: this.child}),
       btnActive: 0,
       validateResultArray: [],
+      validateMessage: '',
+      validateState: '',
     }
   },
 
@@ -161,6 +229,16 @@ export default {
           console.log(this.validateResultArray);
         })
       }
+    },
+    error: {
+      immediate: true,
+      handler(value) {
+        this.validateMessage = value;
+        this.validateState = value ? 'error' : '';
+      }
+    },
+    validateStatus(value) {
+      this.validateState = value;
     }
   },
   methods: {
