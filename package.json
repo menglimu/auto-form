@@ -13,6 +13,7 @@
     "axios": "^0.16.2",
     "element-ui": "^2.3.8",
     "es6-promise": "^4.2.4",
+    "mockjs": "^1.0.1-beta3",
     "qs": "^6.5.1",
     "vue": "^2.3.4",
     "vue-router": "^2.3.1"

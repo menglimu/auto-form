@@ -12,7 +12,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-// import https from './api/https.js' //所有的请求地址管理
+import https from './api/' //所有的请求地址管理
 // import rem from './utils/rem.js' //rem移动端适配
 import baidu from './utils/baidu.js' //百度统计
 // import filter from './utils/filter.js' //公共的过滤器
@@ -25,10 +25,10 @@ import baidu from './utils/baidu.js' //百度统计
 import ElementUI from 'element-ui'
 import './style/element-theme.scss'
 // import 'element-ui/lib/theme-chalk/index.css'
-
-
 Vue.use(ElementUI)
 
+//使用mock
+// require('@/mock')
 
 //通过js引入字体图标，以免font文件位置错误
 require('./style/fonts/ionicicon.css');
