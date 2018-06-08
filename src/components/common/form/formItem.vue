@@ -59,13 +59,17 @@
     .el-color-picker__trigger{
       width: 80px;
     }
+    .mlform-item-block{
+      display: block;
+    }
   }
 .mlform-item{    
 }
 
+
 </style>
 <template>
-  <el-form-item class='mlform-item' :class="['ml-form-'+config.type]" :label="config.label" v-show="getShow(config.show)" :required="required" :error="error" :validateStatus='validateStatus' v-if="config.type!=='object'">
+  <el-form-item class='mlform-item' :class="['ml-form-'+config.type,{'mlform-item-block': config.block}]" :label="config.label" v-show="getShow(config.show)" :required="required" :error="error" :validateStatus='validateStatus' v-if="config.type!=='object'">
 
     <el-input v-if="config.type==='string' || config.type==='phone' || config.type==='mail' || config.type==='bankCode' || config.type==='idCard' || config.type==='number'" 
       type="text" :placeholder="config.placeholder" 
@@ -181,6 +185,7 @@ export default {
       validateStatus: '',
       error: '',
       required: this.config.must,
+      show: true,
     }
   },
 
@@ -227,7 +232,6 @@ export default {
           }
         // }
       // })
-      console.log(obj);
       return obj
     },
   },
@@ -256,7 +260,7 @@ export default {
     },
     //只有全局调用表单验证的时候，校验object子元素否则延迟，不能返回nextTick不能返回状态，得使用回调的方式
     validateInput(val,type='input',validate=false) {
-      if (!this.getShow()){
+      if (!this.show){
         return true
       }
       if (this.required&&(!val||val.length==0)) {
@@ -282,7 +286,7 @@ export default {
     },
     //只有全局调用表单验证的时候，校验object子元素
     validateInputNoMsg(val,type='input',validate=false) {
-      if (!this.getShow()){
+      if (!this.show){
         return true
       }
       if (this.required&&(!val||val.length==0)) {
@@ -335,7 +339,24 @@ export default {
         }else if(term === 'false'){
           term = false
         }
-        return val == term
+        if (val == term) {
+          this.show = true
+          return true
+        }else{
+          //不显示的时候，重置值
+          if(this.config.type == 'object'){
+            if (this.value != []) {
+              this.$emit('input', [])
+            }
+          }else{
+            if (this.value != null) {
+              this.$emit('input', null)
+            }
+          }
+          this.show = false
+          return false
+        }
+        
       }
     },
 

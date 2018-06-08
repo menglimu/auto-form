@@ -61,12 +61,11 @@ export default {
     // // this.val = initVal
     // this.$emit('input',initVal)
     return {
-      model: {},
       init: true,
       // val: initVal, 
         // {  
         //   "value": "address",
-        //   "lable": "地址选择"
+        //   "label": "地址选择"
         // },
     }
   },
@@ -173,7 +172,6 @@ export default {
       let obj = Object.assign({},this.val)
       obj[key] = val
       this.$emit('input', obj)
-      // console.log(key,val,obj,this.model);
     }
   },
 }

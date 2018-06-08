@@ -1,6 +1,6 @@
 <!-- multi 是否多选 
     radioData 选项数组[
-                {checked:false,lable:'木有法',img:"",disabled:true,value:muyoufa},
+                {checked:false,label:'木有法',img:"",disabled:true,value:muyoufa},
             ]
     left 左对齐
 -->
@@ -37,7 +37,7 @@
   <div class="lm-radio-group">
     <div v-for="(val, index) in radio" class="lm-radio-row" :class="{left:left}" @click="checkAction(index)">
       <img v-if="val.img" :src="val.img">
-      <span class="text">{{val.lable}}</span>
+      <span class="text">{{val.label}}</span>
       <check :value="val.checked" @input="checkInput(arguments[0],index)"></check>
       <!-- @input="checkInput(arguments[0],index)" -->
     </div>

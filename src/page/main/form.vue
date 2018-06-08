@@ -5,7 +5,7 @@
 </style>
 <template>
   <div class="form">
-      <mlform ref='form' :config="config1" v-model="userInput"></mlform>
+      <mlform ref='form' :config="config2" v-model="userInput"></mlform>
       <el-button @click='submitBtnClick'>提交</el-button>
       {{userInput}}
   </div>
@@ -21,7 +21,7 @@ export default {
     return {
       config: {
         labelWidth: '100px',
-        // inline: true,
+        inline: true,
         dataList:[
           {
             type: 'string',//
@@ -39,6 +39,9 @@ export default {
             prepend: '前头',
             append: '后头',
             remark: '密码为你的用户名',
+
+            block: true,//独占一行
+
             width: 60,
 
             min: 1, //最小字符数 
@@ -450,15 +453,15 @@ export default {
           //   options: [
           //     {  
           //       "value": "checkbox",
-          //       "lable": "多选",
+          //       "label": "多选",
           //     },
           //     {  
           //       "value": "select",
-          //       "lable": "下拉",
+          //       "label": "下拉",
           //     },
           //     {  
           //       "value": "date",
-          //       "lable": "日期",
+          //       "label": "日期",
           //     },
           //   ]
           // },
@@ -477,6 +480,16 @@ export default {
             value: '', //默认值
             show: "",//什么情况下显示
             label: '密码', //输入框前显示
+          },
+          {
+            type: 'password',//
+            key: 'password',    //输出的key
+            readonly: false,//只读 
+            disabled: false,//不可操作
+            must: true, //必填
+            value: '', //默认值
+            show: "select==2",//什么情况下显示
+            label: '密码1', //输入框前显示
           },
           {
             type: 'select',//
@@ -522,6 +535,147 @@ export default {
             accordion: true, //手风琴模式(只激活显示一个)
 
             child:[
+              {
+                type: 'time',//
+                key: 'time',    //输出的key
+                readonly: false,//只读 
+                disabled: false,//不可操作
+                must: true, //必填
+                value: '', //默认值
+                show: '',//什么情况下显示
+                label: '时间', //输入框前显示
+              },
+            ]
+          },
+        ]
+      },
+      config2: {
+        labelWidth: '100px',
+        inline: true,
+        dataList: [
+          {
+            type: 'string',//
+            key: 'labelWidth',    //输出的key
+            value: '100px', //默认值
+            label: 'label宽度', //输入框前显示
+            remark: '输入框前的文字宽度，如100px,1rem,1em',
+            block: true, //块级显示
+          },
+          {
+            type: 'boolean',//
+            key: 'inline',    //输出的key
+            value: false, //默认值
+            label: '行内模式', //输入框前显示
+          },
+          {
+            type: 'object',//
+            key: 'dataList',    //输出的key
+            label: '输入项', //输入框前显示
+            error: '请输入活动名称', //输入不符合时的提示
+
+            accordion: true, //手风琴模式(只激活显示一个)
+
+            child:[
+              {
+                type: 'select',//
+                key: 'type',    //输出的key
+                readonly: false,//只读 
+                disabled: false,//不可操作
+                must: true, //必填
+                value: '', //默认值
+                show: '',//什么情况下显示
+                label: '下拉', //输入框前显示
+                multiple: false,//是否多选
+                options: [{  
+                    "value": "string",
+                    "label": "字符串",
+                  },
+                  {  
+                    "value": "phone",
+                    "label": "手机号",
+                  },
+                  {  
+                    "value": "mail",
+                    "label": "邮箱",
+                  },
+                  {  
+                    "value": "bankCode",
+                    "label": "银行卡号",
+                  },
+                  {  
+                    "value": "idCard",
+                    "label": "身份证号",
+                  },
+                  {  
+                    "value": "number",
+                    "label": "数字",
+                  },
+                  {  
+                    "value": "text",
+                    "label": "文本域",
+                  },
+                  {  
+                    "value": "boolean",
+                    "label": "布尔(是否)",
+                  },
+                  {  
+                    "value": "password",
+                    "label": "密码",
+                  },
+                  {  
+                    "value": "radio",
+                    "label": "单选",
+                  },
+                  {  
+                    "value": "checkbox",
+                    "label": "多选",
+                  },
+                  {  
+                    "value": "select",
+                    "label": "下拉",
+                  },
+                  {  
+                    "value": "date",
+                    "label": "日期",
+                  },
+                  {  
+                    "value": "time",
+                    "label": "时分秒时间点",
+                  },
+                  {  
+                    "value": "dateTime",
+                    "label": "具体时间点",
+                  },
+                  {  
+                    "value": "datetimerange",
+                    "label": "日期范围",
+                  },
+                  {  
+                    "value": "timerange",
+                    "label": "时间范围",
+                  },
+                  {  
+                    "value": "upload",
+                    "label": "图片上传"
+                  },
+                  {  
+                    "value": "color",
+                    "label": "颜色选择"
+                  },
+                  {  
+                    "value": "address",
+                    "label": "地址选择"
+                  },
+                  {  
+                    "value": "editor",
+                    "label": "富文本编辑"
+                  },
+                  {  
+                    "value": "object",
+                    "label": "可增加输入对象"
+                  },
+                ],
+              },
               {
                 type: 'time',//
                 key: 'time',    //输出的key

@@ -184,7 +184,7 @@ export default {
       // val: initVal, 
         // {  
         //   "value": "address",
-        //   "lable": "地址选择"
+        //   "label": "地址选择"
         // },
     }
   },
