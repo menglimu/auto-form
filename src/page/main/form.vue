@@ -572,7 +572,7 @@ export default {
             key: 'dataList',    //输出的key
             label: '输入项', //输入框前显示
             error: '请输入活动名称', //输入不符合时的提示
-
+            title: 'label', //显示的title
             accordion: true, //手风琴模式(只激活显示一个)
 
             child:[
@@ -677,14 +677,10 @@ export default {
                 ],
               },
               {
-                type: 'time',//
-                key: 'time',    //输出的key
-                readonly: false,//只读 
-                disabled: false,//不可操作
+                type: 'string',//
+                key: 'label',    //输出的key
                 must: true, //必填
-                value: '', //默认值
-                show: '',//什么情况下显示
-                label: '时间', //输入框前显示
+                label: '输入项label', //输入框前显示
               },
             ]
           },

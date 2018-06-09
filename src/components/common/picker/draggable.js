@@ -1,5 +1,5 @@
 let isDragging = false;
-import Vue from 'vue';
+//import Vue from 'vue';
 
 const supportTouch = !Vue.prototype.$isServer && 'ontouchstart' in window;
 

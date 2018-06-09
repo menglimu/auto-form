@@ -2,7 +2,7 @@
 // index1 使用json提交数据
 
 import axios from 'axios'
-import Vue from 'vue';
+//import Vue from 'vue';
 import Qs from 'qs'
 // import mscommon from '@/global/msUtils'
 // axios({

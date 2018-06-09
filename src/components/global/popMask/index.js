@@ -1,4 +1,4 @@
-import Vue from 'vue';
+//import Vue from 'vue';
 
 const  maskConstructor = Vue.extend(require('./popMask.vue'));
 const  mask = new maskConstructor({

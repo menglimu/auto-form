@@ -1,6 +1,6 @@
 import axios from 'axios'
 import config from './config'
-import Vue from 'vue';
+//import Vue from 'vue';
 axios(config);
 
 const API = {

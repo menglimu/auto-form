@@ -7,7 +7,7 @@
 // })
 
 
-import Vue from 'vue';
+//import Vue from 'vue';
 // import Promise from './../Promise';
 const  messageConstructor = Vue.extend(require('./messageBox.vue'));
 const messageBox = {}

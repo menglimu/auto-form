@@ -1,4 +1,4 @@
-import Vue from 'vue';
+//import Vue from 'vue';
 import loadMask from './loadMask'
 const  maskConstructor = Vue.extend(loadMask);
 const  mask = new maskConstructor({

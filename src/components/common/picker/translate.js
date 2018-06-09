@@ -1,5 +1,5 @@
 var exportObj = {};
-import Vue from 'vue';
+//import Vue from 'vue';
 if (!Vue.prototype.$isServer) {
   var docStyle = document.documentElement.style;
   var engine;

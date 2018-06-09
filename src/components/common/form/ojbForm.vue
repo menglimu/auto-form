@@ -46,7 +46,7 @@
     margin-left: 20px;
   }
   .btn-box{
-    margin-left: 30px;
+    margin-left: 5px;
   }
   .el-icon-success,.el-icon-error{
     margin-left: 30px;
@@ -96,21 +96,25 @@
     content: '*';
     color: #f56c6c;
     margin-right: 4px;
-}
+  }
+  .title{
+    padding-left: 10px;
+    display: inline-block;
+  }
 }
 </style>
 <template>
 <div class="ojb-form-box">
   <div class="ojb-form" :class="{required: required}">
-    <span class="ojb-form-label" :style="{width: configAll.labelWidth}">{{label}}</span> <el-button class="button-new-tag" size="small" @click="add">新建{{name}}</el-button>
+    <span class="ojb-form-label" :style="{width: configAll.labelWidth}">{{config.label}}</span> <el-button class="button-new-tag" size="small" @click="add">新建{{config.label}}</el-button>
     <div v-if="validateState === 'error' && validateMessage" class="ojb-form-error">
       {{validateMessage}}
     </div>
     <!--  :value="btnActive" -->
-    <el-collapse class="list-box" :style="{marginLeft: configAll.labelWidth}" :accordion='accordion' v-show="value&&value.length>0">
+    <el-collapse class="list-box" :style="{marginLeft: configAll.labelWidth}" :accordion='config.accordion' v-show="value&&value.length>0">
       <el-collapse-item :class="['object-title-'+validateResultArray[index]]" v-for="(item, index) in value" :key="index" :name="index">
         <template slot="title">
-          {{name}}{{index+1}} 
+          <span :style="{width: configAll.labelWidth}" class="title">{{value[index][config.title] || config.label+(index+1)}}</span> 
 
           <el-button-group class="btn-box">
             <el-button type="primary" size="mini" :disabled='index==0' @click.stop="up(index)" icon="el-icon-caret-top">上移</el-button>
@@ -121,12 +125,9 @@
           <i class="el-icon-success"></i>
           <i class="el-icon-error"></i>
 
-          <!-- {{validateResultArray[index]}} -->
-          <!-- <el-button :disabled="index==0" @click.stop="up(index)" class="up" type="primary" size="mini" icon="el-icon-caret-top" circle></el-button>
-          <el-button :disabled="index==value.length-1" @click.stop="down(index)" class="up" type="primary" size="mini" icon="el-icon-caret-bottom" circle></el-button> -->
         </template>
 
-        <mlform :config="config" :rootVal="rootVal" :parentVal="parentVal" :value="item" @input="change(index,$event)" ref="form"></mlform>
+        <mlform :config="configForm" :rootVal="rootVal" :parentVal="parentVal" :value="item" @input="change(index,$event)" ref="form"></mlform>
       </el-collapse-item>
     </el-collapse>
 
@@ -153,16 +154,12 @@ export default {
     mlform
   },
   props: {
-    name: {
-      type: null,
-    },
-    configAll:{
+    config:{
       type: Object,
       required: true,
     },
-    child: {
-      type: Array,
-      default: [],
+    configAll:{
+      type: Object,
       required: true,
     },
     value:{
@@ -175,12 +172,12 @@ export default {
     parentVal:{
       type: null
     },
-    accordion:{ //手风琴模式
-      type: Boolean,
-      default: true,
-    },
+    // accordion:{ //手风琴模式
+    //   type: Boolean,
+    //   default: true,
+    // },
     // 不能使用饿了么的item，会有样式问题
-    label: String,
+    // label: String,
     required: {
       type: Boolean,
       default: false,
@@ -192,7 +189,7 @@ export default {
   name: 'formObject',
   data() {
     return {
-      config: Object.assign({},this.configAll,{dataList: this.child}),
+      configForm: Object.assign({},this.configAll,{dataList: this.config.child}),
       btnActive: 0,
       validateResultArray: [],
       validateMessage: '',

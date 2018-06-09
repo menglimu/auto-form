@@ -1,5 +1,5 @@
 
-import Vue from 'vue'
+//import Vue from 'vue'
 var bridge = {};
 bridge.bridge = null;
 bridge.agent = navigator.userAgent.toLowerCase();

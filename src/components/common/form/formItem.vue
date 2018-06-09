@@ -126,7 +126,7 @@
 
       <span class="remark" v-if="config.remark">{{config.remark}}</span>
   </el-form-item>
-  <ojbForm v-else :label="config.label" v-show="getShow(config.show)" :required="required" :error="error" :validateStatus='validateStatus' :accordion="config.accordion" :name="config.label" :configAll="configAll" :child='config.child' :value="value" @input="input" :rootVal="_rootVal" :parentVal="_thisVal" ref="ojbFormItem"></ojbForm>
+  <ojbForm v-else v-show="getShow(config.show)" :required="required" :error="error" :validateStatus='validateStatus' :config="config" :configAll="configAll" :value="value" @input="input" :rootVal="_rootVal" :parentVal="_thisVal" ref="ojbFormItem"></ojbForm>
 </template>
 <script>
 // import msvideo from '@/components/video/video'

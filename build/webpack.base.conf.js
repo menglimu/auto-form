@@ -18,10 +18,13 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  externals:{
+    'vue': 'Vue',
+  },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
+      // 'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       '@component': resolve('src/components'),//组件目录
       '@assets': resolve('src/assets'),
