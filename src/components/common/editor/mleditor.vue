@@ -9,7 +9,7 @@
 </template>
 <script>
 // 会报错，ueditor 通过标签去引入zh-cn.js和ueditor.css。不用管
-import {createRandomId} from '@/global/msUtils'
+import {createRandomId} from '@/utils'
 require('./themes/default/css/ueditor.css');
 require('./ueditor.config.js');
 require('./ueditor.all.js');

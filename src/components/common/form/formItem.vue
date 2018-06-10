@@ -10,7 +10,7 @@
     .ml-form-password,
     {
     .el-input,{
-        // width: 220px;
+        width: 220px;
       }
     }
     .ml-form-text,
@@ -70,7 +70,6 @@
 </style>
 <template>
   <el-form-item class='mlform-item' :class="['ml-form-'+config.type,{'mlform-item-block': config.block}]" :label="config.label" v-show="getShow(config.show)" :required="required" :error="error" :validateStatus='validateStatus' v-if="config.type!=='object'">
-
     <el-input v-if="config.type==='string' || config.type==='phone' || config.type==='mail' || config.type==='bankCode' || config.type==='idCard' || config.type==='number'" 
       type="text" :placeholder="config.placeholder" 
       :disabled="config.disable" :style="{width: config.width + 'px' }" 

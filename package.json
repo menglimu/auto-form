@@ -11,11 +11,12 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
-    "element-ui": "^2.3.8",
+    "element-ui": "^2.4.1",
     "es6-promise": "^4.2.4",
+    "md5": "^2.2.1",
     "mockjs": "^1.0.1-beta3",
     "qs": "^6.5.1",
-    "vue": "^2.3.4",
+    "vue": "^2.5.13",
     "vue-router": "^2.3.1"
   },
   "devDependencies": {

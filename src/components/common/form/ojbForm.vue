@@ -189,7 +189,7 @@ export default {
   name: 'formObject',
   data() {
     return {
-      configForm: Object.assign({},this.configAll,{dataList: this.config.child}),
+      configForm: Object.assign({},this.configAll,this.config),
       btnActive: 0,
       validateResultArray: [],
       validateMessage: '',

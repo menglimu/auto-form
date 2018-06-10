@@ -5,12 +5,7 @@ import axios from 'axios'
 //import Vue from 'vue';
 import Qs from 'qs'
 // import mscommon from '@/global/msUtils'
-// axios({
-//   headers: {
-//     "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8"
-//   },
-  
-// })
+
 let http = axios.create({
   baseURL: process.env.API_ROOT+"/",
   headers: {

@@ -5,7 +5,8 @@
 </style>
 <template>
   <div class="form">
-      <mlform ref='form' :config="config2" v-model="userInput"></mlform>
+      <!-- <mlform ref='form' :config="config2" v-model="userInput"></mlform> -->
+    <el-input v-model="input" placeholder="请输入内容" a='1'></el-input>
       <el-button @click='submitBtnClick'>提交</el-button>
       {{userInput}}
   </div>
@@ -19,6 +20,7 @@ export default {
 
   data() {
     return {
+      input: '',
       config: {
         labelWidth: '100px',
         inline: true,
@@ -551,7 +553,7 @@ export default {
       },
       config2: {
         labelWidth: '100px',
-        inline: false,
+        inline: true,
         dataList: [
           {
             type: 'string',//
@@ -568,14 +570,22 @@ export default {
             label: '行内模式', //输入框前显示
           },
           {
+            type: 'string',//
+            key: 'labelWidth',    //输出的key
+            label: 'label宽度', //输入框前显示
+            remark: '输入框前的文字宽度，如100px,1rem,1em',
+            block: true, //块级显示
+            placeholder: '请输入用户名', //
+          },
+          {
             type: 'object',//
             key: 'dataList',    //输出的key
             label: '输入项', //输入框前显示
             error: '请输入活动名称', //输入不符合时的提示
             title: 'label', //显示的title
             accordion: true, //手风琴模式(只激活显示一个)
-            labelWidth: '50px',
-            child:[
+            labelWidth: '100px',
+            dataList:[
               {
                 type: 'select',//
                 key: 'type',    //输出的key
@@ -673,6 +683,10 @@ export default {
                   {  
                     "value": "object",
                     "label": "可增加输入对象"
+                  },
+                  {  
+                    "value": "array",
+                    "label": "可增加单个输入类型(未实现)",
                   },
                 ],
               },

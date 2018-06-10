@@ -1,8 +1,6 @@
 <template>
 <div id="app" class="full">
-  <transition :name="transitionName">
-      <router-view class="full"></router-view>
-  </transition>
+    <router-view class="full"></router-view>
 </div>
 </template>
 
@@ -16,9 +14,10 @@ export default {
     }
   },
   created() {
-    this.$http.post('msg').then(res => {
-      console.log(res)
-    })
+    
+    // this.$http.post('msg').then(res => {
+    //   console.log(res)
+    // })
   },
   methods: {
 

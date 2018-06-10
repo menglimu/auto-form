@@ -45,18 +45,6 @@ export default {
     }
   },
   data() {
-    //设置初始值
-    this.config.dataList.forEach(data => {
-      if (!data.placeholder&&data.label) {
-        data.placeholder = `请输入${data.label}`
-      }
-      if (!data.error&&data.label) {
-        data.error = `请输入合法的${data.label}`
-      }
-      if (data.type == 'upload') {
-        data.limit = data.limit || 999
-      }
-    })
     // let initVal = this.initVal()
     // // this.val = initVal
     // this.$emit('input',initVal)

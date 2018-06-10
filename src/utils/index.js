@@ -1,7 +1,7 @@
 /**
  * 存储localStorage
  */
-export const setStore = (name, content) => {
+const setStore = (name, content) => {
   if (!name) return;
   if (typeof content !== 'string') {
     content = JSON.stringify(content);
@@ -12,7 +12,7 @@ export const setStore = (name, content) => {
 /**
  * 获取localStorage
  */
-export const getStore = name => {
+const getStore = name => {
   if (!name) return;
   let value = window.localStorage.getItem(name);
   try {
@@ -27,13 +27,13 @@ export const getStore = name => {
 /**
  * 删除localStorage
  */
-export const removeStore = name => {
+const removeStore = name => {
   if (!name) return;
   window.localStorage.removeItem(name);
 }
 
 //设置sessionStorage
-export const setSession = (name, content) => {
+const setSession = (name, content) => {
   if (!name) return;
   if (typeof content !== 'string') {
     content = JSON.stringify(content);
@@ -43,7 +43,7 @@ export const setSession = (name, content) => {
 /**
  * 获取sessionStorage
  */
-export const getSession = name => {
+const getSession = name => {
   if (!name) return;
   let value = window.sessionStorage.getItem(name);
   try {
@@ -58,19 +58,19 @@ export const getSession = name => {
 /**
  * 删除sessionStorage
  */
-export const removeSession = name => {
+const removeSession = name => {
   if (!name) return;
   window.sessionStorage.removeItem(name);
 }
 // 获取URL后面参数
-export const GetQueryString = name => {
+const GetQueryString = name => {
   var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
   var r = window.location.search.substr(1).match(reg);
   if (r != null) return unescape(r[2]);
   return null;
 }
 //获取host
-export const getHost = function() {
+const getHost = function() {
   var _http = window.location.protocol;
   var _hostname = window.location.hostname;
   var _port = window.location.port;
@@ -82,7 +82,7 @@ export const getHost = function() {
   return http = _http + "//" + _hostname + "/";
 }
 //rem转换px
-export const rem2px = function(rem) {
+const rem2px = function(rem) {
   var clientWidth = document.documentElement.clientWidth;
   if (clientWidth) {
     return clientWidth / 750 * 100 * rem;
@@ -91,11 +91,11 @@ export const rem2px = function(rem) {
   }
 }
 // 生成随机id
-export const createRandomId = function() {
+const createRandomId = function() {
   return (Math.random() * 10000000).toString(16).substr(0, 4) + '-' + (new Date()).getTime() + '-' + Math.random().toString().substr(2, 5);
 }
 //比较2个对象是否相等
-export const isEqual = function(x, y) {
+const isEqual = function(x, y) {
   // If both x and y are null or undefined and exactly the same 
   if (x === y) {
     return true;
@@ -265,54 +265,66 @@ const removeClass = function(ele, cls) {
     ele.className = newClass.replace(/^\s+|\s+$/g, '');
   }
 };
-//中文转阿拉伯数字
-var chnNumChar = {
-  零: 0,
-  一: 1,
-  二: 2,
-  三: 3,
-  四: 4,
-  五: 5,
-  六: 6,
-  七: 7,
-  八: 8,
-  九: 9
-};
-var chnNameValue = {
-  十: { value: 10, secUnit: false },
-  百: { value: 100, secUnit: false },
-  千: { value: 1000, secUnit: false },
-  万: { value: 10000, secUnit: true },
-  亿: { value: 100000000, secUnit: true }
-}
-
-function ChineseToNumber(chnStr) {
-  var rtn = 0;
-  var section = 0;
-  var number = 0;
-  var secUnit = false;
-  var str = chnStr.split('');
-
-  for (var i = 0; i < str.length; i++) {
-    var num = chnNumChar[str[i]];
-    if (typeof num !== 'undefined') {
-      number = num;
-      if (i === str.length - 1) {
-        section += number;
-      }
-    } else {
-      var unit = chnNameValue[str[i]].value;
-      secUnit = chnNameValue[str[i]].secUnit;
-      if (secUnit) {
-        section = (section + number) * unit;
-        rtn += section;
-        section = 0;
-      } else {
-        section += (number * unit);
-      }
-      number = 0;
-    }
+let hasLoad = []
+//动态插入js.css到html
+let getload = function (link) {
+  for (var i = 0; i < hasLoad.length; i++) {
+    if (!link||hasLoad[i] == link) {
+      return new Promise((resolve, reject) => { 
+        resolve('已加载')
+      })
+    } 
   }
-  return rtn + section;
+  return new Promise((resolve, reject) => {  
+    var head = document.getElementsByTagName('head')[0];
+    var load = null
+    if (/\.js$/.test(link)) {
+      load = document.createElement('script');
+      load.type ='text/javascript'
+      load.src = link
+    }else if (/\.css$/.test(link)) {
+      var load = document.createElement('link');
+      load.type = 'text/css';
+      load.rel = 'stylesheet';
+      load.href = link;
+    }else{
+      console.log('仅支持css,js文件')
+      return
+    }
+    head.appendChild(load);  
+
+    if (!/*@cc_on!@*/0) { //if not IE
+        //Firefox2、Firefox3、Safari3.1+、Opera9.6+ support js.onload
+        load.onload = function () {
+          hasLoad.push(link)
+          resolve('加载完成')
+        }
+    } else {
+        //IE6、IE7 support js.onreadystatechange
+        load.onreadystatechange = function () {
+          hasLoad.push(link)
+          resolve('加载完成')
+        }
+    }
+  })
 }
-export { getStyle, getScrollview, addClass, removeClass, once, ChineseToNumber };
+//动态插入js.css到html
+const loadSource = async function (link) { 
+    let getArr = []
+   
+    if (typeof link == 'string') {
+      getArr.push(getload(link))
+    }else if (typeof link == "object") {
+      link.forEach((obj) => {
+        getArr.push(getload(obj))
+      })
+    }
+
+    return Promise.all(getArr);
+}
+// loadSource(['https://cdn.bootcss.com/element-ui/1.4.0/locale/zh-CN.js','https://cdn.bootcss.com/element-ui/1.4.0/theme-default/index.css']).then(()=>{
+//       console.log(23123)
+//     })
+
+export { setStore, getStore, removeStore, getSession, setSession, removeSession, GetQueryString, getHost, rem2px, createRandomId, isEqual,
+         getStyle, getScrollview, addClass, removeClass, once, loadSource };
