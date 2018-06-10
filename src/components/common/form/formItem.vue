@@ -10,7 +10,7 @@
     .ml-form-password,
     {
     .el-input,{
-        width: 220px;
+        // width: 220px;
       }
     }
     .ml-form-text,

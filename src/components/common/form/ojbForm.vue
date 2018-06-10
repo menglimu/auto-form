@@ -89,7 +89,7 @@
     box-sizing: border-box;
   }
   .list-box{
-    margin-top: 10px;
+    padding: 0 10px 10px;
     border-left: 1px solid #ebeef5;
   }
   &.required .ojb-form-label:before{
@@ -114,7 +114,7 @@
     <el-collapse class="list-box" :style="{marginLeft: configAll.labelWidth}" :accordion='config.accordion' v-show="value&&value.length>0">
       <el-collapse-item :class="['object-title-'+validateResultArray[index]]" v-for="(item, index) in value" :key="index" :name="index">
         <template slot="title">
-          <span :style="{width: configAll.labelWidth}" class="title">{{value[index][config.title] || config.label+(index+1)}}</span> 
+          <span :style="{width: config.labelWidth||configAll.labelWidth}" class="title">{{value[index][config.title] || config.label+(index+1)}}</span> 
 
           <el-button-group class="btn-box">
             <el-button type="primary" size="mini" :disabled='index==0' @click.stop="up(index)" icon="el-icon-caret-top">上移</el-button>
