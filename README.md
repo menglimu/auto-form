@@ -26,7 +26,7 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 ## TODO
 - [x] 单个组件过大，使用异步组件优化 export default () => import('@/page/notFound/notFound')
 - [x] rem适应pc布局，字体
-- [x] 根据router动态生成导航菜单
+- [x] 根据router动态生成导航菜单(待测试存在子路径的情况)
 - [x] 代理接口，测试环境配置
 - [x] mock
 - [x] webpack图片压缩插件
