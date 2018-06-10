@@ -2,10 +2,10 @@
   <div class="manage_page fillcontain">
       <el-menu class="menu" :default-active="defaultActive" style="min-height: 100%;" router background-color="#324057" text-color="#fff" active-text-color="#ffd04b">
         <template v-for="(routerItem, index) in routerInfo">
-          <el-menu-item index="manage" :index="'/'+routerItem.path" v-if="!routerItem.children||routerItem.children.length==0"><i class="el-icon-menu"></i>{{routerItem.name}}</el-menu-item>
+          <el-menu-item index="manage" :index="'/'+process.env.URL_BASE+routerItem.path" v-if="!routerItem.children||routerItem.children.length==0"><i class="el-icon-menu"></i>{{routerItem.name}}</el-menu-item>
           <el-submenu v-else>
             <template slot="title"><i v-if="routerItem.meta.icon" :class="routerItem.meta.icon"></i>{{routerItem.name}}</template>
-            <el-menu-item :key="index" v-for="(child, index) in routerItem.children" :index="'/'+routerItem.path+'/'+child.path">{{child.name}}</el-menu-item>
+            <el-menu-item :key="index" v-for="(child, index) in routerItem.children" :index="'/'+process.env.URL_BASE+routerItem.path+'/'+child.path">{{child.name}}</el-menu-item>
           </el-submenu>
         </template>
       </el-menu>
