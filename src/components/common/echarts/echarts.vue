@@ -41,6 +41,10 @@ export default {
       // 使用刚指定的配置项和数据显示图表。
       this.echarts.setOption(option);
     })
+    let resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize'
+    window.addEventListener(resizeEvt, ()=>{
+      this.echarts.resize()
+    }, false);
   },
   methods: {
 

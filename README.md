@@ -26,9 +26,9 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 ## TODO
 - [x] 单个组件过大，使用异步组件优化 export default () => import('@/page/notFound/notFound')
 - [x] mock
-- [ ] Form复杂输入
+- [ ] Form复杂输入,表单隐藏后，删除value
 - [x] cnd按需引入
 - [ ] keep-alive保存用户输入
 - [ ] header公共引入，非父子组件交互，控制返回
 - [ ] router.js过长，router放在每个目录下面，在在router.js中拼装
-- [ ] rem适应pc布局，字体
+- [x] rem适应pc布局，字体

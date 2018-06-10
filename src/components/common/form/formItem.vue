@@ -60,7 +60,7 @@
       width: 80px;
     }
     .mlform-item-block{
-      display: block;
+      display: block!important;
     }
   }
 .mlform-item{    
@@ -72,14 +72,14 @@
   <el-form-item class='mlform-item' :class="['ml-form-'+config.type,{'mlform-item-block': config.block}]" :label="config.label" v-show="getShow(config.show)" :required="required" :error="error" :validateStatus='validateStatus' v-if="config.type!=='object'">
     <el-input v-if="config.type==='string' || config.type==='phone' || config.type==='mail' || config.type==='bankCode' || config.type==='idCard' || config.type==='number'" 
       type="text" :placeholder="config.placeholder" 
-      :disabled="config.disable" :style="{width: config.width + 'px' }" 
+      :disabled="config.disable" :style="{width: config.width}" 
       :readonly="config.readonly" :value="value" @input="input" @blur="blur" clearable>
         <template slot="prepend" v-if='config.prepend'>{{config.prepend}}</template>
         <template slot="append" v-if='config.append'>{{config.append}}</template>
       </el-input>
        
       <!-- 密码 TODO 可点击查看文本 -->
-      <el-input v-if="config.type==='password'" :style="{width: config.width + 'px' }" 
+      <el-input v-if="config.type==='password'" :style="{width: config.width}" 
       type="password" :placeholder="config.placeholder" :disabled="config.disable" 
       :readonly="config.readonly" :value="value" @input="input" @blur="blur" clearable></el-input>
 

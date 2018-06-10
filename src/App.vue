@@ -27,10 +27,6 @@ export default {
 
 <style lang="scss">
   @import "./style/style.scss";
-  html,body{
-    padding: 0;
-    margin: 0;
-  }
   html,body,.full{
     height: 100%;
     width: 100%;

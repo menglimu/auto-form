@@ -5,8 +5,7 @@
 </style>
 <template>
   <div class="form">
-      <!-- <mlform ref='form' :config="config2" v-model="userInput"></mlform> -->
-    <el-input v-model="input" placeholder="请输入内容" a='1'></el-input>
+      <mlform ref='form' :config="config2" v-model="userInput"></mlform>
       <el-button @click='submitBtnClick'>提交</el-button>
       {{userInput}}
   </div>
@@ -562,6 +561,7 @@ export default {
             label: 'label宽度', //输入框前显示
             remark: '输入框前的文字宽度，如100px,1rem,1em',
             block: true, //块级显示
+            width: ''
           },
           {
             type: 'boolean',//

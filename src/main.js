@@ -22,6 +22,8 @@ import router from './router'
 //使用mock
 // require('@/api/mock')
 
+require('@/utils/rem')
+
 
 //添加路由拦截器
 // router.beforeEach((to, from, next) => {

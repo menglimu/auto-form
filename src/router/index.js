@@ -9,46 +9,56 @@ import Router from 'vue-router'
 
 // const appTest = () => import('@/page/appTest.vue') // appTest
 const notFound = () => import('@/page/notFound/notFound') // 404页面
-const main = () => import('@/page/main/menu') // 菜单
+const router = () => import('@view/router') // router
+
+const menu = () => import('@/page/menu') // 菜单
 const form = () => import('@/page/main/form') // 可配置form
 const echarts = () => import('@/page/main/echarts') // cdn引入第三方示例
 
 Vue.use(Router)
 
-// console.log(process.env)
-
+let routerInfo = [
+  {
+    path: '',
+    component: echarts,
+    name: '首页',
+    meta:{
+      icon: 'el-icon-edit',
+    },
+  },
+  {
+    path: 'test',
+    component: router,
+    name: '测试',
+    meta:{
+      icon: 'el-icon-edit',
+    },
+    children: [
+      {
+        path: 'echarts',
+        component: echarts,
+        name: '图表CDN引入',
+      },{
+        path: 'form',
+        component: form,
+        name: '动态生成表单',
+      }
+    ]
+  },
+]
+export {routerInfo}
 export default new Router({
   mode: 'history',
   // base: '/' + process.env.URL_BASE,
   routes: [
-    // {
-    //   path: '/CZD',
-    //   meta: {
-    //     title: ""
-    //   },
-    //   component: CZDindex,
-    // },
     {
-      path: '/main',
+      path: '/',
       meta: {
         title: ""
       },
-      component: main,
-      children: [{
-        path: 'echarts',
-        component: echarts,
-        meta: [],
-      },{
-        path: 'form',
-        component: form,
-        meta: [],
-      }]
+      component: menu,
+      children: routerInfo
     },
-    // {
-    //   path: '/form',
-    //   component: form,
-    //   meta: [],
-    // },
     {
       path: '*',
       meta: {
@@ -56,11 +66,6 @@ export default new Router({
       },
       component: notFound
     },
-    {
-      path: '/form',
-      component: form,
-      meta: [],
-    }
   ]
 
 })
