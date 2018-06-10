@@ -32,3 +32,4 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 - [ ] header公共引入，非父子组件交互，控制返回
 - [ ] router.js过长，router放在每个目录下面，在在router.js中拼装
 - [x] rem适应pc布局，字体
+- [x] 根据router动态生成导航菜单
