@@ -131,24 +131,13 @@
       </el-collapse-item>
     </el-collapse>
 
-
-  
-    <!-- <el-tag class="el-tag" :key="index" :class="[{'active':index == btnActive}]" closable v-for="(item, index) in value" :disable-transitions="false" @click.native="changeTab(index)" @close="tagClose(index)"> 
-      {{name}}{{index+1}}
-    </el-tag>
-    <el-button class="button-new-tag" size="small" @click="add">新建{{name}}</el-button>
-    
-    <!-- <div class="btn-box"></div> -->
-    <!-- <div class="form-box" v-for="(item, index) in value" v-show="index == btnActive">
-      <mlform :config="config" :rootVal="rootVal" :parentVal="parentVal" :value="item" @input="change(index,$event)"></mlform>
-    </div> -->
     
   </div>
 </div>
   
 </template>
 <script>
-import mlform from './index.js'
+import mlform from "./index.js"
 export default {
   components: {
     mlform
@@ -186,14 +175,14 @@ export default {
     validateStatus: String,
 
   },
-  name: 'formObject',
+  name: "formObject",
   data() {
     return {
       configForm: Object.assign({},this.configAll,this.config),
       btnActive: 0,
       validateResultArray: [],
-      validateMessage: '',
-      validateState: '',
+      validateMessage: "",
+      validateState: "",
     }
   },
 
@@ -212,30 +201,30 @@ export default {
     value() {
       let res = []
       for (var i = 0; i < this.value.length; i++) {
-        res.push('')
+        res.push("")
       }
       this.validateResultArray = res
-      for (var i = 0; i < this.value.length; i++) {
-        let index = i
+      for (var j = 0; j < this.value.length; j++) {
+        let index = j
         this.$nextTick(function () {
-          if (!this.$refs['form'][index].validateNoMsg()) {
-            this.validateResultArray.splice(index,1,'error')
+          if (!this.$refs["form"][index].validateNoMsg()) {
+            this.validateResultArray.splice(index,1,"error")
           }else{
-            this.validateResultArray.splice(index,1,'success')
+            this.validateResultArray.splice(index,1,"success")
           }
-          console.log(this.validateResultArray);
+          console.log(this.validateResultArray)
         })
       }
     },
     error: {
       immediate: true,
       handler(value) {
-        this.validateMessage = value;
-        this.validateState = value ? 'error' : '';
+        this.validateMessage = value
+        this.validateState = value ? "error" : ""
       }
     },
     validateStatus(value) {
-      this.validateState = value;
+      this.validateState = value
     }
   },
   methods: {
@@ -243,32 +232,26 @@ export default {
     validate() {
       let validateResult = true
       for (var i = 0; i < this.value.length; i++) {
-        if (!this.$refs['form'][i].validate()) {
+        if (!this.$refs["form"][i].validate()) { 
           validateResult = false
         }
       }
-      return validateResult;
+      return validateResult
     },
     validateNoMsg() {
       let validateResult = true
       for (var i = 0; i < this.value.length; i++) {
-        if (!this.$refs['form'][i].validateNoMsg()) {
+        if (!this.$refs["form"][i].validateNoMsg()) {
           validateResult = false
         }
       }
-      return validateResult;
+      return validateResult
     },
-    getOneNoMsg(i) {
-
-      
-      
-    },
-
 
     change(index,val) {
       let obj = [...this.value]
       obj[index] = val
-      this.$emit('input',obj)
+      this.$emit("input",obj)
     },
     up(index) {
       let obj = [...this.value]
@@ -277,32 +260,32 @@ export default {
       // obj.splice(index-2,0,val);
       obj[index] = obj[index-1]
       obj[index-1] = val
-      this.$emit('input',obj)
+      this.$emit("input",obj)
     },
     down(index) {
       let obj = [...this.value]
       let val = obj[index]
       obj[index] = obj[index+1]
       obj[index+1] = val
-      this.$emit('input',obj)
+      this.$emit("input",obj)
       // [obj[index],obj[index+1]] = [obj[index+1],obj[index]]
     },
     add() {
       let obj = [...this.value]
       obj.push({})
-      this.$emit('input',obj)
+      this.$emit("input",obj)
       this.btnActive = obj.length - 1
     },
     tagClose: function (index){
       let obj = [...this.value]
-      obj.splice(index, 1);
+      obj.splice(index, 1)
       //   console.log(index,this.btnActive);
       // if (index < this.btnActive) {
       //   this.btnActive = obj.length - 1
       // }else if (index == this.btnActive) {
       //   this.btnActive = ''
       // }
-      this.$emit('input',obj)
+      this.$emit("input",obj)
       
     },
     changeTab: function (index){

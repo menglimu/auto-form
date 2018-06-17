@@ -1,15 +1,15 @@
 // index 使用formdata提交数据
 // index1 使用json提交数据
 
-import axios from 'axios'
-//import Vue from 'vue';
-import Qs from 'qs'
+import axios from "axios"
+import Vue from "vue"
+import Qs from "qs"
 // import mscommon from '@/global/msUtils'
 
 let http = axios.create({
   baseURL: process.env.API_ROOT+"/",
   headers: {
-    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+    "Content-Type": "application/x-www-form-urlencoded; charset=utf-8",
     // 'Content-Type':'application/x-www-form-urlencoded',
   },
   withCredentials: false,
@@ -24,14 +24,14 @@ http.interceptors.request.use((config) => {
    * ！实际情况请根据前后端的API规范进行定义
    */
   // Vue.laodMask.show()
-  console.log(config);
+  // console.log(config);
   // config.headers.common['x-access-token'] = getSession('openId')
   // config.headers.common['channel'] = 'wechat'
   
   return config
 }, (error) => {
   // Vue.laodMask.hide()
-  console.log(error);
+  console.log(error)
   return Promise.reject(error)
 })
 
@@ -54,15 +54,15 @@ http.interceptors.response.use(res => {
   //错误处理
   if (error.response) {
     if (error.response.status == 401) {
-      Vue.messageBox.alert('您无权进行该操作');
+      // Vue.messageBox.alert("您无权进行该操作")
     }else{
-      Vue.messageBox.alert('网络超时');
+      // Vue.messageBox.alert("网络超时")
     }
   } else {
-    Vue.messageBox.alert('网络超时');
+    // Vue.messageBox.alert("网络超时")
   }
   return Promise.reject(error)
-});
+})
 
 let getParms = function (params) {
 
@@ -83,30 +83,30 @@ const API = {
   get (url,params={},config={}) {
     params = getParms(params)
     if (config.noCommon === false) {
-      return axios.get(url,{params});
+      return axios.get(url,{params})
     }
-    return http.get(url,{params});
+    return http.get(url,{params})
   },
   post (url,params={},config={}) {
     params = getParms(params)
     if (config.noCommon === false) {
-      return axios.post(url,params);
+      return axios.post(url,params)
     }
-    return http.post(url,params);
+    return http.post(url,params)
   },
   //并发 $http.all([getUserAccount(), getUserPermissions()])
-  all (all){
+  all (all,config){
     if (config.noCommon === false) {
-      return axios.all(all);
+      return axios.all(all)
     }
-    return http.post(all);
+    return http.post(all)
   },
   // allEnd (){
   //   return http.spread
   // }
 }
 Vue.prototype.$http = API
-// Vue.$http = API
+Vue.$http = API
 // export default {
 //   install () {
 //     Vue.prototype.$http = http

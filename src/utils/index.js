@@ -1,26 +1,28 @@
+import Vue from "vue"
+
 /**
  * 存储localStorage
  */
 const setStore = (name, content) => {
-  if (!name) return;
-  if (typeof content !== 'string') {
-    content = JSON.stringify(content);
+  if (!name) return
+  if (typeof content !== "string") {
+    content = JSON.stringify(content)
   }
-  window.localStorage.setItem(name, content);
+  window.localStorage.setItem(name, content)
 }
 
 /**
  * 获取localStorage
  */
 const getStore = name => {
-  if (!name) return;
-  let value = window.localStorage.getItem(name);
+  if (!name) return
+  let value = window.localStorage.getItem(name)
   try {
-    value = JSON.parse(value);
-    return value;
+    value = JSON.parse(value)
+    return value
   } catch (e) {
-    console.log(e);
-    return value;
+    console.log(e)
+    return value
   }
 }
 
@@ -28,30 +30,30 @@ const getStore = name => {
  * 删除localStorage
  */
 const removeStore = name => {
-  if (!name) return;
-  window.localStorage.removeItem(name);
+  if (!name) return
+  window.localStorage.removeItem(name)
 }
 
 //设置sessionStorage
 const setSession = (name, content) => {
-  if (!name) return;
-  if (typeof content !== 'string') {
-    content = JSON.stringify(content);
+  if (!name) return
+  if (typeof content !== "string") {
+    content = JSON.stringify(content)
   }
-  window.sessionStorage.setItem(name, content);
+  window.sessionStorage.setItem(name, content)
 }
 /**
  * 获取sessionStorage
  */
 const getSession = name => {
-  if (!name) return;
-  let value = window.sessionStorage.getItem(name);
+  if (!name) return
+  let value = window.sessionStorage.getItem(name)
   try {
-    value = JSON.parse(value);
-    return value;
+    value = JSON.parse(value)
+    return value
   } catch (e) {
-    console.log(e);
-    return value;
+    console.log(e)
+    return value
   }
 }
 
@@ -59,57 +61,57 @@ const getSession = name => {
  * 删除sessionStorage
  */
 const removeSession = name => {
-  if (!name) return;
-  window.sessionStorage.removeItem(name);
+  if (!name) return
+  window.sessionStorage.removeItem(name)
 }
 // 获取URL后面参数
 const GetQueryString = name => {
-  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-  var r = window.location.search.substr(1).match(reg);
-  if (r != null) return unescape(r[2]);
-  return null;
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)")
+  var r = window.location.search.substr(1).match(reg)
+  if (r != null) return unescape(r[2])
+  return null
 }
 //获取host
 const getHost = function() {
-  var _http = window.location.protocol;
-  var _hostname = window.location.hostname;
-  var _port = window.location.port;
-  var _pathname = window.location.pathname;
-  var http = "";
+  var _http = window.location.protocol
+  var _hostname = window.location.hostname
+  var _port = window.location.port
+  var _pathname = window.location.pathname
+  var http = ""
   if (_port) {
-    return http = _http + "//" + _hostname + ":" + _port + "/";
+    return http = _http + "//" + _hostname + ":" + _port + "/"
   }
-  return http = _http + "//" + _hostname + "/";
+  return http = _http + "//" + _hostname + "/"
 }
 //rem转换px
 const rem2px = function(rem) {
-  var clientWidth = document.documentElement.clientWidth;
+  var clientWidth = document.documentElement.clientWidth
   if (clientWidth) {
-    return clientWidth / 750 * 100 * rem;
+    return clientWidth / 750 * 100 * rem
   } else {
-    return rem;
+    return rem
   }
 }
 // 生成随机id
 const createRandomId = function() {
-  return (Math.random() * 10000000).toString(16).substr(0, 4) + '-' + (new Date()).getTime() + '-' + Math.random().toString().substr(2, 5);
+  return (Math.random() * 10000000).toString(16).substr(0, 4) + "-" + (new Date()).getTime() + "-" + Math.random().toString().substr(2, 5)
 }
 //比较2个对象是否相等
 const isEqual = function(x, y) {
   // If both x and y are null or undefined and exactly the same 
   if (x === y) {
-    return true;
+    return true
   }
 
   // If they are not strictly equal, they both need to be Objects 
   if (!(x instanceof Object) || !(y instanceof Object)) {
-    return false;
+    return false
   }
 
   //They must have the exact same prototype chain,the closest we can do is
   //test the constructor. 
   if (x.constructor !== y.constructor) {
-    return false;
+    return false
   }
 
   for (var p in x) {
@@ -117,22 +119,22 @@ const isEqual = function(x, y) {
     if (x.hasOwnProperty(p)) {
       // Allows comparing x[ p ] and y[ p ] when set to undefined 
       if (!y.hasOwnProperty(p)) {
-        return false;
+        return false
       }
 
       // If they have the same strict value or identity then they are equal 
       if (x[p] === y[p]) {
-        continue;
+        continue
       }
 
       // Numbers, Strings, Functions, Booleans must be strictly equal 
       if (typeof(x[p]) !== "object") {
-        return false;
+        return false
       }
 
       // Objects and Arrays must be tested recursively 
       if (x[p]!==y[p]) {
-        return false;
+        return false
       }
     }
   }
@@ -140,52 +142,52 @@ const isEqual = function(x, y) {
   for (p in y) {
     // allows x[ p ] to be set to undefined 
     if (y.hasOwnProperty(p) && !x.hasOwnProperty(p)) {
-      return false;
+      return false
     }
   }
-  return true;
-};
+  return true
+}
 
 
 /**
  * 获取style样式
  */
-const getStyle = (element, attr, NumberMode = 'int') => {
-  let target;
+const getStyle = (element, attr, NumberMode = "int") => {
+  let target
   // scrollTop 获取方式不同，没有它不属于style，而且只有document.body才能用
-  if (attr === 'scrollTop') {
-    target = element.scrollTop;
+  if (attr === "scrollTop") {
+    target = element.scrollTop
   } else if (element.currentStyle) {
-    target = element.currentStyle[attr];
+    target = element.currentStyle[attr]
   } else {
-    target = document.defaultView.getComputedStyle(element, null)[attr];
+    target = document.defaultView.getComputedStyle(element, null)[attr]
   }
   //在获取 opactiy 时需要获取小数 parseFloat
-  return NumberMode == 'float' ? parseFloat(target) : parseInt(target);
+  return NumberMode == "float" ? parseFloat(target) : parseInt(target)
 }
 // 获取滚动dom infiniteScroll里使用
 const getScrollview = function(el) {
-  let currentNode = el;
-  while (currentNode && currentNode.tagName !== 'HTML' && currentNode.tagName !== 'BODY' && currentNode.nodeType === 1) {
-    let overflowY = document.defaultView.getComputedStyle(currentNode).overflowY;
-    if (overflowY === 'scroll' || overflowY === 'auto') {
-      return currentNode;
+  let currentNode = el
+  while (currentNode && currentNode.tagName !== "HTML" && currentNode.tagName !== "BODY" && currentNode.nodeType === 1) {
+    let overflowY = document.defaultView.getComputedStyle(currentNode).overflowY
+    if (overflowY === "scroll" || overflowY === "auto") {
+      return currentNode
     }
-    currentNode = currentNode.parentNode;
+    currentNode = currentNode.parentNode
   }
-  return window;
-};
+  return window
+}
 
 /* istanbul ignore next */
 const once = function(el, event, fn) {
   var listener = function() {
     if (fn) {
-      fn.apply(this, arguments);
+      fn.apply(this, arguments)
     }
-    off(el, event, listener);
-  };
-  on(el, event, listener);
-};
+    off(el, event, listener)
+  }
+  on(el, event, listener)
+}
 
 // /* istanbul ignore next */
 // export function hasClass(el, cls) {
@@ -245,86 +247,171 @@ const once = function(el, event, fn) {
 // };
 
 const hasClass = function(elem, cls) {
-  cls = cls || '';
-  if (cls.replace(/\s/g, '').length == 0) return false;
-  return new RegExp(' ' + cls + ' ').test(' ' + elem.className + ' ');
-};
+  cls = cls || ""
+  if (cls.replace(/\s/g, "").length == 0) return false
+  return new RegExp(" " + cls + " ").test(" " + elem.className + " ")
+}
 
 const addClass = function(ele, cls) {
   if (!hasClass(ele, cls)) {
-    ele.className = ele.className == '' ? cls : ele.className + ' ' + cls;
+    ele.className = ele.className == "" ? cls : ele.className + " " + cls
   }
-};
+}
 
 const removeClass = function(ele, cls) {
   if (hasClass(ele, cls)) {
-    let newClass = ' ' + ele.className.replace(/[\t\r\n]/g, '') + ' ';
-    while (newClass.indexOf(' ' + cls + ' ') >= 0) {
-      newClass = newClass.replace(' ' + cls + ' ', ' ');
+    let newClass = " " + ele.className.replace(/[\t\r\n]/g, "") + " "
+    while (newClass.indexOf(" " + cls + " ") >= 0) {
+      newClass = newClass.replace(" " + cls + " ", " ")
     }
-    ele.className = newClass.replace(/^\s+|\s+$/g, '');
+    ele.className = newClass.replace(/^\s+|\s+$/g, "")
   }
-};
+}
+//加载文件
+let loadFile = function(link,id) {
+  return new Promise((resolve, reject) => {  
+    var head = document.getElementsByTagName("head")[0]
+    var load = null
+    if(id && document.getElementById(id)){
+      load =  document.getElementById(id)
+      if (/\.js$/.test(link)) {
+        load.src = link
+      }else if (/\.css$/.test(link)) {
+        load.href = link
+      }else{
+        console.log("仅支持css,js文件")
+        return
+      }
+    }else{
+      if (/\.js$/.test(link)) {
+        load = document.createElement("script")
+        load.type ="text/javascript"
+        load.src = link
+      }else if (/\.css$/.test(link)) {
+        load = document.createElement("link")
+        load.type = "text/css"
+        load.rel = "stylesheet"
+        load.href = link
+      }else{
+        console.log("仅支持css,js文件")
+        return
+      }
+      // load.id = id
+      head.appendChild(load)  
+    }
+    if (!/*@cc_on!@*/0) { //if not IE
+      //Firefox2、Firefox3、Safari3.1+、Opera9.6+ support js.onload
+      load.onload = function () {
+        hasLoad.push(link)
+        resolve("加载完成")
+      }
+    } else {
+      //IE6、IE7 support js.onreadystatechange
+      load.onreadystatechange = function () {
+        hasLoad.push(link)
+        resolve("加载完成")
+      }
+    } 
+  })
+}
 let hasLoad = []
 //动态插入js.css到html
 let getload = function (link) {
   for (var i = 0; i < hasLoad.length; i++) {
     if (!link||hasLoad[i] == link) {
       return new Promise((resolve, reject) => { 
-        resolve('已加载')
+        resolve("已加载")
       })
     } 
   }
-  return new Promise((resolve, reject) => {  
-    var head = document.getElementsByTagName('head')[0];
-    var load = null
-    if (/\.js$/.test(link)) {
-      load = document.createElement('script');
-      load.type ='text/javascript'
-      load.src = link
-    }else if (/\.css$/.test(link)) {
-      var load = document.createElement('link');
-      load.type = 'text/css';
-      load.rel = 'stylesheet';
-      load.href = link;
-    }else{
-      console.log('仅支持css,js文件')
-      return
-    }
-    head.appendChild(load);  
-
-    if (!/*@cc_on!@*/0) { //if not IE
-        //Firefox2、Firefox3、Safari3.1+、Opera9.6+ support js.onload
-        load.onload = function () {
-          hasLoad.push(link)
-          resolve('加载完成')
-        }
-    } else {
-        //IE6、IE7 support js.onreadystatechange
-        load.onreadystatechange = function () {
-          hasLoad.push(link)
-          resolve('加载完成')
-        }
-    }
-  })
+  return loadFile(link)
 }
 //动态插入js.css到html
-const loadSource = async function (link) { 
-    let getArr = []
+const loadSource = function (link) { 
+  let getArr = []
    
-    if (typeof link == 'string') {
-      getArr.push(getload(link))
-    }else if (typeof link == "object") {
-      link.forEach((obj) => {
-        getArr.push(getload(obj))
-      })
-    }
+  if (typeof link == "string") {
+    getArr.push(getload(link))
+  }else if (typeof link == "object") {
+    link.forEach((obj) => {
+      getArr.push(getload(obj))
+    })
+  }
 
-    return Promise.all(getArr);
+  return Promise.all(getArr)
 }
 // loadSource(['https://cdn.bootcss.com/element-ui/1.4.0/locale/zh-CN.js','https://cdn.bootcss.com/element-ui/1.4.0/theme-default/index.css']).then(()=>{
 //       console.log(23123)
 //     })
 
+const setPower = function (power, router, all, path) {
+  let hasPower = true
+  let allPath = "/" + (path.replace(/(^\/*)|(\/*$)/g, "") + "/" + router.path.replace(/(^\/*)|(\/*$)/g, "")).replace(/(^\/*)|(\/*$)/g, "")
+  if (allPath != "/") {
+    allPath = allPath + "/"
+  }
+  if (!all) {
+    if (power.hasOwnProperty(allPath + "*")) {
+      setPower(power, router, true, path)
+      return
+    } else if (power.hasOwnProperty(allPath + "")) {
+      hasPower = true
+      all = false
+    } else {
+      hasPower = false
+      all = false
+    }
+  }
+
+  if (router.meta) {
+    router.meta.hasPower = hasPower
+  } else {
+    router.meta = { hasPower: hasPower }
+  }
+  if (router.children && router.children.length > 0) {
+    router.children.forEach(route => {
+      setPower(power, route, all, allPath)
+    })
+  }
+}
+//加载用户权限到router中
+const getPower = function (router,fn) {
+  let routerInfo = null
+  for (var i = 0; i < router.options.routes.length; i++) {
+    if (router.options.routes[i].path == "/") {
+      routerInfo = router.options.routes[i]
+      break
+    }
+  }
+  Vue.$http.post("power").then(res => {
+    setPower(res, routerInfo, false, "")
+    typeof fn == "function" && fn()
+  })
+}
+//全局事件bus
+Vue.$bus = Vue.prototype.$bus = new Vue()
+//主题色 在themes中加的style要放入该变量
+const themes = {
+  "default": {
+    "main": "#324057",
+    "active": "#ffd04b"
+  },
+  "blue": {
+    "main": "#6565eb",
+    "active": "#013468"
+  },
+  "yellow": {
+    "main": "#c9f846",
+    "active": "#596801"
+  },
+}
+//改变主题
+const changeTheme = function(theme) {
+  // themeURL 打包后，通过build/themeExtract加入到HTML中的全局变量
+  loadFile(themeURL["themes-"+theme],"themeCss").then(()=>{
+    setStore("theme",theme)
+    Vue.$bus.$emit("changeTheme",theme)
+  })
+}
 export { setStore, getStore, removeStore, getSession, setSession, removeSession, GetQueryString, getHost, rem2px, createRandomId, isEqual,
-         getStyle, getScrollview, addClass, removeClass, once, loadSource };
+  getStyle, getScrollview, addClass, removeClass, once, loadSource, getPower, changeTheme, themes }

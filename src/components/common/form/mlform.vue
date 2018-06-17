@@ -2,7 +2,6 @@
 隐藏的组件的值的问题
  -->
 <style lang="scss" scoped>
-  
 </style>
 <template>
   <el-form class="mlform" :label-width="config.labelWidth" :inline="config.inline">
@@ -11,7 +10,7 @@
       v-for="item in config.dataList"
       :key="item.key"
       :config="item"
-      :value="val[item.key]"
+      :value="val[item.key]" 
       @input="change(item.key,$event)"
       ref="formItem"
       :_rootVal='_rootVal'
@@ -24,23 +23,23 @@
   </el-form>
 </template>
 <script>
-import formItem from './formItem.vue'
+import formItem from "./formItem.vue"
 export default {
   components: {
     formItem
   },
   props: {
-    value:{
-      type: null,
+    value: {
+      type: null
     },
-    config:{
+    config: {
       type: Object,
       required: true
     },
-    rootVal:{
+    rootVal: {
       type: null
     },
-    parentVal:{
+    parentVal: {
       type: null
     }
   },
@@ -49,46 +48,42 @@ export default {
     // // this.val = initVal
     // this.$emit('input',initVal)
     return {
-      init: true,
-      // val: initVal, 
-        // {  
-        //   "value": "address",
-        //   "label": "地址选择"
-        // },
+      init: true
+      // val: initVal,
+      // {
+      //   "value": "address",
+      //   "label": "地址选择"
+      // },
     }
   },
 
-  created() {
+  created() {},
 
-  },
-
-  mounted() {
-
-  },
+  mounted() {},
 
   computed: {
     val() {
       if (this.init) {
         this.init = false
         let obj = this.initVal()
-        this.$emit('input',obj)
+        this.$emit("input", obj)
         return obj
-      }else{
+      } else {
         return this.value
       }
     },
-    // 获得form 的值的对象 根和父，objform 父必传 
+    // 获得form 的值的对象 根和父，objform 父必传
     _rootVal() {
       if (this.rootVal) {
         return this.rootVal
-      }else{
+      } else {
         return this.val
       }
     },
     _parentVal() {
       if (this.parentVal) {
         return this.parentVal
-      }else{
+      } else {
         return this.val
       }
     }
@@ -98,22 +93,22 @@ export default {
     //验证数据
     validate() {
       let validateResult = true
-      for (var i = 0; i < this.$refs['formItem'].length; i++) {
-        if (!this.$refs['formItem'][i].validate()) {
+      for (var i = 0; i < this.$refs["formItem"].length; i++) {
+        if (!this.$refs["formItem"][i].validate()) {
           validateResult = false
         }
       }
-      return validateResult;
+      return validateResult
     },
     validateNoMsg() {
       let validateResult = true
-      for (var i = 0; i < this.$refs['formItem'].length; i++) {
-        if (!this.$refs['formItem'][i].validateNoMsg()) {
+      for (var i = 0; i < this.$refs["formItem"].length; i++) {
+        if (!this.$refs["formItem"][i].validateNoMsg()) {
           validateResult = false
         }
       }
       console.log(validateResult)
-      return validateResult;
+      return validateResult
     },
     //初始化数据
     initVal() {
@@ -123,12 +118,11 @@ export default {
         objInit[data.key] = this.getValByType(data)
       })
 
-
       let obj = {}
-      if (typeof(this.value) == 'object') {
+      if (typeof this.value == "object") {
         obj = this.value
       }
-      obj = Object.assign(objInit,obj)
+      obj = Object.assign(objInit, obj)
 
       return obj
     },
@@ -138,30 +132,35 @@ export default {
     getValByType(obj) {
       if (obj.value) {
         return obj.value
-      }else if (obj.type == 'boolean') {
+      } else if (obj.type == "boolean") {
         return false
-      }else if (obj.type == 'checkbox' || (obj.type == 'select'&&obj.multiple)) {
+      } else if (
+        obj.type == "checkbox" ||
+        (obj.type == "select" && obj.multiple)
+      ) {
         return []
-      }else if ((obj.type == 'select'&&obj.must&&!obj.multiple) || (obj.type == 'radio'&&obj.must)) {
+      } else if (
+        (obj.type == "select" && obj.must && !obj.multiple) ||
+        (obj.type == "radio" && obj.must)
+      ) {
         for (var i = 0; i < obj.options.length; i++) {
           if (!obj.options[i].disabled) {
-           return obj.options[i].value
+            return obj.options[i].value
           }
         }
         return null
-      }else if(obj.type=='object'){
+      } else if (obj.type == "object") {
         return []
-      }else{
+      } else {
         return null
       }
     },
     //监听值改变
-    change(key,val) {
-      let obj = Object.assign({},this.val)
+    change(key, val) {
+      let obj = Object.assign({}, this.val)
       obj[key] = val
-      this.$emit('input', obj)
+      this.$emit("input", obj)
     }
-  },
+  }
 }
-
 </script>

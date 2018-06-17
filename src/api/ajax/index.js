@@ -1,6 +1,6 @@
 import axios from 'axios'
 import config from './config'
-//import Vue from 'vue';
+import Vue from 'vue';
 axios(config);
 
 const API = {
@@ -77,4 +77,4 @@ axios.interceptors.response.use(function(res) {
 
 Vue.$http = Vue.prototype.$http = API
 
-// export default API;
+export default API;

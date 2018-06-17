@@ -1,14 +1,24 @@
 // 使用 Mock
-var Mock = require('mockjs')
+var Mock = require("mockjs")
 
 let data = {
-	'msg': {
-		a:1
-	}
+  "msg": {
+    a:1
+  },
+  "power": {
+    // "/*":{},
+    // '/test/*':{},
+    // "/test/form/":{},
+    // '/test/echarts/':{},
+    "/":{},
+    "/test/":{},
+    "/test/form/":{},
+    // '/test/echarts/':{},
+  }
 }
 
-for (key in data) {
-	Mock.mock('/api/'+key,data[key])
+for (key in data) { 
+  Mock.mock("/api/"+key,data[key])
 }
 
 // var data = Mock.mock({

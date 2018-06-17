@@ -1,14 +1,14 @@
-var merge = require('webpack-merge')
-var testEnv = require('./test.env')
+var merge = require("webpack-merge")
+var testEnv = require("./test.env")
 
 var config = {
-  NODE_ENV: '"production"',
-  API_ROOT: '""',
+  NODE_ENV: "\"production\"",
+  API_ROOT: "\"\"",
   IMG_BASE: "''",
-  URL_BASE: '"/"',
-  URL_FINGER: '"df.baiqishi.com"',
+  URL_BASE: "\"/\"",
+  URL_FINGER: "\"df.baiqishi.com\"",
 }
-if (process.argv.splice(2)[0] == 'test') {
+if (process.argv.splice(2)[0] == "test") {
   config = merge(config, testEnv)
 }
 

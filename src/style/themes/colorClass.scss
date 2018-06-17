@@ -1,0 +1,14 @@
+.color{
+    color: $main;
+    border-color: $main;
+    &.active{
+        color: $active;
+        border-color: $active;
+    }
+}
+.bg{
+    background-color: $main;
+    &.active{
+        background-color: $active;
+    }
+}

@@ -16,16 +16,16 @@ export default {
   components: {
 
   },
-  name: 'mlupload',
+  name: "mlupload",
   data() {
     if (this.value) {
       var pic = this.value.split(",")
       var fileList = []
       for (var i = 0; i < pic.length; i++) {
         fileList.push({
-          name: '',
+          name: "",
           fileId: pic[i],
-          url: 'fastDfsView.action?fileId=' + pic[i],
+          url: "fastDfsView.action?fileId=" + pic[i],
         })
       }
     }
@@ -41,7 +41,7 @@ export default {
   props: {
     value: {
       type: String,
-      default: ''
+      default: ""
     },
     //上传数量
     limit: {
@@ -56,25 +56,25 @@ export default {
     //上传地址
     uploadAction: {
       type: null,
-      default: '/fastDfsUpload.action'
+      default: "/fastDfsUpload.action"
     }
   },
   methods: {
     uploadSubmit: function() {
-      this.$refs.upload.submit();
+      this.$refs.upload.submit()
     },
     clearUpload: function() {
       this.$refs.upload.clearFiles()
-      this.$emit('input', '')
+      this.$emit("input", "")
     },
     change: function(file, fileList) {
-      var pic = ''
+      var pic = ""
       for (var i = 0; i < fileList.length; i++) {
         if (fileList[i].status == "success") {
           if (fileList[i].fileId) {
-            pic += fileList[i].fileId + ','
+            pic += fileList[i].fileId + ","
           } else if (fileList[i].response) {
-            pic += fileList[i].response.attrs.fileId + ','
+            pic += fileList[i].response.attrs.fileId + ","
           }
         }
       }
@@ -82,7 +82,7 @@ export default {
         pic = pic.substr(0, pic.length - 1)
       }
       if (pic != this.value) {
-        this.$emit('input', pic)
+        this.$emit("input", pic)
       }
 
     },
