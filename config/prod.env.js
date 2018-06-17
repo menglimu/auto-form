@@ -5,7 +5,7 @@ var config = {
   NODE_ENV: "\"production\"",
   API_ROOT: "\"\"",
   IMG_BASE: "''",
-  URL_BASE: "\"/\"",
+  URL_BASE: "'/auto-form/'",
   URL_FINGER: "\"df.baiqishi.com\"",
 }
 if (process.argv.splice(2)[0] == "test") {

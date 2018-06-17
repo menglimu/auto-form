@@ -15,7 +15,7 @@ import router from "./router"
 import https from "./api/" //所有的请求地址管理
 
 // //使用mock
-// require("@/api/mock")
+require("@/api/mock")
 //使用rem
 require("@/utils/rem")
 //加载权限、主题
