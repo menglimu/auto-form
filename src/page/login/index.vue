@@ -43,7 +43,7 @@ export default {
 
 <style lang='scss' scoped>
 .login-box {
-  background: url("/static/images/login_bg_default.jpg");
+  background: url("~@assets/images/login_bg_default.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   .login {

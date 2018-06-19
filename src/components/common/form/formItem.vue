@@ -173,7 +173,8 @@ export default {
       validateStatus: "",
       error: "",
       required: this.config.must,
-      show: true
+      show: true,
+      beforeHide: null,
     }
   },
 
@@ -336,50 +337,58 @@ export default {
       } else if (!show || show === true || show === "true") {
         return true
       } else {
-        let option = show.split(/[=.:]/)
-        // let option = show.split(/[\=\.\:]/)
-        let val = null
-        let start = 0
-        if (option[0] == "$_root") {
-          val = this._rootVal
-          start = 1
-        } else if (option[0] == "$_parent") {
-          val = this._parentVal
-          start = 1
-        } else {
-          val = this._thisVal
-        }
+        // let option = show.split(/[=.:]/)
+        // // let option = show.split(/[\=\.\:]/)
+        // let val = null
+        // let start = 0
+        // if (option[0] == "$_root") {
+        //   val = this._rootVal
+        //   start = 1
+        // } else if (option[0] == "$_parent") {
+        //   val = this._parentVal
+        //   start = 1
+        // } else {
+        //   val = this._thisVal
+        // }
 
-        for (var i = start; i < option.length - 1; i++) {
-          if (option[i] == "$_parent") {
-            val = val._parentVal
-          } else if (option[i]) {
-            val = val[option[i]]
+        // for (var i = start; i < option.length - 1; i++) {
+        //   if (option[i] == "$_parent") {
+        //     val = val._parentVal
+        //   } else if (option[i]) {
+        //     val = val[option[i]]
+        //   }
+        // }
+        // let term = option[option.length - 1]
+        // if (term === "true") {
+        //   term = true
+        // } else if (term === "false") {
+        //   term = false
+        // }
+        // if (val == term) {
+        if (eval(show)) {
+          if(this.show === false){
+            this.$emit("show", this.beforeHide) 
           }
-        }
-        let term = option[option.length - 1]
-        if (term === "true") {
-          term = true
-        } else if (term === "false") {
-          term = false
-        }
-        if (val == term) {
           this.show = true
-          return true
         } else {
           //不显示的时候，重置值
-          if (this.config.type == "object") {
-            if (this.value != []) {
-              this.$emit("input", [])
-            }
-          } else {
-            if (this.value != null) {
-              this.$emit("input", null)
-            }
+          if (this.show === true) {
+            this.beforeHide = this.value
+            this.$emit("hide", this.config.key)
           }
+          
+          // if (this.config.type == "object") {
+          //   if (this.value != []) {
+          //     this.$emit("input", [])
+          //   }
+          // } else {
+          //   if (this.value != null) {
+          //     this.$emit("input", null)
+          //   }
+          // }
           this.show = false
-          return false
         }
+        return this.show
       }
     }
 

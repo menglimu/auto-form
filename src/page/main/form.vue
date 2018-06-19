@@ -39,11 +39,11 @@ export default {
 
             prepend: "前头",
             append: "后头",
-            remark: "密码为你的用户名",
+            remark: "密码为你的用户名",//显示在输入框后的文字
 
             block: true,//独占一行
 
-            width: 60,
+            width: "60px",
 
             min: 1, //最小字符数 
             max: 10, //最大字符数
@@ -474,7 +474,7 @@ export default {
         dataList: [
           {
             type: "password",//
-            key: "password1",    //输出的key
+            key: "password",    //输出的key
             readonly: false,//只读 
             disabled: false,//不可操作
             must: true, //必填
@@ -484,12 +484,12 @@ export default {
           },
           {
             type: "password",//
-            key: "password",    //输出的key
+            key: "password1",    //输出的key
             readonly: false,//只读 
             disabled: false,//不可操作
             must: true, //必填
             value: "", //默认值
-            show: "select==2",//什么情况下显示
+            show: "this._thisVal.select==2",//什么情况下显示
             label: "密码1", //输入框前显示
           },
           {
@@ -551,18 +551,9 @@ export default {
         ]
       },
       config2: {
-        // labelWidth: '100px',
-        inline: true,
+        labelWidth: '2rem',
+        inline: false,
         dataList: [
-          // {
-          //   type: 'string',//
-          //   key: 'labelWidth',    //输出的key
-          //   value: '100px', //默认值
-          //   label: 'label宽度', //输入框前显示
-          //   remark: '输入框前的文字宽度，如100px,1rem,1em',
-          //   block: true, //块级显示
-          //   width: ''
-          // },
           {
             type: "boolean",//
             key: "inline",    //输出的key
@@ -593,9 +584,10 @@ export default {
                 disabled: false,//不可操作
                 must: true, //必填
                 value: "", //默认值
-                show: "",//什么情况下显示
+                // show: "",//什么情况下显示
                 label: "下拉", //输入框前显示
                 multiple: false,//是否多选
+                remark: "选择输入框的类型",//显示在输入框后的文字
                 options: [{  
                   "value": "string",
                   "label": "字符串",
@@ -690,11 +682,115 @@ export default {
                 },
                 ],
               },
+              
+
               {
                 type: "string",//
                 key: "label",    //输出的key
                 must: true, //必填
                 label: "输入项label", //输入框前显示
+                remark: "输入框前显示",//显示在输入框后的文字
+              },
+              {
+                type: "string",//
+                key: "key",    //输出的key
+                must: true, //必填
+                label: "输出的key", //输入框前显示
+                remark: "输出的key,变量名，为英文不重复",//显示在输入框后的文字
+              },
+              {
+                type: "string",//
+                key: "value",    //输出的key
+                label: "默认值", //输入框前显示
+                remark: "输入项的默认值，自动填充到输入框",//显示在输入框后的文字
+              },
+              {
+                type: "string",//
+                key: "show",    //输出的key
+                label: "显示条件", //输入框前显示
+                remark: "控制该输入项的显示隐藏，为js代码，如：this._thisVal.select==2。_thisVal表示当前对象，_rootVal表单根对象，_parentVal父对象",//显示在输入框后的文字
+              },
+              {
+                type: "string",//
+                key: "placeholder",    //输出的key
+                label: "提示", //输入框前显示
+                remark: "输入框内的提示",//显示在输入框后的文字
+              },
+              {
+                type: "string",//
+                key: "error",    //输出的key
+                label: "错误提示", //输入框前显示
+                remark: "输入不符合规则时的提示",//显示在输入框后的文字
+              },
+              {
+                type: "string",//
+                key: "reg",    //输出的key
+                label: "正则", //输入框前显示
+                remark: "正则验证表达式",//显示在输入框后的文字
+              },
+              {
+                type: "string",//
+                key: "prepend",    //输出的key
+                label: "头部", //输入框前显示
+                remark: "输入框内头部显示内容",//显示在输入框后的文字
+              },
+              {
+                type: "string",//
+                key: "append",    //输出的key
+                label: "尾部", //输入框前显示
+                remark: "输入框内尾部显示内容",//显示在输入框后的文字
+              },
+              {
+                type: "string",//
+                key: "remark",    //输出的key
+                label: "备注尾部", //输入框前显示
+                remark: "输入框后的备注内容",//显示在输入框后的文字
+              },
+              {
+                type: "string",//
+                key: "width",    //输出的key
+                label: "宽度", //输入框前显示
+                remark: "输入框宽度，带上单位50px",//显示在输入框后的文字
+              },
+              {
+                type: "string",//
+                key: "min",    //输出的key
+                label: "最小输入长度", //输入框前显示
+                remark: "纯数字",//显示在输入框后的文字
+              },
+              {
+                type: "string",//
+                key: "max",    //输出的key
+                label: "最大输入长度", //输入框前显示
+                remark: "纯数字",//显示在输入框后的文字
+              },
+
+
+              // min: 1, //最小字符数 
+              // max: 10, //最大字符数
+              {
+                type: "boolean",//
+                key: "block",    //输出的key
+                value: true, //默认值
+                label: "块级元素显示", //输入框前显示
+              },
+              {
+                type: "boolean",//
+                key: "must",    //输出的key
+                value: false, //默认值
+                label: "是否为必填项", //输入框前显示
+              },
+              {
+                type: "boolean",//
+                key: "readonly",    //输出的key
+                value: false, //默认值
+                label: "是否只读", //输入框前显示
+              },
+              {
+                type: "boolean",//
+                key: "disabled",    //输出的key
+                value: false, //默认值
+                label: "是否不可操作", //输入框前显示
               },
             ]
           },
