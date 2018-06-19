@@ -37,16 +37,12 @@ export default {
   min-width: 1200px;
   @include inline(2);
   align-items: flex-start;
+  padding-left: 200px;
   .menu{
     width: 200px;
-  }
-  .menu-box {
-    min-height: 100%;
-    background-color: #324057;
-    // min-width: 200px;
-    .menu{
-    	border-right: 0;
-    }
+    position: fixed;
+    left: 0;
+    overflow: hidden;
   }
 }
 

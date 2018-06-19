@@ -17,6 +17,8 @@
       :_parentVal='_parentVal'
       :_thisVal = 'val'
       :configAll='config' 
+      @hide="hide"
+      @show="show(item,$event)"
       >
     </formItem>
 
@@ -44,9 +46,6 @@ export default {
     }
   },
   data() {
-    // let initVal = this.initVal()
-    // // this.val = initVal
-    // this.$emit('input',initVal)
     return {
       init: true
       // val: initVal,
@@ -160,7 +159,20 @@ export default {
       let obj = Object.assign({}, this.val)
       obj[key] = val
       this.$emit("input", obj)
-    }
+    },
+    hide(key){
+      let obj = Object.assign({}, this.val)
+      if (this.config.dataList.filter(obj => obj.key == key).length==1) {
+        delete obj[key]
+        this.$emit("input", obj)
+      }      
+    },
+    show(item, val) {
+      console.log(123)
+      let obj = Object.assign({}, this.val)
+      obj[item.key] = val || this.getValByType(item)
+      this.$emit("input", obj)
+    },
   }
 }
 </script>

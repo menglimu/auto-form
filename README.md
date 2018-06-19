@@ -30,7 +30,7 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 - [x] 代理接口，测试环境配置
 - [x] mock
 - [x] webpack图片压缩插件
-- [ ] Form复杂输入,表单隐藏后，删除value
+- [ ] Form复杂输入,测试输入字符串问题
 - [x] cnd按需引入
 - [x] 权限控制
 - [x] 主题颜色改变

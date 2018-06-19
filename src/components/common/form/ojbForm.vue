@@ -89,6 +89,7 @@
     box-sizing: border-box;
   }
   .list-box{
+    margin-top: 0.2rem;
     padding: 0 10px 10px;
     border-left: 1px solid #ebeef5;
   }
@@ -212,7 +213,6 @@ export default {
           }else{
             this.validateResultArray.splice(index,1,"success")
           }
-          console.log(this.validateResultArray)
         })
       }
     },
