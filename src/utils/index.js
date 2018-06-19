@@ -5,7 +5,7 @@ import Vue from "vue"
  */
 const setStore = (name, content) => {
   if (!name) return
-  if (typeof content !== "string") {
+  if (typeof content == "object") {
     content = JSON.stringify(content)
   }
   window.localStorage.setItem(name, content)
@@ -21,7 +21,7 @@ const getStore = name => {
     value = JSON.parse(value)
     return value
   } catch (e) {
-    console.log(e)
+    // console.log(e)
     return value
   }
 }
@@ -37,7 +37,7 @@ const removeStore = name => {
 //设置sessionStorage
 const setSession = (name, content) => {
   if (!name) return
-  if (typeof content !== "string") {
+  if (typeof content == "object") {
     content = JSON.stringify(content)
   }
   window.sessionStorage.setItem(name, content)
@@ -52,7 +52,7 @@ const getSession = name => {
     value = JSON.parse(value)
     return value
   } catch (e) {
-    console.log(e)
+    // console.log(e)
     return value
   }
 }
@@ -344,6 +344,10 @@ const loadSource = function (link) {
 //       console.log(23123)
 //     })
 
+
+
+
+//业务相关公共方法
 const setPower = function (power, router, all, path) {
   let hasPower = true
   let allPath = "/" + (path.replace(/(^\/*)|(\/*$)/g, "") + "/" + router.path.replace(/(^\/*)|(\/*$)/g, "")).replace(/(^\/*)|(\/*$)/g, "")
@@ -388,8 +392,6 @@ const getPower = function (router,fn) {
     typeof fn == "function" && fn()
   })
 }
-//全局事件bus
-Vue.$bus = Vue.prototype.$bus = new Vue()
 //主题色 在themes中加的style要放入该变量
 const themes = {
   "default": {
@@ -405,11 +407,72 @@ const themes = {
     "active": "#596801"
   },
 }
+//element默认主题
+const eleTheme = {
+  "main": "#409EFF",
+  "active": "#66b1ff"
+}
+let oldCluster = eleTheme
+let newCluster = null
+//后台返回的css内容
+let chalk = null
+//通过URL获取css样式内容
+const getCSSString = function(callback) {
+  let url = document.getElementById('element-link').href
+  const xhr = new XMLHttpRequest()
+  xhr.onreadystatechange = () => {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      chalk = xhr.responseText.replace(/@font-face{[^}]+}/, '')
+      callback()
+    }
+  }
+  xhr.open('GET', url)
+  xhr.send()
+}
+
+
+// 更新css内容
+const updateStyle = function() {
+  let newStyle = chalk
+  for (const key in oldCluster) {
+    if (oldCluster.hasOwnProperty(key) && newCluster.hasOwnProperty(key)) {
+      newStyle = newStyle.replace(new RegExp(oldCluster[key], 'ig'), newCluster[key]) 
+    }
+  }
+  let styleTag = document.getElementById('element-style')
+  if (!styleTag) {
+    styleTag = document.createElement('style')
+    styleTag.setAttribute('id', 'element-style')
+    document.head.appendChild(styleTag)
+  }
+  styleTag.innerText = newStyle
+  chalk = newStyle
+  oldCluster = Object.assign({},newCluster)
+}
+
+//改变element主题
+const changeEle = function(theme) {
+  newCluster = themes[theme]
+  if (!chalk) {
+    getCSSString(updateStyle)
+  } else {
+    updateStyle()
+  }
+}
+//加载默认主题element颜色
+// if(!getStore("theme")){
+//   changeEle("default")
+// }
+
 //改变主题
 const changeTheme = function(theme) {
+  if(typeof themeURL  == "undefined"){
+    return
+  }
   // themeURL 打包后，通过build/themeExtract加入到HTML中的全局变量
   loadFile(themeURL["themes-"+theme],"themeCss").then(()=>{
     setStore("theme",theme)
+    changeEle(theme)
     Vue.$bus.$emit("changeTheme",theme)
   })
 }

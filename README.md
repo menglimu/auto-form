@@ -32,8 +32,8 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 - [x] webpack图片压缩插件
 - [ ] Form复杂输入,表单隐藏后，删除value
 - [x] cnd按需引入
-- [ ] 权限控制
-- [ ] 主题颜色改变
-- [ ] keep-alive保存用户输入
+- [x] 权限控制
+- [x] 主题颜色改变
+- [x] keep-alive保存用户输入,activated钩子函数刷新一些操作
 - [ ] header公共引入，非父子组件交互，控制返回
 - [ ] router.js过长，router放在每个目录下面，在在router.js中拼装

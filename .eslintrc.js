@@ -22,10 +22,10 @@ module.exports = {
             "error",
             "windows"
         ],
-        "quotes": [
-            "error",
-            "double"
-        ],
+        // "quotes": [
+        //     "error",
+        //     "single"
+        // ],
         "semi": [
             "error",
             "never"

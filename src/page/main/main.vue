@@ -6,6 +6,7 @@
     </el-select>
     <div class="bg">背景主题</div>
     <div class="color">颜色主题</div>
+    <el-button  type="primary">element主题</el-button>
   </div>
 </template>
 <script>

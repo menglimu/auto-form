@@ -5,15 +5,30 @@ let data = {
   "msg": {
     a:1
   },
-  "power": {
-    // "/*":{},
-    // '/test/*':{},
-    // "/test/form/":{},
-    // '/test/echarts/':{},
-    "/":{},
-    "/test/":{},
-    "/test/form/":{},
-    // '/test/echarts/':{},
+  "power": function (params) {
+    if (JSON.parse(params.body).token == "admin") {
+      return {"/*":{}}
+    }else{
+      return {
+        "/":{},
+        "/test/":{},
+        "/test/form/":{},
+        // '/test/echarts/':{},
+      }
+    }
+  },
+  // {
+  //   // "/*":{},
+  //   // '/test/*':{},
+  //   // "/test/form/":{},
+  //   // '/test/echarts/':{},
+  //   "/":{},
+  //   "/test/":{},
+  //   "/test/form/":{},
+  //   // '/test/echarts/':{},
+  // },
+  "login": function (params) {
+    return {token: JSON.parse(params.body).name}
   }
 }
 

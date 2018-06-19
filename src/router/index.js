@@ -10,7 +10,8 @@ import router from '@common/router'//根据noKeepAlive判断是否缓存
 
 // const appTest = () => import('@/page/appTest.vue') // appTest
 const notFound = () => import('@/page/notFound/notFound') // 404页面
-const noPower = () => import('@/page/noPower/') // 404页面
+const noPower = () => import('@/page/noPower/') // 401页面
+const login = () => import('@/page/login/') // 登录
 
 const menu = () => import('@/page/menu') // 菜单
 const form = () => import('@/page/main/form') // 可配置form
@@ -69,6 +70,16 @@ let routerInfo = [
         ]
       },
     ]
+  },
+  {
+    path: '/login',
+    meta: {
+      title: "",
+      noKeepAlive: true,
+      noShowMenu: true,
+      hasPower: true,
+    },
+    component: login
   },
   {
     path: '/error/401',

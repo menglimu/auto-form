@@ -14,9 +14,6 @@ export default {
     }
   },
   created() {
-    this.$http.post("msg").then(res => {
-      console.log(res)
-    })
   },
   methods: {}
 }
