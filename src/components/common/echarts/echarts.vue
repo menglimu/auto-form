@@ -1,22 +1,21 @@
 <template>
-  <div :id="id" class="echarts"></div>
+  <div class="echarts"></div>
 </template>
 
 <script>
-import {loadSource, createRandomId} from "@/utils"
+import {loadSource} from "@/utils"
 export default {
   name: "echarts",
   components: {},
   data() {
     return {
-      id: createRandomId(),
       echarts: null,
     }
   },
   created() {
     loadSource("https://cdn.bootcss.com/echarts/4.1.0.rc2/echarts.min.js").then(()=>{
       // 基于准备好的dom，初始化echarts实例
-      this.echarts = echarts.init(document.getElementById(this.id))
+      this.echarts = echarts.init(document.getElementById(this.$el))
 
       // 指定图表的配置项和数据
       var option = {

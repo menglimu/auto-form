@@ -8,10 +8,12 @@
       <mlform ref='form' :config="config2" v-model="userInput"></mlform>
       <el-button @click='submitBtnClick'>提交</el-button>
       {{userInput}}
+      <el-input type="text" v-model="input"></el-input>
   </div>
 </template>
 <script>
 import mlform from "@/components/common/form"
+import {setSession} from "@/utils"
 export default {
   components: {
     mlform
@@ -815,7 +817,9 @@ export default {
   methods: {
     submitBtnClick: function () {
       // body...
-      this.$router.push("/")
+      // this.$bus.$emit("config", this.userInput)
+      setSession("config",this.userInput)
+      this.$router.push("/test/formTest")
       console.log(this.$refs["form"].validate())
       
     }

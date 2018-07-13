@@ -46,6 +46,7 @@ export default {
     }
   },
   data() {
+    console.log(this.config)
     return {
       init: true
       // val: initVal,

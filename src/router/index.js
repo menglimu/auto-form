@@ -15,6 +15,7 @@ const login = () => import('@/page/login/') // 登录
 
 const menu = () => import('@/page/menu') // 菜单
 const form = () => import('@/page/main/form') // 可配置form
+const formTest = () => import('@/page/main/formTest') // 可配置form测试
 const echarts = () => import('@/page/main/echarts') // cdn引入第三方示例
 const main = () => import('@/page/main/main') // 首页
 
@@ -49,6 +50,7 @@ let routerInfo = [
         meta: {
           icon: 'el-icon-edit',
           hasPower: true, //是否有权限
+          noKeepAlive: false, //不使用keepalive
         },
         children: [
           {
@@ -65,6 +67,15 @@ let routerInfo = [
             name: '动态生成表单',
             meta: {
               hasPower: true, //是否有权限
+              noKeepAlive: false, //不使用keepalive
+            }
+          }, {
+            path: 'formTest',
+            component: formTest,
+            name: '动态生成表单测试',
+            meta: {
+              hasPower: true, //是否有权限
+              noKeepAlive: true, //不使用keepalive
             }
           }
         ]
