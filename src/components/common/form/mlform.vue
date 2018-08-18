@@ -5,7 +5,7 @@
 </style>
 <template>
   <el-form class="mlform" :label-width="config.labelWidth" :inline="config.inline">
-
+    
     <formItem
       v-for="item in config.dataList"
       :key="item.key"
@@ -25,7 +25,8 @@
   </el-form>
 </template>
 <script>
-import formItem from "./formItem.vue"
+import formItem from "./formItem.vue";
+import {copyObj} from '@/utils';
 export default {
   components: {
     formItem
@@ -46,7 +47,6 @@ export default {
     }
   },
   data() {
-    console.log(this.config)
     return {
       init: true
       // val: initVal,
@@ -54,7 +54,7 @@ export default {
       //   "value": "address",
       //   "label": "地址选择"
       // },
-    }
+    };
   },
 
   created() {},
@@ -64,27 +64,27 @@ export default {
   computed: {
     val() {
       if (this.init) {
-        this.init = false
-        let obj = this.initVal()
-        this.$emit("input", obj)
-        return obj
+        this.init = false;
+        let obj = this.initVal();
+        this.$emit("input", obj);
+        return obj;
       } else {
-        return this.value
+        return this.value;
       }
     },
     // 获得form 的值的对象 根和父，objform 父必传
     _rootVal() {
       if (this.rootVal) {
-        return this.rootVal
+        return this.rootVal;
       } else {
-        return this.val
+        return this.val;
       }
     },
     _parentVal() {
       if (this.parentVal) {
-        return this.parentVal
+        return this.parentVal;
       } else {
-        return this.val
+        return this.val;
       }
     }
   },
@@ -92,88 +92,95 @@ export default {
   methods: {
     //验证数据
     validate() {
-      let validateResult = true
+      let validateResult = true;
       for (var i = 0; i < this.$refs["formItem"].length; i++) {
         if (!this.$refs["formItem"][i].validate()) {
-          validateResult = false
+          validateResult = false;
         }
       }
-      return validateResult
+      return validateResult;
     },
     validateNoMsg() {
-      let validateResult = true
+      let validateResult = true;
       for (var i = 0; i < this.$refs["formItem"].length; i++) {
         if (!this.$refs["formItem"][i].validateNoMsg()) {
-          validateResult = false
+          validateResult = false;
         }
       }
-      console.log(validateResult)
-      return validateResult
+      return validateResult;
     },
     //初始化数据
     initVal() {
-      let list = this.config.dataList
-      let objInit = {}
+      let list = this.config.dataList;
+      let objInit = {};
       list.forEach(data => {
-        objInit[data.key] = this.getValByType(data)
-      })
+        objInit[data.key] = this.getValByType(data);
+      });
 
-      let obj = {}
+      let obj = {};
       if (typeof this.value == "object") {
-        obj = this.value
+        obj = this.value;
       }
-      obj = Object.assign(objInit, obj)
-
-      return obj
+      obj = Object.assign(objInit, obj);
+  
+      return obj;
+    },
+    //重置初始值
+    reset() {
+      let list = this.config.dataList;
+      let objInit = {};
+      list.forEach(data => {
+        objInit[data.key] = this.getValByType(data);
+      });
+      this.$emit("input", objInit);
     },
     //为各种类型的设置初始值  arrayObj类型时候，直接调用form组件
     // TODO: 下拉是否多选
     // 地址、时间 初始值
     getValByType(obj) {
       if (obj.value) {
-        return obj.value
+        return obj.value;
       } else if (obj.type == "boolean") {
-        return false
+        return false;
       } else if (
         obj.type == "checkbox" ||
         (obj.type == "select" && obj.multiple)
       ) {
-        return []
+        return [];
       } else if (
         (obj.type == "select" && obj.must && !obj.multiple) ||
         (obj.type == "radio" && obj.must)
       ) {
         for (var i = 0; i < obj.options.length; i++) {
           if (!obj.options[i].disabled) {
-            return obj.options[i].value
+            return obj.options[i].value;
           }
         }
-        return null
+        return null;
       } else if (obj.type == "object") {
-        return []
+        return [];
       } else {
-        return null
+        return null;
       }
     },
     //监听值改变
     change(key, val) {
-      let obj = Object.assign({}, this.val)
-      obj[key] = val
-      this.$emit("input", obj)
+      let obj = copyObj(this.val);
+      obj[key] = val;
+      this.$emit("input", obj);
     },
-    hide(key){
-      let obj = Object.assign({}, this.val)
-      if (this.config.dataList.filter(obj => obj.key == key).length==1) {
-        delete obj[key]
-        this.$emit("input", obj)
-      }      
+    hide(key) {
+      let obj = copyObj(this.val);
+      if (this.config.dataList.filter(obj => obj.key == key).length == 1) {
+        delete obj[key];
+        this.$emit("input", obj);
+      }
     },
     show(item, val) {
-      console.log(123)
-      let obj = Object.assign({}, this.val)
-      obj[item.key] = val || this.getValByType(item)
-      this.$emit("input", obj)
-    },
+      let obj = copyObj(this.val);
+      obj[item.key] = val || this.getValByType(item);
+      this.$emit("input", obj);
+    }
   }
-}
+};
 </script>

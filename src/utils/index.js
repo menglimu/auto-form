@@ -189,63 +189,6 @@ const once = function(el, event, fn) {
   on(el, event, listener)
 }
 
-// /* istanbul ignore next */
-// export function hasClass(el, cls) {
-//   if (!el || !cls) return false;
-//   if (cls.indexOf(' ') !== -1) throw new Error('className should not contain space.');
-//   if (el.classList) {
-//     return el.classList.contains(cls);
-//   } else {
-//     return (' ' + el.className + ' ').indexOf(' ' + cls + ' ') > -1;
-//   }
-// };
-
-// /* istanbul ignore next */
-// export function addClass(el, cls) {
-//   if (!el) return;
-//   var curClass = el.className;
-//   var classes = (cls || '').split(' ');
-
-//   for (var i = 0, j = classes.length; i < j; i++) {
-//     var clsName = classes[i];
-//     if (!clsName) continue;
-
-//     if (el.classList) {
-//       el.classList.add(clsName);
-//     } else {
-//       if (!hasClass(el, clsName)) {
-//         curClass += ' ' + clsName;
-//       }
-//     }
-//   }
-//   if (!el.classList) {
-//     el.className = curClass;
-//   }
-// };
-
-/* istanbul ignore next */
-// export function removeClass(el, cls) {
-//   if (!el || !cls) return;
-//   var classes = cls.split(' ');
-//   var curClass = ' ' + el.className + ' ';
-
-//   for (var i = 0, j = classes.length; i < j; i++) {
-//     var clsName = classes[i];
-//     if (!clsName) continue;
-
-//     if (el.classList) {
-//       el.classList.remove(clsName);
-//     } else {
-//       if (hasClass(el, clsName)) {
-//         curClass = curClass.replace(' ' + clsName + ' ', ' ');
-//       }
-//     }
-//   }
-//   if (!el.classList) {
-//     el.className = trim(curClass);
-//   }
-// };
-
 const hasClass = function(elem, cls) {
   cls = cls || ""
   if (cls.replace(/\s/g, "").length == 0) return false
@@ -274,27 +217,23 @@ let loadFile = function(link,id) {
     var load = null
     if(id && document.getElementById(id)){
       load =  document.getElementById(id)
-      if (/\.js$/.test(link)) {
-        load.src = link
-      }else if (/\.css$/.test(link)) {
+      // if (/\.js$/.test(link)) {
+      //   load.src = link
+      // }else 
+      if (/\.css$/.test(link)) {
         load.href = link
       }else{
-        console.log("仅支持css,js文件")
-        return
-      }
-    }else{
-      if (/\.js$/.test(link)) {
-        load = document.createElement("script")
-        load.type ="text/javascript"
         load.src = link
-      }else if (/\.css$/.test(link)) {
+      }
+    }else{if (/\.css$/.test(link)) {
         load = document.createElement("link")
         load.type = "text/css"
         load.rel = "stylesheet"
         load.href = link
-      }else{
-        console.log("仅支持css,js文件")
-        return
+      }else { //(/\.js$/.test(link))
+        load = document.createElement("script")
+        load.type ="text/javascript"
+        load.src = link
       }
       // load.id = id
       head.appendChild(load)  
@@ -303,13 +242,15 @@ let loadFile = function(link,id) {
       //Firefox2、Firefox3、Safari3.1+、Opera9.6+ support js.onload
       load.onload = function () {
         hasLoad.push(link)
-        resolve("加载完成")
+        resolve(link,"加载完成")
+        console.log(link,"加载完成")
       }
     } else {
       //IE6、IE7 support js.onreadystatechange
       load.onreadystatechange = function () {
         hasLoad.push(link)
-        resolve("加载完成")
+        resolve(link,"加载完成")
+        console.log(link,"加载完成")
       }
     } 
   })
@@ -344,8 +285,22 @@ const loadSource = function (link) {
 //       console.log(23123)
 //     })
 
+//  插入样式字符串到文档中
+const insertStyle = function(str) {
+  var nod = document.createElement("style")
+  nod.type="text/css";
+  if(nod.styleSheet){         //ie下
+  nod.styleSheet.cssText = str;
+  } else {
+  nod.innerHTML = str;       //或者写成 nod.appendChild(document.createTextNode(str))
+  }
+  document.getElementsByTagName("head")[0].appendChild(nod);
 
-
+}
+// 复制对象，深拷贝
+const copyObj = function(obj){
+  return JSON.parse(JSON.stringify(obj))
+}
 
 //业务相关公共方法
 const setPower = function (power, router, all, path) {
@@ -387,10 +342,15 @@ const getPower = function (router,fn) {
       break
     }
   }
-  Vue.$http.post("power").then(res => {
-    setPower(res, routerInfo, false, "")
+  if (process == true) {
+    setPower({"/*":{}}, routerInfo, false, "")
     typeof fn == "function" && fn()
-  })
+  } else{
+    Vue.$http.post("power").then(res => {
+      setPower(res, routerInfo, false, "")
+      typeof fn == "function" && fn()
+    })
+  }
 }
 //主题色 在themes中加的style要放入该变量
 const themes = {
@@ -477,4 +437,4 @@ const changeTheme = function(theme) {
   })
 }
 export { setStore, getStore, removeStore, getSession, setSession, removeSession, GetQueryString, getHost, rem2px, createRandomId, isEqual,
-  getStyle, getScrollview, addClass, removeClass, once, loadSource, getPower, changeTheme, themes }
+  getStyle, getScrollview, addClass, removeClass, once, loadSource, getPower, changeTheme, themes, insertStyle, copyObj}

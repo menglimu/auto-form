@@ -13,11 +13,13 @@ const notFound = () => import('@/page/notFound/notFound') // 404页面
 const noPower = () => import('@/page/noPower/') // 401页面
 const login = () => import('@/page/login/') // 登录
 
-const menu = () => import('@/page/menu') // 菜单
+const index = () => import('@/page/index') // 菜单
 const form = () => import('@/page/main/form') // 可配置form
 const formTest = () => import('@/page/main/formTest') // 可配置form测试
 const echarts = () => import('@/page/main/echarts') // cdn引入第三方示例
 const main = () => import('@/page/main/main') // 首页
+const role = () => import('@/page/main/set/role') // 角色管理
+const power = () => import('@/page/main/set/power') // 权限管理
 
 
 Vue.use(Router)
@@ -29,7 +31,7 @@ let routerInfo = [
     meta: {
       title: ""
     },
-    component: menu,
+    component: index,
     children: [
       {
         path: '',
@@ -60,7 +62,20 @@ let routerInfo = [
             meta: {
               icon: 'el-icon-edit',
               hasPower: true, //是否有权限
-            },
+              noKeepAlive: true, //不使用keepalive
+            }, 
+            children: [
+              {
+                path: 'echarts',
+                component: echarts,
+                name: '图表CDN引入',
+                meta: {
+                  icon: 'el-icon-edit',
+                  hasPower: true, //是否有权限
+                  noKeepAlive: true, //不使用keepalive
+                },
+              }
+            ]
           }, {
             path: 'form',
             component: form,
@@ -73,6 +88,35 @@ let routerInfo = [
             path: 'formTest',
             component: formTest,
             name: '动态生成表单测试',
+            meta: {
+              hasPower: true, //是否有权限
+              noKeepAlive: true, //不使用keepalive
+            }
+          }
+        ]
+      },
+      {
+        path: 'set',
+        component: router,
+        name: '设置',
+        meta: {
+          icon: 'el-icon-edit',
+          hasPower: true, //是否有权限
+          noKeepAlive: false, //不使用keepalive
+        },
+        children: [
+          {
+            path: 'power',
+            component: power,
+            name: '权限管理',
+            meta: {
+              hasPower: true, //是否有权限
+              noKeepAlive: false, //不使用keepalive
+            }
+          }, {
+            path: 'role',
+            component: role,
+            name: '角色管理',
             meta: {
               hasPower: true, //是否有权限
               noKeepAlive: true, //不使用keepalive

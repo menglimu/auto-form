@@ -485,6 +485,16 @@ export default {
             label: "密码", //输入框前显示
           },
           {
+            type: "mapChose",//
+            key: "mapChose",    //输出的key
+            readonly: false,//只读 
+            disabled: false,//不可操作
+            must: true, //必填
+            value: "", //默认值
+            show: "",//什么情况下显示
+            label: "选择位置", //输入框前显示
+          },
+          {
             type: "password",//
             key: "password1",    //输出的key
             readonly: false,//只读 
@@ -563,12 +573,42 @@ export default {
             label: "行内模式", //输入框前显示
           },
           {
+            type: "boolean",//
+            key: "table",    //输出的key
+            value: true, //默认值
+            label: "表格配置", //输入框前显示
+            remark: "加入表格配置，增删改查基础操作",
+          },
+          {
+            type: "string",//
+            key: "tableKey",    //输出的key
+            label: "组件ID名", //输入框前显示
+            value: "id",
+            remark: "唯一主键的键名",
+            show: "this._thisVal.table==true",
+            block: true, //块级显示
+            must: true,
+            placeholder: "请输入键名", //
+          },
+          {
             type: "string",//
             key: "labelWidth",    //输出的key
             label: "label宽度", //输入框前显示
+            value: "100px",
             remark: "输入框前的文字宽度，如100px,1rem,1em",
             block: true, //块级显示
             placeholder: "请输入用户名", //
+          },
+          {
+            type: "string",//
+            key: "inputWidth",    //输出的key
+            label: "行内宽度", //输入框前显示
+            show: "this._thisVal.inline==true",
+            value: "33.33%",
+            remark: "行内模式，输入项的长度，用百分比，如25%",
+            block: true, //块级显示
+            must: true,
+            placeholder: "输入项宽度", //
           },
           {
             type: "object",//
@@ -701,6 +741,49 @@ export default {
                 remark: "输出的key,变量名，为英文不重复",//显示在输入框后的文字
               },
               {
+                type: "object",
+                key: "options",
+                must: true,
+                label: "数据源",
+                show: "this._thisVal.type == 'select'||this._thisVal.type == 'radio'||this._thisVal.type == 'checkbox'",
+                dataList: [
+                  {
+                    type: "string",//
+                    key: "label",    //输出的key
+                    must: true, //必填
+                    label: "显示的名字", //输入框前显示
+                    // remark: "输出的key,变量名，为英文不重复",//显示在输入框后的文字
+                  },
+                  {
+                    type: "string",//
+                    key: "value",    //输出的key
+                    must: true, //必填
+                    label: "存储的值", //输入框前显示
+                    // remark: "输出的key,变量名，为英文不重复",//显示在输入框后的文字
+                  },
+                ],
+              },
+              {
+                type: "boolean",//
+                key: "showTable",    //输出的key
+                show: "this._parentVal.table==true",
+                value: true, //默认值
+                label: "表格中显示", //输入框前显示
+              },
+              {
+                type: "boolean",//
+                key: "tableSearch",    //输出的key
+                show: "this._parentVal.table==true",
+                value: false, //默认值
+                label: "表格搜索头", //输入框前显示
+              },
+              {
+                type: "string",//
+                key: "tableSearchDefault",    //输出的key
+                show: "this._parentVal.table==true", 
+                label: "搜索默认值", //输入框前显示
+              },
+              {
                 type: "string",//
                 key: "value",    //输出的key
                 label: "默认值", //输入框前显示
@@ -750,12 +833,6 @@ export default {
               },
               {
                 type: "string",//
-                key: "width",    //输出的key
-                label: "宽度", //输入框前显示
-                remark: "输入框宽度，带上单位50px",//显示在输入框后的文字
-              },
-              {
-                type: "string",//
                 key: "min",    //输出的key
                 label: "最小输入长度", //输入框前显示
                 remark: "纯数字",//显示在输入框后的文字
@@ -770,12 +847,6 @@ export default {
 
               // min: 1, //最小字符数 
               // max: 10, //最大字符数
-              {
-                type: "boolean",//
-                key: "block",    //输出的key
-                value: true, //默认值
-                label: "块级元素显示", //输入框前显示
-              },
               {
                 type: "boolean",//
                 key: "must",    //输出的key
