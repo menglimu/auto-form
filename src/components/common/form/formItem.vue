@@ -1,17 +1,25 @@
 <style lang="scss">
-.mlform {
-  .ml-form-string,
-    .ml-form-phone,
-    .ml-form-mail,
-    .ml-form-bankCode,
-    .ml-form-idCard,
-    // .ml-form-text,
-    .ml-form-number,
-    .ml-form-password, {
-    .el-input {
-      width: 220px;
-    }
+.ml-form-string,
+.ml-form-phone,
+.ml-form-mail,
+.ml-form-bankCode,
+.ml-form-idCard,
+// .ml-form-text,
+.ml-form-number,
+.ml-form-password, {
+  .mlform & .el-input {
+    width: 220px;
   }
+  .el-form--inline & .el-input {
+    width: 100%;
+  }
+}
+.el-form--inline .mlform-item{
+  margin-right: 0;
+  padding-right: 10px;
+}
+.mlform {
+  
   .ml-form-text,
   .ml-form-editor,
   .ml-form-radio,
@@ -56,58 +64,59 @@
     width: 80px;
   }
   .mlform-item-block {
-    display: block !important;
+    display: block;
   }
 }
 </style>
 <template>
-  <el-form-item class='mlform-item' :class="['ml-form-'+config.type,{'mlform-item-block': config.block}]" :label="config.label" v-show="getShow(config.show)" :required="required" :error="error" :validateStatus='validateStatus' v-if="config.type!=='object'">
-    <el-input v-if="config.type==='string' || config.type==='phone' || config.type==='mail' || config.type==='bankCode' || config.type==='idCard' || config.type==='number'" type="text" :placeholder="config.placeholder" :disabled="config.disable" :style="{width: config.width}" :readonly="config.readonly" :value="value" @input="input" @blur="blur" clearable>
+  <el-form-item class='mlform-item' :style="{width: configAll.inputWidth}" :class="['ml-form-'+config.type,{'mlform-item-block': config.block}]"  v-if="config.type!=='object'" :label="config.label" v-show="getShow(config.show)" :required="required" :error="error" :validateStatus='validateStatus'>
+    <!-- 基本文本输入框 -->
+    <el-input v-if="config.type==='string' || config.type==='phone' || config.type==='mail' || config.type==='bankCode' || config.type==='idCard' || config.type==='number'" type="text" :placeholder="config.placeholder" :disabled="config.disabled || configAll.view" :readonly="config.readonly" :value="value" @input="input" @blur="blur" clearable>
       <template slot="prepend" v-if='config.prepend'>{{config.prepend}}</template>
       <template slot="append" v-if='config.append'>{{config.append}}</template>
     </el-input>
-
     <!-- 密码 TODO 可点击查看文本 -->
-    <el-input v-if="config.type==='password'" :style="{width: config.width}" type="password" :placeholder="config.placeholder" :disabled="config.disable" :readonly="config.readonly" :value="value" @input="input" @blur="blur" clearable></el-input>
-
+    <el-input v-if="config.type==='password'" type="password" :placeholder="config.placeholder" :disabled="config.disabled || configAll.view" :readonly="config.readonly" :value="value" @input="input" @blur="blur" clearable></el-input>
     <!-- 文本域 -->
-    <el-input v-if="config.type==='text'" :rows="8" max="config.max" type="textarea" :placeholder="config.placeholder" :disabled="config.disable" :readonly="config.readonly" :value="value" @input="input" @blur="blur" clearable></el-input>
-
+    <el-input v-if="config.type==='text'" :rows="8" max="config.max" type="textarea" :placeholder="config.placeholder" :disabled="config.disabled || configAll.view" :readonly="config.readonly" :value="value" @input="input" @blur="blur" clearable></el-input>
     <!-- 开关 -->
-    <el-switch v-if="config.type==='boolean'" :value="value" @input="input" @blur="blur"></el-switch>
-
-    <el-select v-if="config.type==='select'" :multiple="config.multiple" :value="value" @input="input" @blur="blur" :placeholder="config.placeholder">
+    <el-switch v-if="config.type==='boolean'" :value="value" @input="input" @blur="blur" :disabled="config.disabled || configAll.view"></el-switch>
+    <!-- 下拉 -->
+    <el-select v-if="config.type==='select'" :multiple="config.multiple" :value="value" @input="input" @blur="blur" :placeholder="config.placeholder" :disabled="config.disabled || configAll.view">
       <el-option v-for="option in config.options" :key="option.value" :label="option.label" :value="option.value" :disabled="option.disabled">
       </el-option>
     </el-select>
-
-    <el-radio v-if="config.type==='radio'" v-for="option in config.options" :disabled="option.disabled" :value="value" @input="input" @blur="blur" :key="option.value" :label="option.value">{{option.label}}</el-radio>
-
-    <el-checkbox v-if="config.type==='checkbox'" v-for="option in config.options" :disabled="option.disabled" :value="value" @input="input" @blur="blur" :key="option.value" :label="option.value">{{option.label}}</el-checkbox>
-
-    <el-date-picker v-if="config.type==='date'" :value="value" @input="input" @blur="blur" :placeholder="config.placeholder" type="date">
+    <!-- 单选 -->
+    <el-radio v-if="config.type==='radio'" v-for="option in config.options" :disabled="config.disabled || configAll.view" :value="value" @input="input" @blur="blur" :key="option.value" :label="option.value">{{option.label}}</el-radio>
+    <!-- 多选 -->
+    <el-checkbox v-if="config.type==='checkbox'" v-for="option in config.options" :disabled="config.disabled || configAll.view" :value="value" @input="input" @blur="blur" :key="option.value" :label="option.value">{{option.label}}</el-checkbox>
+    <!-- 日期选择 -->
+    <el-date-picker v-if="config.type==='date'" :value="value" @input="input" @blur="blur" :placeholder="config.placeholder" type="date" :disabled="config.disabled || configAll.view">
     </el-date-picker>
-
-    <el-time-picker v-if="config.type==='time'" :value="value" @input="input" @blur="blur" :placeholder="config.placeholder">
+    <!-- 时间选择 -->
+    <el-time-picker v-if="config.type==='time'" :value="value" @input="input" @blur="blur" :placeholder="config.placeholder" :disabled="config.disabled || configAll.view">
     </el-time-picker>
-
-    <el-date-picker v-if="config.type==='dateTime'" :value="value" @input="input" @blur="blur" :placeholder="config.placeholder" type="datetime">
+    <!-- 日期时间选择 -->
+    <el-date-picker v-if="config.type==='dateTime'" :value="value" @input="input" @blur="blur" :placeholder="config.placeholder" type="datetime" :disabled="config.disabled || configAll.view">
     </el-date-picker>
-
-    <el-date-picker v-if="config.type==='datetimerange'" :value="value" @input="input" @blur="blur" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right">
+    <!-- 日期时间范围选择 -->
+    <el-date-picker v-if="config.type==='datetimerange'" :value="value" @input="input" @blur="blur" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" align="right" :disabled="config.disabled || configAll.view">
     </el-date-picker>
-
-    <el-time-picker is-range v-if="config.type==='timerange'" :value="value" @input="input" @blur="blur" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :placeholder="config.placeholder">
+    <!-- 时间段选择 -->
+    <el-time-picker is-range v-if="config.type==='timerange'" :value="value" @input="input" @blur="blur" range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" :placeholder="config.placeholder" :disabled="config.disabled || configAll.view">
     </el-time-picker>
-
-    <el-color-picker v-if="config.type==='color'" :value="value" @input="input" @blur="blur"></el-color-picker>
-
-    <mlupload v-if="config.type==='upload'" :limit="config.limit" :value="value" @input="input"></mlupload>
-
-    <mleditor v-if="config.type==='editor'" :value="value" @input="input" @blur="blur" :defaultMsg="config.defaultMsg"></mleditor>
-
+    <!-- 颜色选择 -->
+    <el-color-picker v-if="config.type==='color'" :value="value" @input="input" @blur="blur" :disabled="config.disabled || configAll.view"></el-color-picker>
+    <!-- 图片上传 -->
+    <mlupload v-if="config.type==='upload'" :limit="config.limit" :value="value" @input="input" :disabled="config.disabled || configAll.view"></mlupload>
+    <!-- 百度富文本 -->
+    <mleditor v-if="config.type==='editor'" :value="value" @input="input" @blur="blur" :defaultMsg="config.defaultMsg" :disabled="config.disabled || configAll.view"></mleditor>
+    <!-- 地图选择点 -->
+    <mapChose v-if="config.type==='mapChose'" :value="value" @input="input" :config="config" :disabled="config.disabled || configAll.view"></mapChose>
+    <!-- 后面的标注 -->
     <span class="remark" v-if="config.remark">{{config.remark}}</span>
   </el-form-item>
+  <!-- 可增加组输入 -->
   <ojbForm v-else v-show="getShow(config.show)" :required="required" :error="error" :validateStatus='validateStatus' :config="config" :configAll="configAll" :value="value" @input="input" :rootVal="_rootVal" :parentVal="_thisVal" ref="ojbFormItem"></ojbForm>
 </template>
 <script>
@@ -115,12 +124,15 @@
 // import formItem from './formItem.vue'
 import mlupload from "./mlupload.vue"
 import ojbForm from "./ojbForm.vue"
-import mleditor from "@/components/common/editor"
+import mleditor from "@common/editor"
+import mapChose from "@common/mapChose"
+import {insertStyle} from "@/utils"
 export default {
   components: {
     mlupload,
     mleditor,
-    ojbForm
+    ojbForm,
+    mapChose
   },
 
   props: {
@@ -178,9 +190,15 @@ export default {
     }
   },
 
-  created() {},
+  created() { },
 
-  mounted() {},
+  mounted() {
+    if(this.configAll.labelWidth){
+      //  插入样式字符串到文档中
+      insertStyle(`.el-form--inline .el-form-item__content{ width: calc(100% - ${this.configAll.labelWidth});}`)
+    }
+    
+  },
 
   computed: {
     rules() {
